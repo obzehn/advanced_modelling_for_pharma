@@ -1,0 +1,10 @@
+---
+title: "Investigate the dynamical stability a GPCR structure"
+format:
+  html:
+    code-fold: true
+---
+
+# Excercise
+
+Excercise

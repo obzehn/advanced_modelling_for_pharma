@@ -1,0 +1,34 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Advanced Modelling for Pharma"
+  search: false
+  navbar:
+    background: dark
+    left:
+      - text: "Home"
+        href: index.qmd
+      - text: "Tutorials"
+        menu:
+          - text: "Introduction to Terminals"
+            href: introduction_terminal.qmd
+          - text: "Introduction to HPC"
+            href: introduction_baobab.qmd
+      - text: "Exam Exercises"
+        menu:
+          - text: "Adhesion GPCR"
+            href: excercise_gpcr_stability.qmd
+          - text: "Malaria target with ligands"
+            href: excercise_malaria_targets.qmd
+      - text: "Contacts"
+        href: contacts.qmd
+
+format:
+  html:
+    theme: spacelab
+    css: styles.css
+    code-fold: true
+    toc: true
+    toc-depth: 1

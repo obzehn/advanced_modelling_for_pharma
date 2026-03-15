@@ -1,0 +1,75 @@
+---
+title: "Contacts"
+format: html
+---
+
+For any question about the course or the material of the course, please reach out to the team.
+
+<ul class="contact-list">
+
+<li>
+<div class="photo-wrap">
+<img class="photo" src="images/people/valerio_rizzi.jpeg" alt="Portrait of Dr. Valerio Rizzi">
+</div>
+<div class="who">
+<p class="name">Dr. Valerio Rizzi</p>
+<p class="role">Collaborateur scientifique</p>
+<p class="email">
+<a href="mailto:valerio.rizzi@unige.ch?subject=Inquiry%20about%20Advanced%20Course">valerio.rizzi@unige.ch</a>
+</p>
+</div>
+</li>
+
+<li>
+<div class="photo-wrap">
+<img class="photo" src="images/people/simone_aureli.jpeg" alt="Portrait of Dr. Simone Aureli">
+</div>
+<div class="who">
+<p class="name">Dr. Simone Aureli</p>
+<p class="role">Maitre assistant</p>
+<p class="email">
+<a href="mailto:simone.aureli@unige.ch?subject=Inquiry%20about%20Advanced%20Course">simone.aureli@unige.ch</a>
+</p>
+</div>
+</li>
+
+<li>
+<div class="photo-wrap">
+<img class="photo" src="images/people/nicola_piasentin.jpeg" alt="Portrait of Dr. Nicola Piasentin">
+</div>
+<div class="who">
+<p class="name">Dr. Nicola Piasentin</p>
+<p class="role">Postdoctoral researcher</p>
+<p class="email">
+<a href="mailto:nicola.piasentin@unige.ch?subject=Inquiry%20about%20Advanced%20Course">nicola.piasentin@unige.ch</a>
+</p>
+</div>
+</li>
+
+<li>
+<div class="photo-wrap">
+<img class="photo" src="images/people/raphael_feser.jpeg" alt="Portrait of Raphael Feser">
+</div>
+<div class="who">
+<p class="name">Raphael Feser</p>
+<p class="role">Ph.D. candidate</p>
+<p class="email">
+<a href="mailto:raphael.feser@unige.ch?subject=Inquiry%20about%20Advanced%20Course">raphael.feser@unige.ch</a>
+</p>
+</div>
+</li>
+
+<li>
+<div class="photo-wrap">
+<img class="photo" src="images/people/francesco_luigi_gervasio.jpeg" alt="Portrait of Prof. Francesco Luigi Gervasio">
+</div>
+<div class="who">
+<p class="name">Prof. Francesco Luigi Gervasio</p>
+<p class="role">Professor, Group Leader</p>
+<p class="email">
+<a href="mailto:francesco.gervasio@unige.ch?subject=Inquiry%20about%20Advanced%20Course">francesco.gervasio@unige.ch</a>
+</p>
+</div>
+</li>
+
+</ul>
