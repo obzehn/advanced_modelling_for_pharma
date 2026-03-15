@@ -272,3 +272,27 @@
   color: #555;
   margin-top: 8px;
 }
+
+/* ---------- Exercises navigation bar ---------- */
+.exercise-nav {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.exercise-nav a {
+  padding: 6px 12px;
+  background: #e5e5e5;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.exercise-nav a:hover {
+  background: #cfcfcf;
+}
+
+.exercise-nav a.active {
+  background: #2c7be5;
+  color: white;
+}
