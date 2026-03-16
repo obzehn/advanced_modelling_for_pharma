@@ -1,0 +1,20 @@
+---
+title: "Investigate the dynamical stability a GPCR structure"
+format:
+  html:
+    code-fold: true
+---
+
+{{< include /includes/exercise_stab_gpcr_nav.html >}}
+
+## Introduction
+
+This guide will provide a brief overview of a [G protein-coupled receptor](https://en.wikipedia.org/wiki/G_protein-coupled_receptor) (GPCR) system, specifically an adhesion GPCR [@liebscher2022stachel] (or *stachel GPCR*). GPCRs are membrane-embedded proteins, but their structures are generally published without the embedding lipid bilayer, although sometimes lipid molecules bound to specific GPCR binding sites are resolved, like [this cholesterol](https://www.rcsb.org/structure/7BVQ) in the $\beta$-adrenergic receptor.
+
+Nowadays, there are well-established procedures to embed proteins in lipid bilayer, arguably the most known being [CHARMM-GUI webserver](https://www.charmm-gui.org/). Nevertheless, to better focus on how to set up the simulation box to get the simulations going and analyze data, the starting structure provided in this tutorial is already embedded in a mixed lipid bilayer of cholesterol and phosphatidylcholine (POPC).
+
+<div class="nav-buttons">
+  <a href="exercise_gpcr_stability_part_1.qmd" class="nav-btn next-btn">Next &rarr;</a>
+</div>
+
+## References

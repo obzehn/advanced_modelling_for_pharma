@@ -1,0 +1,18 @@
+---
+title: "Investigate the dynamical stability a GPCR structure"
+format:
+  html:
+    code-fold: true
+---
+
+{{< include /includes/exercise_stab_gpcr_nav.html >}}
+
+## Exercise
+
+Excercise
+
+<div class="nav-buttons">
+  <a href="exercise_gpcr_stability_part_1.qmd" class="nav-btn prev-btn">&larr; Previous</a>
+  <a href="exercise_gpcr_stability_index.qmd" class="nav-btn home-btn">Back to Beginning</a>
+  <a href="exercise_gpcr_stability_part_3.qmd" class="nav-btn next-btn">Next &rarr;</a>
+</div>

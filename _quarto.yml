@@ -2,6 +2,9 @@ project:
   type: website
   output-dir: docs
 
+include-files:
+  - "/material/**"
+
 website:
   title: "Advanced Modelling for Pharma"
   search: false
@@ -19,11 +22,13 @@ website:
       - text: "Exam Exercises"
         menu:
           - text: "Adhesion GPCR"
-            href: excercise_gpcr_stability/excercise_gpcr_stability_index.qmd
+            href: exercise_gpcr_stability/exercise_gpcr_stability_index.qmd
           - text: "Malaria target with ligands"
-            href: excercise_malaria_targets/excercise_malaria_targets_index.qmd
+            href: exercise_malaria_targets/exercise_malaria_targets_index.qmd
       - text: "Contacts"
         href: contacts.qmd
+
+bibliography: includes/references.bib 
 
 format:
   html:
@@ -33,3 +38,4 @@ format:
     code-fold: true
     toc: true
     toc-depth: 1
+    

@@ -273,7 +273,7 @@
   margin-top: 8px;
 }
 
-/* ---------- Exercises navigation bar ---------- */
+/* ---------- Exercises top navigation bar ---------- */
 .exercise-nav {
   display: flex;
   gap: 8px;
@@ -295,4 +295,62 @@
 .exercise-nav a.active {
   background: #2c7be5;
   color: white;
+}
+
+.nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  max-width: 700px;
+  margin: 2rem auto;
+}
+
+.nav-btn {
+  background-color: #007bff;   /* button color */
+  color: white;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.nav-btn:hover {
+  background-color: #0056b3;
+}
+
+/* ---------- Exercises bottom navigation bar ---------- */
+
+.prev-btn {
+  margin-right: auto;
+}
+
+.home-btn {
+  margin: 0 0.5rem;
+}
+
+.next-btn {
+  margin-left: auto;
+}
+
+/* ---------- Download button ---------- */
+
+.download-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem; /* spacing between buttons */
+  margin: 1.5rem 0;
+}
+
+.download-buttons .btn {
+  background-color: #007bff; /* blue button */
+  color: white;
+  padding: 0.4rem 0.8rem;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.download-buttons .btn:hover {
+  background-color: #0056b3;
 }

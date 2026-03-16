@@ -299,7 +299,7 @@ You can copy files with the command `cp` (*copy*), e.g. `cp a b` will copy fle `
 
 You can remove files and directories with `rm` (*remove*) and `rmdir` (*remove directory*).
 
-::: {.callout-warning}
+::: {.callout-important}
 ## Important
 
 There is no Recycling Bin. Everything that is deleted is lost, permanently. Double think before deleting stuff, and double check your commands. Removing files and directories from certain System directories can permanently damage the operative system of your computer, or you can easily delete one month worth of data analysis. As a safety rule, do not touch things that you are not sure what they are.

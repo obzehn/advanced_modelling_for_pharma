@@ -1,0 +1,12 @@
+---
+title: "Investigate APO and HOLO malaria targets"
+format:
+  html:
+    code-fold: true
+---
+
+{{< include /includes/exercise_lig_mal_nav.html >}}
+
+## Exercise
+
+Excercise
