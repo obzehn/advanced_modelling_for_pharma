@@ -12,10 +12,10 @@ format:
 First of all, start by downloading the exercise directories from the github repository.
 
 <div class="download-buttons">
-  <a href="https://github.com/username/repo/raw/main/files/structure1.tar.gz" download="structure1.tar.gz" class="btn">Structure 1</a>
-  <a href="https://github.com/username/repo/raw/main/files/structure2.tar.gz" download="structure2.tar.gz" class="btn">Structure 2</a>
-  <a href="https://github.com/username/repo/raw/main/files/structure3.tar.gz" download="structure3.tar.gz" class="btn">Structure 3</a>
-  <a href="https://github.com/username/repo/raw/main/files/structure4.tar.gz" download="structure4.tar.gz" class="btn">Structure 4</a>
+  <a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/docs/material/GPCR_structure_1_exercise.tar.gz" download="GPCR_structure_1_exercise.tar.gz" class="btn">Structure 1</a>
+  <a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/docs/material/GPCR_structure_2_exercise.tar.gz" download="GPCR_structure_2_exercise.tar.gz" class="btn">Structure 2</a>
+  <a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/docs/material/GPCR_structure_3_exercise.tar.gz" download="GPCR_structure_3_exercise.tar.gz" class="btn">Structure 3</a>
+  <a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/docs/material/GPCR_structure_4_exercise.tar.gz" download="GPCR_structure_4_exercise.tar.gz" class="btn">Structure 4</a>
 </div>
 
 We provide four different structures. These are all different structures of the same adhesion protein in the same lipid bilayer. You should download and run simulations of at least two of them, so that you can compare the structures at the end of the molecular dynamics simulation. You can unzip the downloaded directories with the command
