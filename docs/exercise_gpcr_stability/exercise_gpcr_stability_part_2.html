@@ -245,15 +245,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="fig-gpcr-start" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-gpcr-start-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: center;"><img src="../images/image_gpcr_stability/startgpcr.png" width="700" class="figure-img"></th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table>
+<p><img src="../images/image_gpcr_stability/startgpcr.png" width="700" class="figure-img"></p>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gpcr-start-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Side (left) and top (right) view of the system. The GPCR is reported in red as cartoons, while the lipids are shown in sticks colored in red (oxygen), blue (nitrogen), cyan (carbon), white (hydrogen), and yellow (phosphorus). The box is shown as blue lines.
@@ -282,18 +274,7 @@ Figure&nbsp;1: Side (left) and top (right) view of the system. The GPCR is repor
 <div id="fig-gpcr-solv" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-gpcr-solv-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table class="caption-top">
-<colgroup>
-<col style="width: 100%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: center;"><img src="../images/image_gpcr_stability/solvatedgpcr.png" width="700" class="figure-img"></th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table>
+<p><img src="../images/image_gpcr_stability/solvatedgpcr.png" width="700" class="figure-img"></p>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gpcr-solv-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: On the left, the solvated system after <code>gmx solvate</code>. On the right, the same system after removing ca. 2000 water molecules with the <code>water_removal.py</code> script. Protein and lipids are reported in grey, while water molecules in red (oxygen) and white (hydrogen). The fourth site of this water model is in a lighter red tone, but it nearly overlaps with the water oxygen atoms, and is thus practically invisible.
@@ -320,13 +301,13 @@ Figure&nbsp;2: On the left, the solvated system after <code>gmx solvate</code>. 
 <p>Now, you can update the topology. First, copy the reference topology and call it <code>reference_topology_GPCR_structure_1_solvated.top</code></p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> reference_topology_GPCR_structure_1.top reference_topology_GPCR_structure_1_solvated.top</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Then, add the amount of water molecules to <code>reference_topology_GPCR_structure_1_solvated.top</code> by correcting the <code>[ molecules ]</code> section in the following way</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[...]</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">[</span> molecules <span class="bu">]</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">;</span> <span class="ex">Compound</span>        <span class="co">#mols</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="ex">GPCR</span>                1</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="ex">CHL</span>                70</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="ex">POPC</span>              280</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="ex">SOL</span>             18936</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="op">[...]</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> molecules <span class="op">]</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="op">;</span> Compound        <span class="er">#mols</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>GPCR                <span class="dv">1</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>CHL                <span class="dv">70</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>POPC              <span class="dv">280</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>SOL             <span class="dv">18936</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>You have to add the name of the water in the box (<code>SOL</code>) and the number reported after cleaning up the system with the python script. At this point, the structure of the solvated system is contained in <code>GPCR_structure_1_solvated_clean.gro</code>, while its topology in <code>reference_topology_GPCR_structure_1_solvated.top</code>.</p>
 <div class="nav-buttons">
 <p><a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_1.html" class="nav-btn prev-btn">← Previous</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_index.html" class="nav-btn home-btn">Back to Beginning</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_3.html" class="nav-btn next-btn">Next →</a></p>

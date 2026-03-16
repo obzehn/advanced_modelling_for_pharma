@@ -90,8 +90,7 @@ At the other end of the file, the last lines look like this
 The meaning of the columns is the same as before. The last molecules to appear are the phopsholipids (and in fact, in the topology, they are reported last). The last line of a `.gro` file has, like the first two, a special meaning. It contains the coordinates of the box, that is, the length of the box along x, y, and z. For example, this box is roughly a cube, with x and y lengths of `10.06535` nm and z length of `10.56089` nm. Sometimes, for special types of boxes (like those used for the protein-ligand simulations), there might be more than three values reported. The starting configuration, which you can visualize with [VMD](https://www.ks.uiuc.edu/Research/vmd/), is reported in @fig-gpcr-start.
 
 ::: {#fig-gpcr-start}
-| <img src="../images/image_gpcr_stability/startgpcr.png" width="700"> |
-|:--:|
+<img src="../images/image_gpcr_stability/startgpcr.png" width="700">
 
 Side (left) and top (right) view of the system. The GPCR is reported in red as cartoons, while the lipids are shown in sticks colored in red (oxygen), blue (nitrogen), cyan (carbon), white (hydrogen), and yellow (phosphorus). The box is shown as blue lines.
 :::
@@ -139,8 +138,7 @@ The script removed ca. 2000 water molecules. You can see now, in @fig-gpcr-solv,
 
 
 ::: {#fig-gpcr-solv}
-| <img src="../images/image_gpcr_stability/solvatedgpcr.png" width="700"> |
-|:--:|
+<img src="../images/image_gpcr_stability/solvatedgpcr.png" width="700">
 
 On the left, the solvated system after `gmx solvate`. On the right, the same system after removing ca. 2000 water molecules with the `water_removal.py` script. Protein and lipids are reported in grey, while water molecules in red (oxygen) and white (hydrogen). The fourth site of this water model is in a lighter red tone, but it nearly overlaps with the water oxygen atoms, and is thus practically invisible.
 :::
@@ -179,7 +177,7 @@ cp reference_topology_GPCR_structure_1.top reference_topology_GPCR_structure_1_s
 
 Then, add the amount of water molecules to `reference_topology_GPCR_structure_1_solvated.top` by correcting the `[ molecules ]` section in the following way
 
-```bash
+```C++
 [...]
 [ molecules ]
 ; Compound        #mols

@@ -25,9 +25,8 @@ The panels of @fig-gpcr-pbc shows a few ways in which the trajectory can be post
 - The trajectory refitted on the protein first frame. This comes from two concatenated passages. The first usually is the same as the point before this one, that is, PBC removal and re-centering. Then, the output is further post-produced with `trjconv` by setting the flag `-fit rot+trans`, and prompting GROMACS to use the protein alpha carbons as reference. Briefly, GROMACS tries to match the position of the protein in each frame with the starting one (passed with the flag `-s`). You can see how the protein is barely wiggling, and actually is the box that is slightly rotating around it. As before, this type of post-processing is important when the group that is being fitted (the protein here) should stay as still as possible. The protein/ligand malaria targets are a very good example, as this post-processing makes much easier to visualize the binding site and the ligand.
 
 ::: {#fig-gpcr-pbc}
-| <img src="../images/image_gpcr_stability/gpcr_ori.gif" width="300"> | <img src="../images/image_gpcr_stability/gpcr_pbc.gif" width="300"> |
-|:--:|:--:|
-| <img src="../images/image_gpcr_stability/gpcr_cent.gif" width="300"> | <img src="../images/image_gpcr_stability/gpcr_fit.gif" width="300"> |
+<img src="../images/image_gpcr_stability/gpcr_ori.gif" width="300"> <img src="../images/image_gpcr_stability/gpcr_pbc.gif" width="300">
+<img src="../images/image_gpcr_stability/gpcr_cent.gif" width="300"> <img src="../images/image_gpcr_stability/gpcr_fit.gif" width="300">
 
 Four different ways to re-wrap the same GPCR trajectory. The videos are 25 frames long, 1 frame every 10 ns (250 ns total). Water is removed for clarity. The first panel shows the original trajectory; the second shows molecules made whole across PBCs; the third centers the protein in the box; the fourth aligns the protein to the first frame.
 :::
