@@ -23,6 +23,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -152,11 +187,89 @@ ul.task-list li input[type="checkbox"] {
 
 
 <div class="exercise-nav">
-<p><a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_1.html">1 PDB2GMX</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_2.html">2 Define Box</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_3.html">3 Solvate</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_4.html">4 Ions</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_5.html">5 Energy Minimization</a></p>
+<p><a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_1.html">1 Set-up</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_2.html">2 Solvate</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_3.html">3 Add Ions</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_4.html">4 Make Index</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_5.html">5 Run MD</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_6.html">6 Tips &amp; Tricks</a></p>
 </div>
-<section id="exercise" class="level2">
-<h2 class="anchored" data-anchor-id="exercise">Exercise</h2>
-<p>Excercise</p>
+<section id="adding-ions" class="level2">
+<h2 class="anchored" data-anchor-id="adding-ions">Adding ions</h2>
+<p>You are now ready to add the ions in the system. First, you need to generate a <code>.tpr</code> file, which is a binary file that GROMACS can read to understand the charges of the different molecules in the system and select automatically how many ions should be added. You can do this by using <code>gmx grompp</code> and pointing to the parameters file <code>ionize.mdp</code> with the flag <code>-f</code>, to the starting solvated structure <code>PCR_structure_1_solvated_clean.gro</code> with the flag <code>-c</code>, to the solvated topology <code>reference_topology_GPCR_structure_1_solvated.top</code> with the flag <code>-p</code>, and finally name the output tpr file <code>ionize.tpr</code> with the flag <code>-o</code></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gmx</span> grompp <span class="at">-f</span> ionize.mdp <span class="at">-c</span> GPCR_structure_1_solvated_clean.gro <span class="at">-p</span> reference_topology_GPCR_structure_1_solvated.top <span class="at">-o</span> ionize.tpr</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>You will see that the command fails with a fatal error. If you look at the error, you can see a section with the following information</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">NOTE</span> 2 [file reference_topology_GPCR_structure_1_solvated.top, line 17]:</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">System</span> has non-zero total charge: 7.000000</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="ex">Total</span> charge should normally be an integer. See</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="ex">http://www.gromacs.org/Documentation/Floating_Point_Arithmetic</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> discussion <span class="ex">on</span> how close it should be to an integer.</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="ex">WARNING</span> 1 [file reference_topology_GPCR_structure_1_solvated.top, line 17]:</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="ex">You</span> are using Ewald electrostatics in a system with net charge. This can</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="ex">lead</span> to severe artifacts, such as ions moving into regions with low</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="ex">dielectric,</span> due to the uniform background charge. We suggest to</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="ex">neutralize</span> your system with counter ions, possibly in combination with a</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="ex">physiological</span> salt concentration.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Basically, a tpr file is used to run simulations. As such, when GROMACS tries to prepare one through <code>gmx grompp</code>, it check if the physics of the system is reasonable or not. In this case, it found that your system has a net charge of +7, and is telling you that this is very bad as the systems should always have zero total net charge. You can bypass this check by adding the flag <code>--maxwarn 1</code> to the command, that is, ignore one (and only one) warning</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gmx</span> grompp <span class="at">-f</span> ionize.mdp <span class="at">-c</span> GPCR_structure_1_solvated_clean.gro <span class="at">-p</span> reference_topology_GPCR_structure_1_solvated.top <span class="at">-o</span> ionize.tpr <span class="at">--maxwarn</span> 1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>You will see that now GROMACS still complains, but gets the job done. It is very important, however, to understand that the ionization step is nearly the <strong>only</strong> case in which it is okay to use the <code>--maxwarn</code> flag, as you <strong>know</strong> that the physics of the system is wrong and you actually need the tpr to fix it with <code>gmx genion</code>. In general, you should <strong>never</strong> use this flag. If there is a major warning and a GROMACS command fails, then you have to check why and fix the problem. You may be temped to use <code>--maxwarn</code> to get through errors you do not understand, and the flag will let you do it. Nevertheless, the simulation will probably fail instantly the moment you try to run it, and, if not, you are likely to produce garbage results due to overlooking fundamental physics mistakes in the box preparation.</p>
+<p>Now, you should have a <code>ionize.tpr</code> file in your directory, following the <code>gmx grompp</code> command. You are ready to insert the ions with the following command</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gmx</span> genion <span class="at">-s</span> ionize.tpr <span class="at">-neutral</span> <span class="at">-pname</span> NA <span class="at">-nname</span> CL <span class="at">-o</span> start.gro</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Here, you are asking GROMACS to make the system neutral (<code>-neutral</code>), call the positive ions <code>NA</code>, the negative ions <code>CL</code>, and call the resulting output <code>start.gro</code>. Trivially, within this force field the atoms NA and CL refer to sodium (Na, +1) and chlorine (Cl, -1) ions. Again, differently from the Lysozyme tutorial, you are not giving as input the topology and you will update it after the addition of ions. With <code>gmx genion</code>, GROMACS tries to substitute some molecules in the system with the necessary number of ions. You will be prompted by GROMACS to choose which part of the system you are okay to substitute in favour of water molecules</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Will</span> try to add 0 NA ions and 7 CL ions.</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Select</span> a continuous group of solvent molecules</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Group</span>     0 <span class="er">(</span>         <span class="ex">System</span><span class="kw">)</span> <span class="ex">has</span> 122884 elements</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Group</span>     1 <span class="er">(</span>        <span class="ex">Protein</span><span class="kw">)</span> <span class="ex">has</span>  4440 elements</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Group</span>     2 <span class="er">(</span>      <span class="ex">Protein-H</span><span class="kw">)</span> <span class="ex">has</span>  2187 elements</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Group</span>     3 <span class="er">(</span>        <span class="ex">C-alpha</span><span class="kw">)</span> <span class="ex">has</span>   282 elements</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="ex">Group</span>     4 <span class="er">(</span>       <span class="ex">Backbone</span><span class="kw">)</span> <span class="ex">has</span>   847 elements</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="ex">Group</span>     5 <span class="er">(</span>      <span class="ex">MainChain</span><span class="kw">)</span> <span class="ex">has</span>  1129 elements</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="ex">Group</span>     6 <span class="er">(</span>   <span class="ex">MainChain+Cb</span><span class="kw">)</span> <span class="ex">has</span>  1395 elements</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="ex">Group</span>     7 <span class="er">(</span>    <span class="ex">MainChain+H</span><span class="kw">)</span> <span class="ex">has</span>  1407 elements</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="ex">Group</span>     8 <span class="er">(</span>      <span class="ex">SideChain</span><span class="kw">)</span> <span class="ex">has</span>  3033 elements</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="ex">Group</span>     9 <span class="er">(</span>    <span class="ex">SideChain-H</span><span class="kw">)</span> <span class="ex">has</span>  1058 elements</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="ex">Group</span>    10 <span class="er">(</span>    <span class="ex">Prot-Masses</span><span class="kw">)</span> <span class="ex">has</span>  4440 elements</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="ex">Group</span>    11 <span class="er">(</span>    <span class="ex">non-Protein</span><span class="kw">)</span> <span class="ex">has</span> 118444 elements</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="ex">Group</span>    12 <span class="er">(</span>          <span class="ex">Other</span><span class="kw">)</span> <span class="ex">has</span> 42700 elements</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="ex">Group</span>    13 <span class="er">(</span>            <span class="ex">CHL</span><span class="kw">)</span> <span class="ex">has</span>  5180 elements</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="ex">Group</span>    14 <span class="er">(</span>           <span class="ex">POPC</span><span class="kw">)</span> <span class="ex">has</span> 37520 elements</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="ex">Group</span>    15 <span class="er">(</span>          <span class="ex">Water</span><span class="kw">)</span> <span class="ex">has</span> 75744 elements</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="ex">Group</span>    16 <span class="er">(</span>            <span class="ex">SOL</span><span class="kw">)</span> <span class="ex">has</span> 75744 elements</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="ex">Group</span>    17 <span class="er">(</span>      <span class="ex">non-Water</span><span class="kw">)</span> <span class="ex">has</span> 47140 elements</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="ex">Select</span> a group: </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>From the first line you can see that GROMACS understood that the system has a total of +7 charge and will then need seven negative ions to have a total of zero net charge. Since you do not want to substitute any part of the protein or lipids with ions, choose the <code>SOL</code> group, the number 16, and GROMACS will randomly choose seven water molecules, remove them and place there a chlorine ion.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Selected</span> 16: <span class="st">'SOL'</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Number</span> of <span class="er">(</span><span class="ex">4-atomic</span><span class="kw">)</span> <span class="ex">solvent</span> molecules: 18936</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Using</span> random seed <span class="at">-819201.</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Replacing</span> solvent molecule 1842 <span class="er">(</span><span class="ex">atom</span> 54508<span class="kw">)</span> <span class="ex">with</span> CL</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Replacing</span> solvent molecule 5002 <span class="er">(</span><span class="ex">atom</span> 67148<span class="kw">)</span> <span class="ex">with</span> CL</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Replacing</span> solvent molecule 3105 <span class="er">(</span><span class="ex">atom</span> 59560<span class="kw">)</span> <span class="ex">with</span> CL</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="ex">Replacing</span> solvent molecule 1445 <span class="er">(</span><span class="ex">atom</span> 52920<span class="kw">)</span> <span class="ex">with</span> CL</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="ex">Replacing</span> solvent molecule 4490 <span class="er">(</span><span class="ex">atom</span> 65100<span class="kw">)</span> <span class="ex">with</span> CL</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="ex">Replacing</span> solvent molecule 4475 <span class="er">(</span><span class="ex">atom</span> 65040<span class="kw">)</span> <span class="ex">with</span> CL</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="ex">Replacing</span> solvent molecule 6661 <span class="er">(</span><span class="ex">atom</span> 73784<span class="kw">)</span> <span class="ex">with</span> CL</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>As for the solvation, you need now to update the topology as some water molecules have been removed and some chlorine ions have been added. Start by copying the solvated topology into a new topology called <code>topol.top</code></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> reference_topology_GPCR_structure_1_solvated.top topol.top</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>and change the <code>[ molecules ]</code> section by removing the seven water molecules from the total and adding the seven chlorine ions (<code>CL</code>)</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">[</span> molecules <span class="bu">]</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">;</span> <span class="ex">Compound</span>        <span class="co">#mols</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="ex">GPCR</span>                1</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="ex">CHL</span>                70</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="ex">POPC</span>              280</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="ex">SOL</span>             18929</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="ex">CL</span>                  7</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Summarizing, you now have the starting solvated and neutralized configuration stored in <code>start.gro</code> and the corresponding topology in <code>topol.top</code>. You can take a look at the final system with VMD. It should look similar to that shown in Figure 3.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 100%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><img src="../images/image_gpcr_stability/ionisedgpcr.png" class="img-fluid" alt="Figure 3"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Figure 3 <em>Side (left) and top (right) view of the system after solvation and ion addition. Water is reported as a transparent white surface. The chlorine ions are shown as yellow spheres based on their van der Waals radii. Remember that all the atoms in the system are actually points without a radius described by a set of coordinates, they are not spheres. However, you can use their van der Waals radii to estimate how ‘large’ the atoms are, that is, how much space around them is physically precluded to other atoms due to the atomic repulsion of the inter-molecular van der Waals forces.</em></td>
+</tr>
+</tbody>
+</table>
 <div class="nav-buttons">
 <p><a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_2.html" class="nav-btn prev-btn">← Previous</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_index.html" class="nav-btn home-btn">Back to Beginning</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_4.html" class="nav-btn next-btn">Next →</a></p>
 </div>

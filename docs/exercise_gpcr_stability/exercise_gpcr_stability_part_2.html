@@ -23,6 +23,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -152,11 +187,138 @@ ul.task-list li input[type="checkbox"] {
 
 
 <div class="exercise-nav">
-<p><a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_1.html">1 PDB2GMX</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_2.html">2 Define Box</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_3.html">3 Solvate</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_4.html">4 Ions</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_5.html">5 Energy Minimization</a></p>
+<p><a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_1.html">1 Set-up</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_2.html">2 Solvate</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_3.html">3 Add Ions</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_4.html">4 Make Index</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_5.html">5 Run MD</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_6.html">6 Tips &amp; Tricks</a></p>
 </div>
-<section id="exercise" class="level2">
-<h2 class="anchored" data-anchor-id="exercise">Exercise</h2>
-<p>Excercise</p>
+<section id="building-the-starting-box" class="level2">
+<h2 class="anchored" data-anchor-id="building-the-starting-box">Building the starting box</h2>
+<p>First of all, send the directory with the exercises to your home in Baobab (with <code>scp</code>) and login into Baobab or directly download it in a Baobab folder. Then, request a node with and interactive job for a couple of hours with <code>salloc</code> in the following way</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">salloc</span> <span class="at">--ntasks</span><span class="op">=</span>1 <span class="at">--cpus-per-task</span><span class="op">=</span>4 <span class="at">--partition</span><span class="op">=</span>private-gervasio-cpu <span class="at">--time</span><span class="op">=</span>120:00</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Finally, source the GROMACS installation</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load GCC/11.3.0</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load OpenMPI/4.1.4</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load GROMACS/2023.1-CUDA-11.7.0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>and verify that the sourcing was okay by typing</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gmx</span> <span class="at">--version</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Notice how here you are requesting 4 CPUs but no GPU, differently from the HPC tutorial (in fact, you are on <code>--partition=private-gervasio-cpu</code>). In this case, you are going to use the allocation on Baobab just to set up the box and not to run the simulation, so the GPU is not needed.</p>
+<p>You are now ready to assemble the starting configuration of the system. One last point before moving on. GROMACS has a lot (&gt; 100) tools that are accessible by typing <code>gmx</code> followed by a keyword. In this tutorial you will use <code>solvate</code>, <code>grompp</code>, <code>genion</code>, and <code>make_ndx</code>. If you have any doubts remember that you can look online for the explanation of the tool and which flags are needed (<code>-f</code>, <code>-o</code>, <code>-s</code> etc.). For example, <a href="https://manual.gromacs.org/current/onlinehelp/gmx-solvate.html">this</a> is the manual page of <code>gmx solvate</code>. All this information is also available on the spot if you type <code>-h</code> or <code>--h</code> (for <em>help</em>) after the tool’s name, e.g., <code>gmx solvate --h</code>.</p>
+</section>
+<section id="solvating-and-cleaning-up-residual-water" class="level2">
+<h2 class="anchored" data-anchor-id="solvating-and-cleaning-up-residual-water">Solvating and cleaning up residual water</h2>
+<p>At the beginning, you can take a look at the starting topology (<code>reference_topology_GPCR_structure_1.top</code>) and the starting configuration to solvate (<code>reference_topology_GPCR_structure_1.gro</code>). The topology reads like this</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#include "./forcefield/forcefield.itp"</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#include "./forcefield/cholesterol.itp"</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#include "./forcefield/GPCR.itp"</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#include "./forcefield/POPC.itp"</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#include "./forcefield/tip4pd.itp"</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#include "./forcefield/ions.itp" </span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="bu">[</span> system <span class="bu">]</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="kw">;</span> <span class="ex">Name</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="ex">GPCR</span> structure 1</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="bu">[</span> molecules <span class="bu">]</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="kw">;</span> <span class="ex">Compound</span>        <span class="co">#mols</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="ex">GPCR</span>                1</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="ex">CHL</span>                70</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="ex">POPC</span>              280</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>First of all, notice that sometimes there are lines starting with a semi-column <code>;</code>. These are <strong>comments</strong>, that is, lines that are not read by GROMACS. Comments are used to annotate the files and write down details that are helping you - the users - remember what you are doing, what is the meaning of some variables, etc. To all effects, these are equivalent to your notes on the border of a book or on a slide to write something that is worth remembering, e.g.&nbsp;some explanation of the professor. They are ignored by the software and should be informative for the person writing or for the person supposed to read the code. Feel free to write your own comments, if it helps you. Just remember to put a <code>;</code> at the beginning of each line that you do not want to be read by GROMACS (you can’t forget, as if you do the GROMACS commands that read these files will fail and complain about non-sensical lines).</p>
+<p>Following up, the <code>#include</code> statements tell GROMACS where to find the elements of the force field. As can be seen, they are collected inside the <code>forcefield</code> directory and must appear with a specific order. First, the set of parameters defining the force field (<code>forcefield.itp</code>). Then, the definition of the individual molecules (<code>cholesterol.itp</code>, <code>GPCR.itp</code>, etc.) that will populate your system. These do not have to appear in a specific order, however <ins>all</ins> the molecules that you intend to use <ins>must</ins> be defined here. Building the topology, that is, filling in this file, is roughly the equivalent of running <code>gmx pdb2gmx</code> on the pdb file of the protein, sa you did in the Lysozyme tutorial. After the the <code>#include</code> statements, there is the <code>[ system ]</code> section, which is simply the name of the system. It is worth giving the system a meaningful name to help in recognising the systems in the future.</p>
+<p>Finally, there is the <code>[ molecules ]</code> section. This is a very important section which must contain <ins>all</ins> the molecules of the system <ins>in the order in which they appear</ins>. Notice that, for the time being, the topology contains one GPCR, 70 cholesterol molecules (<code>CHL</code>), and 280 phospholipids (<code>POPC</code>).</p>
+<p>Now, take a look at the starting configuration <code>reference_topology_GPCR_structure_1.gro</code> by opening this file with a text reader. The <code>.gro</code> file has a fixed format, and it is better to not modify it by hand if you are not completely sure about what you are doing. The first lines look like this</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">GPCR</span> structure 1</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">47140</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">1NTHR</span>     N    1   5.174   5.111   3.908  0.0000  0.0000  0.0000</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="ex">1NTHR</span>    H1    2   5.156   5.041   3.838  0.0000  0.0000  0.0000</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="ex">1NTHR</span>    H2    3   5.086   5.138   3.950  0.0000  0.0000  0.0000</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="ex">1NTHR</span>    H3    4   5.223   5.065   3.984  0.0000  0.0000  0.0000</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="ex">1NTHR</span>    CA    5   5.256   5.221   3.857  0.0000  0.0000  0.0000</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="ex">[...]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The file has a first line which contains the title of the box (<code>GPCR structure 1</code>), a second line which contains the number of the atoms in the box (<code>47140</code>), and then it contains in order all the atoms of the system. These are organized usually as nine columns. The first (here <code>1NTHR</code>) is the specific number and name of the residue - which in this case is the N-terminal of the GPCR. The second column contains the specific name of the atom, and usually the first letter indicates the element (here you have a nitrogen followed by three hydrogen and a carbon and so on). The third is simply the number of the entry. It always starts with <code>1</code> and goes up to the number of elements in the box. Then, columns four to six contain the x, y, and z coordinates of that atom, while the columns seven to nine contain its velocity, reported by axial component. Notice how all atoms always have a position, but might have zero velocity. This is the case now, as you are building the box from a static experimental image. One of the main roles of the equilibrations phase is this - to relax the starting positions and assign reasonable starting velocities to all the atoms.</p>
+<p>At the other end of the file, the last lines look like this</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[...]</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a> <span class="ex">1193POPC</span>  C11847137   9.898   1.890   4.009  0.0000  0.0000  0.0000</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a> <span class="ex">1193POPC</span>  H18R47138   9.885   1.793   3.961  0.0000  0.0000  0.0000</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a> <span class="ex">1193POPC</span>  H18S47139   9.807   1.907   4.069  0.0000  0.0000  0.0000</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a> <span class="ex">1193POPC</span>  H18T47140   9.985   1.888   4.075  0.0000  0.0000  0.0000</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="ex">10.06535</span>  10.06535  10.56089</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The meaning of the columns is the same as before. The last molecules to appear are the phopsholipids (and in fact, in the topology, they are reported last). The last line of a <code>.gro</code> file has, like the first two, a special meaning. It contains the coordinates of the box, that is, the length of the box along x, y, and z. For example, this box is roughly a cube, with x and y lengths of <code>10.06535</code> nm and z length of <code>10.56089</code> nm. Sometimes, for special types of boxes (like those used for the protein-ligand simulations), there might be more than three values reported. The starting configuration, which you can visualize with <a href="https://www.ks.uiuc.edu/Research/vmd/">VMD</a>, is reported in Figure 1.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 100%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><img src="../images/image_gpcr_stability/startgpcr.png" class="img-fluid" alt="Figure 1"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Figure 1 <em>Side (left) and top (right) view of the system. The GPCR is reported in red as cartoons, while the lipids are shown in sticks colored in red (oxygen), blue (nitrogen), cyan (carbon), white (hydrogen), and yellow (phosphorus). The box is shown as blue lines.</em></td>
+</tr>
+</tbody>
+</table>
+<p>The first step is then to solvate the system. In the Lysozyme tutorial, before solvation, the <code>gmx editconf</code> command is used to prepare the box and to make it large enough to fit the protein. Here, you do not use it as the box is already prepared because it depends on the width of the lipid bilayer.</p>
+<p>Before running <code>gmx solvate</code>, you have to know which water model you want to use. For this force field, as also reported in the <code>reference_topology_GPCR_structure_1.top</code> file, the model is <a href="https://en.wikipedia.org/wiki/Water_model">TIP4PD</a> (you are importing the parameters with this line <code>#include "./forcefield/tip4pd.itp"</code>), a four-point water model. This means that each water molecule in your simulation will be actually represented with four sites: one oxygen atom, two hydrogen atoms, and a dummy site near the oxygen atom that has negative charge. This dummy atom is a numerical trick to better represent the distribution of charge of the lone pair in water’s oxygen. To access four-points water models, the flag name for <code>gmx solvate</code> is <code>-cs tip4p.gro</code>.</p>
+<p>Thus, you can solvate the system with the following</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gmx</span> solvate <span class="at">-cp</span> reference_topology_GPCR_structure_1.gro <span class="at">-cs</span> tip4p.gro <span class="at">-o</span> GPCR_structure_1_solvated.gro</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>where you are asking to add water to the structure with <code>-cp reference_topology_GPCR_structure_1.gro</code>, use as reference a four-points water model with <code>-cs tip4p.gro</code>, add call the resulting output structure <code>-o GPCR_structure_1_solvated.gro</code>. Some of you may notice that in the Lysozyme tutorial you also have to pass the topology of the system with the <code>-p</code> flag. This is not mandatory, but if you pass it then the updated topology will have the same name as the input one, which makes things harder to trace back if something goes wrong. However, if you do not pass the topology, you will have to update it by hand to include the presence of the water molecules.</p>
+<p>The (last lines of the) output of the solvate command will look something like this</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[...]</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Volume</span>                 :     1069.94 <span class="er">(</span><span class="ex">nm^3</span><span class="kw">)</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Density</span>                :        1013 <span class="er">(</span><span class="ex">g/l</span><span class="kw">)</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Number</span> of solvent molecules:  21053</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>GROMACS tries to fill the box with water to reach the density of ca. 1g/L. The most important part here is the number of water molecules inserted, in this case <code>21053</code> (this number can oscillate slightly). In principle, you could add this number at the end of the topology and you would be done with the solvation, as in the Lysozyme tutorial. However, you might think that the system has actually more than one phase (lipids and protein) and that GROMACS tried to insert water molecules in each and every empty volume it could find. How did it behave near the protein and the lipids? You can check with VMD.</p>
+<p>The results after solvation are shown in Figure 2. Water has been inserted in all places where it was possible, also between the lipids, which is not realistic as this is a strong lipophilic (non-hydrophobic) region. Generally, this is not a major problem, and within the first nanoseconds of run the water molecules get expelled naturally because of the chemical nature of the lipid tail region. Nevertheless, for delicate systems like this that involve proteins highly susceptible to not physiological starting configurations, it is better to get rid of them and clean the system before adding the ions.</p>
+<p>You can remove these wrongly placed water molecules with the <code>water_removal.py</code> Python script, which you can run with the following command</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> water_removal.py GPCR_structure_1_solvated.gro GPCR_structure_1_solvated_clean.gro</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The script takes as input <code>GPCR_structure_1_solvated.gro</code>, check where there are overlapping water molecules with the lipids and the protein, removes them, and returns the cleaned system under the name <code>GPCR_structure_1_solvated_clean.gro</code>. The output looks something like this</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Initial</span> number of water molecules: 21053</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Number</span> of water molecules to be deleted: 2117</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Final</span> number of water molecules: 18936</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The script removed ca. 2000 water molecules. You can see now, in Figure 2, that the system has been cleaned and looks much more biologically sound.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 100%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><img src="../images/image_gpcr_stability/solvatedgpcr.png" class="img-fluid" alt="Figure 2"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Figure 2 <em>On the left, the solvated system after <code>gmx solvate</code>. On the right, the same system after removing ca. 2000 water molecules with the <code>water_removal.py</code> script. Protein and lipids are reported in grey, while water molecules in red (oxygen) and white (hydrogen). The fourth site of this water model is in a lighter red tone, but it nearly overlaps with the water oxygen atoms, and is thus practically invisible.</em></td>
+</tr>
+</tbody>
+</table>
+<p>If you take a look at the <code>GPCR_structure_1_solvated_clean.gro</code> file, you will notice that the last lines will look like the following</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[...]</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="ex">22246SOL</span>     OW31349   9.408   9.566   9.374</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="ex">22246SOL</span>    HW131350   9.375   9.645   9.418</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="ex">22246SOL</span>    HW231351   9.463   9.599   9.303</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="ex">22246SOL</span>     MW31352   9.411   9.580   9.371</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="ex">10.06535</span>  10.06535  10.5608</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>where <code>SOL</code> is the name of the solvent molecules, water), and each <code>SOL</code> molecule has four atoms. The box size, as expected, didn’t change. You may notice that <code>gmx solvate</code> also removed the columns with the velocities. This is not a problem, as during the thermal equilibration (the NVT phase) GROMACS will calculate and reintroduce them. Moreover, when there are many atoms in the box, the space between the second and the third column might disappear. For example, <code>OW31349</code> is an atom called <code>OW</code> and it’s the entry number <code>31349</code>, but the space between is not present anymore. This also is not a problem sa long as the length of each field remains constant.</p>
+<p>The first lines look like before exception made for the number of atoms, which now has been updated to contain also those of water (in fact the starting dry box had 47140 atoms to which you added 18936 four-point water molecules, that is <code>47140 + 18936 x 4 = 122884</code>).</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">GPCR</span> structure 1</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">122884</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">1NTHR</span>     N    1   5.174   5.111   3.908</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="ex">1NTHR</span>    H1    2   5.156   5.041   3.838</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="ex">1NTHR</span>    H2    3   5.086   5.138   3.950</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="ex">1NTHR</span>    H3    4   5.223   5.065   3.984</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="ex">1NTHR</span>    CA    5   5.256   5.221   3.857</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="ex">[...]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Now, you can update the topology. First, copy the reference topology and call it <code>reference_topology_GPCR_structure_1_solvated.top</code></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> reference_topology_GPCR_structure_1.top reference_topology_GPCR_structure_1_solvated.top</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Then, add the amount of water molecules to <code>reference_topology_GPCR_structure_1_solvated.top</code> by correcting the <code>[ molecules ]</code> section in the following way</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[...]</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">[</span> molecules <span class="bu">]</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">;</span> <span class="ex">Compound</span>        <span class="co">#mols</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="ex">GPCR</span>                1</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="ex">CHL</span>                70</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="ex">POPC</span>              280</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="ex">SOL</span>             18936</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>You have to add the name of the water in the box (<code>SOL</code>) and the number reported after cleaning up the system with the python script. At this point, the structure of the solvated system is contained in <code>GPCR_structure_1_solvated_clean.gro</code>, while its topology in <code>reference_topology_GPCR_structure_1_solvated.top</code>.</p>
 <div class="nav-buttons">
 <p><a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_1.html" class="nav-btn prev-btn">← Previous</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_index.html" class="nav-btn home-btn">Back to Beginning</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_3.html" class="nav-btn next-btn">Next →</a></p>
 </div>

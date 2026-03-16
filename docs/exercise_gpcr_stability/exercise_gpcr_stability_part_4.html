@@ -23,6 +23,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -152,11 +187,52 @@ ul.task-list li input[type="checkbox"] {
 
 
 <div class="exercise-nav">
-<p><a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_1.html">1 PDB2GMX</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_2.html">2 Define Box</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_3.html">3 Solvate</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_4.html">4 Ions</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_5.html">5 Energy Minimization</a></p>
+<p><a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_1.html">1 Set-up</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_2.html">2 Solvate</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_3.html">3 Add Ions</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_4.html">4 Make Index</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_5.html">5 Run MD</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_6.html">6 Tips &amp; Tricks</a></p>
 </div>
-<section id="exercise" class="level2">
-<h2 class="anchored" data-anchor-id="exercise">Exercise</h2>
-<p>Excercise</p>
+<section id="generate-the-index-file" class="level2">
+<h2 class="anchored" data-anchor-id="generate-the-index-file">Generate the index file</h2>
+<p>The last passage before running the simulation is to generate and <strong>index</strong> file. This type of file is used to name part of the system by grouping the corresponding atom numbers under a given name. In this case, you need an index file because the thermostat is expecting two different groups to couple for temperature regulation, one that contains the protein and the lipids, which you will call <code>Protein_and_memb</code>, and one that contains the water and the ions, which you will call <code>Water_and_ions</code>. The reasons behind this are technical and go beyond the scope of this tutorial. However, the index file is a powerful tool to access only parts of the simulation box, and as such it is important to know how to generate one.</p>
+<p>The command to generate and index file is <code>gmx make_ndx</code>. As input you should give the final configuration and call the output simply <code>index.ndx</code>, as in the following</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gmx</span> make_ndx <span class="at">-f</span> start.gro <span class="at">-o</span> index.ndx</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>GROMACS will answer by showing you what types of molecules it sees inside the box and which name it would give to them</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="ex">0</span> System              : 122863 atoms</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">1</span> Protein             :  4440 atoms</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="ex">2</span> Protein-H           :  2187 atoms</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="ex">3</span> C-alpha             :   282 atoms</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="ex">4</span> Backbone            :   847 atoms</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="ex">5</span> MainChain           :  1129 atoms</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="ex">6</span> MainChain+Cb        :  1395 atoms</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="ex">7</span> MainChain+H         :  1407 atoms</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="ex">8</span> SideChain           :  3033 atoms</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="ex">9</span> SideChain-H         :  1058 atoms</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a> <span class="ex">10</span> Prot-Masses         :  4440 atoms</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a> <span class="ex">11</span> non-Protein         : 118423 atoms</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a> <span class="ex">12</span> Other               : 42700 atoms</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a> <span class="ex">13</span> CHL                 :  5180 atoms</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a> <span class="ex">14</span> POPC                : 37520 atoms</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a> <span class="ex">15</span> CL                  :     7 atoms</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a> <span class="ex">16</span> Water               : 75716 atoms</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a> <span class="ex">17</span> SOL                 : 75716 atoms</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a> <span class="ex">18</span> non-Water           : 47147 atoms</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a> <span class="ex">19</span> Ion                 :     7 atoms</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a> <span class="ex">20</span> Water_and_ions      : 75723 atoms</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>A few of these groups are very important, e.g., group 1 is the protein, group 13 contains the cholesterol lipids while group 14 the POPC lipids, and so on. You can also see that GROMACS already puts together in a group water and ions (group 20, <code>Water_and_ions</code>). Thus, you will only need to generate another group that contains everything excluded water and ions, that is, the protein and the lipids. You can achieve this by typing</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">1</span> <span class="kw">|</span> <span class="ex">13</span> <span class="kw">|</span> <span class="ex">14</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>and pressing enter. You can read the legend at the end of the list of groups to understand what you just did. You basically said to take everything that is inside group 1 OR inside group 13 OR inside group 14, which means <code>Protein</code>, <code>CHL</code>, and <code>POPC</code> groups. If you press enter again, GROMACS will show the list of groups inside the index file, and you can see how now there is a new one at the end</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[...]</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a> <span class="ex">18</span> non-Water           : 47147 atoms</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a> <span class="ex">19</span> Ion                 :     7 atoms</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a> <span class="ex">20</span> Water_and_ions      : 75723 atoms</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a> <span class="ex">21</span> Protein_CHL_POPC    : 47140 atoms</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>which is the union of the protein with the lipids. You can rename it by typing</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">name</span> 21 Protein_and_memb</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>that is, take group 21 and rename it <code>Protein_and_memb</code>. Press enter again to confirm the command, and you will see now that the group changed name</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[...]</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a> <span class="ex">18</span> non-Water           : 47147 atoms</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a> <span class="ex">19</span> Ion                 :     7 atoms</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a> <span class="ex">20</span> Water_and_ions      : 75723 atoms</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a> <span class="ex">21</span> Protein_and_memb    : 47140 atoms</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>You can exit the index generation by typing <code>q</code> and pressing enter. In your main directory you should now have the starting configuration <code>start.gro</code>, the corresponding topology <code>topol.top</code>, and the index file that you just generated, <code>index.ndx</code>. This is all what you need to run the following simulations. Each system directory reports also these files already prepared in the corresponding <code>solution_files</code> directory. You can compare the files that you obtained with those collected in this directory. Remember however that you can’t mix the files. For example, let’s suppose that you were able to obtain the <code>start.gro</code> initial configuration and the corresponding <code>topol.top</code> topology, but not the index file. You can’t use the <code>index.ndx</code> file in the solution directory, as this was generated by using the <code>start.gro</code> file inside that same directory, which might have small differences in the water content. You should use all the files that have been generated one from the other to avoid inconsistencies.</p>
 <div class="nav-buttons">
 <p><a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_3.html" class="nav-btn prev-btn">← Previous</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_index.html" class="nav-btn home-btn">Back to Beginning</a> <a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_5.html" class="nav-btn next-btn">Next →</a></p>
 </div>
