@@ -105,12 +105,14 @@ SOL             18929
 CL                  7
 ```
 
-Summarizing, you now have the starting solvated and neutralized configuration stored in `start.gro` and the corresponding topology in `topol.top`. You can take a look at the final system with VMD. It should look similar to that shown in Figure 3.
+Summarizing, you now have the starting solvated and neutralized configuration stored in `start.gro` and the corresponding topology in `topol.top`. You can take a look at the final system with VMD. It should look similar to that shown in @fig-gpcr-ions.
 
-| ![Figure 3](../images/image_gpcr_stability/ionisedgpcr.png) |
+::: {#fig-gpcr-ions}
+| <img src="../images/image_gpcr_stability/ionisedgpcr.png" width="700"> |
 |:--:|
-| Figure 3 *Side (left) and top (right) view of the system after solvation and ion addition. Water is reported as a transparent white surface. The chlorine ions are shown as yellow spheres based on their van der Waals radii. Remember that all the atoms in the system are actually points without a radius described by a set of coordinates, they are not spheres. However, you can use their van der Waals radii to estimate how 'large' the atoms are, that is, how much space around them is physically precluded to other atoms due to the atomic repulsion of the inter-molecular van der Waals forces.* |
 
+Side (left) and top (right) view of the system after solvation and ion addition. Water is reported as a transparent white surface. The chlorine ions are shown as yellow spheres based on their van der Waals radii. Remember that all the atoms in the system are actually points without a radius described by a set of coordinates, they are not spheres. However, you can use their van der Waals radii to estimate how 'large' the atoms are, that is, how much space around them is physically precluded to other atoms due to the atomic repulsion of the inter-molecular van der Waals forces.
+:::
 
 <div class="nav-buttons">
   <a href="exercise_gpcr_stability_part_2.qmd" class="nav-btn prev-btn">&larr; Previous</a>

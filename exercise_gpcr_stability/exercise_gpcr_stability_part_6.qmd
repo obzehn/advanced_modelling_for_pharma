@@ -14,7 +14,7 @@ This short section covers a couple of key points in handling trajectories and th
 
 The main tool for trajectory handling in GROMACS is [`gmx trjconv`](https://manual.gromacs.org/current/onlinehelp/gmx-trjconv.html). Take a look at the manual for the optional flags and see if anything fits what you want to do (or check with `gmx trjconv --h`). This is a tool that notoriously necessitates of some experience to achieve an efficient usage, but it is worth pointing out a few key commands. Generally, after running `gmx trjconv` GROMACS asks some further information (depending on the flags you are using) in terms of contents of the system. The most important thing here is to read properly what GROMACS asks and answer accordingly to your own purpose.
 
-The panels of Figure 4 shows a few ways in which the trajectory can be post-processed. The videos were rendered with VMD. They are discussed in the following in a left-to-right order
+The panels of @fig-gpcr-pbc shows a few ways in which the trajectory can be post-processed. The videos were rendered with VMD. They are discussed in the following in a left-to-right order
 
 - The original trajectory, represented as simple lines. Molecules that are broken across the boundaries give rise to the typical spaghetti-like bonds. Notice how nothing leaves the box, as the PBCs put the atoms back in the box, but on the other side. You can change VMD representation in favour of other types less prone to artifacts, like van der Waals radii, but molecules will still visually be broken;
 
@@ -24,9 +24,13 @@ The panels of Figure 4 shows a few ways in which the trajectory can be post-proc
 
 - The trajectory refitted on the protein first frame. This comes from two concatenated passages. The first usually is the same as the point before this one, that is, PBC removal and re-centering. Then, the output is further post-produced with `trjconv` by setting the flag `-fit rot+trans`, and prompting GROMACS to use the protein alpha carbons as reference. Briefly, GROMACS tries to match the position of the protein in each frame with the starting one (passed with the flag `-s`). You can see how the protein is barely wiggling, and actually is the box that is slightly rotating around it. As before, this type of post-processing is important when the group that is being fitted (the protein here) should stay as still as possible. The protein/ligand malaria targets are a very good example, as this post-processing makes much easier to visualize the binding site and the ligand.
 
-| <img src="../images/image_gpcr_stability/gpcr_ori.gif" width="240"> <img src="../images/image_gpcr_stability/gpcr_pbc.gif" width="240"> <img src="../images/image_gpcr_stability/gpcr_cent.gif" width="240"> <img src="../images/image_gpcr_stability/gpcr_fit.gif" width="240"> |
-|:--:|
-| Figure 4 *Four different ways to re-wrap the same GPCR trajectory. The videos are 25 frames long, 1 frame every 10 ns, for a total of 250 ns of production. The water has been removed for the sake of clarity of representation. The first panel shows the original trajectory, represented as lines. For the following three animations, the lipids are represented with their van der Waals radii and the protein as a cartoon. The second panel shows the trajectory where the molecules have been made whole again across the PBCs. You can see the protein diffuse laterally in the bilayer. The third has the protein centered in the box. The fourth has a fit of the protein with respect to the first frame of the production. You can see how the protein barely moves and the lipids are rotating around the protein.* |
+::: {#fig-gpcr-pbc}
+| <img src="../images/image_gpcr_stability/gpcr_ori.gif" width="300"> | <img src="../images/image_gpcr_stability/gpcr_pbc.gif" width="300"> |
+|:--:|:--:|
+| <img src="../images/image_gpcr_stability/gpcr_cent.gif" width="300"> | <img src="../images/image_gpcr_stability/gpcr_fit.gif" width="300"> |
+
+Four different ways to re-wrap the same GPCR trajectory. The videos are 25 frames long, 1 frame every 10 ns (250 ns total). Water is removed for clarity. The first panel shows the original trajectory; the second shows molecules made whole across PBCs; the third centers the protein in the box; the fourth aligns the protein to the first frame.
+:::
 
 For the exam, the main post-processing of the trajectory that you might need is the removal of the water molecules, as this will make the trajectory much smaller and easy to download and analyze. It is also worth to correct the PBCs and center the protein, which basically means obtaining what is shown in the third panel of Figure 4. You can do this in one command as in the following
 

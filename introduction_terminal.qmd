@@ -49,7 +49,7 @@ As few general notes before starting with the tutorial.
 Without a graphical interface, you cannot see where you are located (Desktop? Downloads? Home? etc.) and what is inside the directory. You can check these by using the `pwd` (*print working directory*) and `ls` (*list*) commands, respectively.
 
 ::: {.exercise}
-### Localisation
+### Localization
 
 - Run `pwd`
 
@@ -173,7 +173,7 @@ Try navigating using both absolute and relative path in your terminal. Remember 
 
 **Commands:** `mkdir`
 
-To create a new directory, you can run the command `mkdir` (*make directory*). Specifically, running `mkdir name_directory` will generate a directory with name `name_directory` in the directory where you are, equivalently to `mkdir ./name_directory`. You can use asbsolute and relative paths as well, e.g., `mkdir ../name_directory` to create it inside the directory containing the current one or `mkdir /home/bob/Documents/name_directory` to create it specifically at that path.
+To create a new directory, you can run the command `mkdir` (*make directory*). Specifically, running `mkdir name_directory` will generate a directory with name `name_directory` in the directory where you are, equivalently to `mkdir ./name_directory`. You can use absolute and relative paths as well, e.g., `mkdir ../name_directory` to create it inside the directory containing the current one or `mkdir /home/bob/Documents/name_directory` to create it specifically at that path.
 
 ::: {.exercise}
 ### Creating directories
@@ -227,7 +227,7 @@ You can access the content of a file by using the command `cat`. The simple vers
 
 - Try the command `echo "Hello World!"`
 
-- Add a line using to the file using `echo "Dogs are friendly animals." > dog.txt`
+- Add a line to the file using `echo "Dogs are friendly animals." > dog.txt`
 
 :::
 
@@ -329,7 +329,7 @@ There is no Recycling Bin. Everything that is deleted is lost, permanently. Doub
 
 **Commands:** `vim`, `nano`
 
-Until now, you saw how to add data to a file by using the `echo` command. This is a neat trick to store on file output from commands, but in general it is not very usefull to open and modify files. There are several text editors available in terminals, and which one to use largely depends on the personal preferences. Two of the most common are [`vim`](https://www.vim.org/) and [`nano`](https://en.wikipedia.org/wiki/GNU_nano). These are complex software packages with a billion options, and sadly the learning curve is a bit steep, but the basics for opening, modifying and saving (a basic usage of a text editor) are very simple.
+Until now, you saw how to add data to a file by using the `echo` command. This is a neat trick to store on file output from commands, but in general it is not very useful to open and modify files. There are several text editors available in terminals, and which one to use largely depends on the personal preferences. Two of the most common are [`vim`](https://www.vim.org/) and [`nano`](https://en.wikipedia.org/wiki/GNU_nano). These are complex software packages with a billion options, and sadly the learning curve is a bit steep, but the basics for opening, modifying and saving (a basic usage of a text editor) are very simple.
 
 ::: {.exercise}
 ### VIM
@@ -338,7 +338,7 @@ Until now, you saw how to add data to a file by using the `echo` command. This i
 
 - Go into insert mode by pressing `a` (you will see the last line of the page change into **--INSERT--**)
 
-- Type whatever you want. Remember, you have to move with arrows and keyoard as clicking on the terminal is not available
+- Type whatever you want. Remember, you have to move with arrows and keyboard as clicking on the terminal is not available
 
 - Press `Esc`. The **--INSERT--** mode is not active anymore. You can now access the general options by typing `:` (you will see the symbol appear at the bottom of the page, outside the file text)
 

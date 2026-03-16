@@ -32,7 +32,7 @@ To connect to Baobab's head node, you need to [`ssh`](https://man.openbsd.org/ss
 ssh -X username@login1.baobab.hpc.unige.ch
 ```
 
-Insert your password (note that you won't see your password being typed for security reasons). You should now be logged in on the head node of Baobab, calles `login1`, which is confirmed by the beginning of your terminal line that will look something like this
+Insert your password (note that you won't see your password being typed for security reasons). You should now be logged in on the head node of Baobab, calls `login1`, which is confirmed by the beginning of your terminal line that will look something like this
 
 ```bash
 (baobab)-[username@login1 ~]$
@@ -128,7 +128,7 @@ scp -r ./Simulations username@login1.baobab.hpc.unige.ch:/home/users/u/username/
 This will upload `Results` to your home directory in Baobab. Notice how `scp` is (very roughly) a `cp` that permits you to move stuff across a network, and, as for `cp`, the `-r` recursive flag is requested if you are moving directories.
 
 # Plotting
-During the tutorial, you will be asked to take a look at some quantities of interest by plotting them. Many plotting programs exist, spacing from more barebone [fast in-line plotters](https://plasma-gate.weizmann.ac.il/Grace/) to [sophisticated libraries](https://matplotlib.org/) with thousands of options, perfectly suited for high-end publication images. Within this tutorial, you can use [`gnuplot`](http://www.gnuplot.info/) since it is already installed and working on Baobab’s nodes. Let’ suppose `data.xvg` is a text file containing two columns of data, such as the position of an atom as a function of time, and you want to take a look at it. Then, you open `gnuplot` with
+During the tutorial, you will be asked to take a look at some quantities of interest by plotting them. Many plotting programs exist, spacing from more bare bone [fast in-line plotters](https://plasma-gate.weizmann.ac.il/Grace/) to [sophisticated libraries](https://matplotlib.org/) with thousands of options, perfectly suited for high-end publication images. Within this tutorial, you can use [`gnuplot`](http://www.gnuplot.info/) since it is already installed and working on Baobab’s nodes. Let’ suppose `data.xvg` is a text file containing two columns of data, such as the position of an atom as a function of time, and you want to take a look at it. Then, you open `gnuplot` with
 
 ```bash
 gnuplot
@@ -146,13 +146,13 @@ which means first launch `gnuplot`, then plot the data contained in the file `da
 plot 'data.xvg' u 1:2 w l, '' u 1:3 w l
 ```
 
-where the addition `''` means to take the next data points from the same file referred previosly in the same command. Similarly, if the data for the second molecule was stored in the first two columns of another file, e.g. `otherdata.xvg`, you can plot them together with the following
+where the addition `''` means to take the next data points from the same file referred previously in the same command. Similarly, if the data for the second molecule was stored in the first two columns of another file, e.g. `otherdata.xvg`, you can plot them together with the following
 
 ```bash
 plot 'data.xvg' u 1:2 w l, 'otherdata.xvg' u 1:2 w l
 ```
 
-There are many other options, which are summarised in the software’s manual, like how to name the axis, change the colour of the data points, or change the legend entries. You are free to explore them depending on your plotting necessities. Finally, you can exit gnuplot by typing `q` (for *quit*) or `exit`.
+There are many other options, which are summarized in the software’s manual, like how to name the axis, change the color of the data points, or change the legend entries. You are free to explore them depending on your plotting necessities. Finally, you can exit gnuplot by typing `q` (for *quit*) or `exit`.
 
 # Configure ssh
 

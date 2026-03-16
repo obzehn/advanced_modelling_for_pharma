@@ -236,8 +236,8 @@ Since this guide focuses on <code>bash</code> and <code>zsh</code>:</p>
 <p><strong>Commands:</strong> <code>pwd</code>, <code>ls</code></p>
 <p>Without a graphical interface, you cannot see where you are located (Desktop? Downloads? Home? etc.) and what is inside the directory. You can check these by using the <code>pwd</code> (<em>print working directory</em>) and <code>ls</code> (<em>list</em>) commands, respectively.</p>
 </section>
-<section id="localisation" class="level3 exercise">
-<h3 class="anchored" data-anchor-id="localisation">Localisation</h3>
+<section id="localization" class="level3 exercise">
+<h3 class="anchored" data-anchor-id="localization">Localization</h3>
 <ul>
 <li><p>Run <code>pwd</code></p></li>
 <li><p>The command will answer with something of the form like <code>/directory1/directory2/final_directory</code>. This means that, in this moment, you are inside <code>final_directory</code> (the last entry of the line), which itself is inside <code>directory2</code> that is inside <code>directory1</code>. Notice how the names of the different directories are separated by the symbol <code>/</code>. The core idea is that there is a starting directory, called <strong>root</strong> (indicated by the first symbol <code>/</code> on the left) that contains all directories. Then, like a tree from its root, all the following content of the computer is inside directories of directories. This is the standard organization of all computers (although in Windows Terminals like Powershell you might see <code>\</code> rather than <code>/</code> to separate directories).</p></li>
@@ -343,7 +343,7 @@ render()
 <h3 class="anchored" data-anchor-id="exercise-3-create-directories"><strong>Exercise 3: Create directories</strong></h3>
 <p><strong>Goal:</strong> Learn how to create a directory</p>
 <p><strong>Commands:</strong> <code>mkdir</code></p>
-<p>To create a new directory, you can run the command <code>mkdir</code> (<em>make directory</em>). Specifically, running <code>mkdir name_directory</code> will generate a directory with name <code>name_directory</code> in the directory where you are, equivalently to <code>mkdir ./name_directory</code>. You can use asbsolute and relative paths as well, e.g., <code>mkdir ../name_directory</code> to create it inside the directory containing the current one or <code>mkdir /home/bob/Documents/name_directory</code> to create it specifically at that path.</p>
+<p>To create a new directory, you can run the command <code>mkdir</code> (<em>make directory</em>). Specifically, running <code>mkdir name_directory</code> will generate a directory with name <code>name_directory</code> in the directory where you are, equivalently to <code>mkdir ./name_directory</code>. You can use absolute and relative paths as well, e.g., <code>mkdir ../name_directory</code> to create it inside the directory containing the current one or <code>mkdir /home/bob/Documents/name_directory</code> to create it specifically at that path.</p>
 </section>
 <section id="creating-directories" class="level3 exercise">
 <h3 class="anchored" data-anchor-id="creating-directories">Creating directories</h3>
@@ -384,7 +384,7 @@ render()
 <li><p>Navigate to the directory containing the file <code>dog.txt</code></p></li>
 <li><p>Display the contents of <code>dog.txt</code> using <code>cat</code>. It should be empty</p></li>
 <li><p>Try the command <code>echo "Hello World!"</code></p></li>
-<li><p>Add a line using to the file using <code>echo "Dogs are friendly animals." &gt; dog.txt</code></p></li>
+<li><p>Add a line to the file using <code>echo "Dogs are friendly animals." &gt; dog.txt</code></p></li>
 </ul>
 </section>
 <p>You will notice that the <code>echo</code> command is unchanged, but we added a <code>&gt; dog.txt</code> at the end of it. This means *whatever is the output of the command before <code>&gt;</code>, put it in the file <code>dog.txt</code>.</p>
@@ -473,13 +473,13 @@ render()
 <h1>Text editors</h1>
 <p><strong>Goal:</strong> A first approach to text editors in a terminal</p>
 <p><strong>Commands:</strong> <code>vim</code>, <code>nano</code></p>
-<p>Until now, you saw how to add data to a file by using the <code>echo</code> command. This is a neat trick to store on file output from commands, but in general it is not very usefull to open and modify files. There are several text editors available in terminals, and which one to use largely depends on the personal preferences. Two of the most common are <a href="https://www.vim.org/"><code>vim</code></a> and <a href="https://en.wikipedia.org/wiki/GNU_nano"><code>nano</code></a>. These are complex software packages with a billion options, and sadly the learning curve is a bit steep, but the basics for opening, modifying and saving (a basic usage of a text editor) are very simple.</p>
+<p>Until now, you saw how to add data to a file by using the <code>echo</code> command. This is a neat trick to store on file output from commands, but in general it is not very useful to open and modify files. There are several text editors available in terminals, and which one to use largely depends on the personal preferences. Two of the most common are <a href="https://www.vim.org/"><code>vim</code></a> and <a href="https://en.wikipedia.org/wiki/GNU_nano"><code>nano</code></a>. These are complex software packages with a billion options, and sadly the learning curve is a bit steep, but the basics for opening, modifying and saving (a basic usage of a text editor) are very simple.</p>
 <section id="vim" class="level3 exercise">
 <h3 class="anchored" data-anchor-id="vim">VIM</h3>
 <ul>
 <li><p>Open the <code>toad.txt</code> file in the <code>animal</code> folder with <code>vim</code> by running <code>vim toad.txt</code></p></li>
 <li><p>Go into insert mode by pressing <code>a</code> (you will see the last line of the page change into <strong>–INSERT–</strong>)</p></li>
-<li><p>Type whatever you want. Remember, you have to move with arrows and keyoard as clicking on the terminal is not available</p></li>
+<li><p>Type whatever you want. Remember, you have to move with arrows and keyboard as clicking on the terminal is not available</p></li>
 <li><p>Press <code>Esc</code>. The <strong>–INSERT–</strong> mode is not active anymore. You can now access the general options by typing <code>:</code> (you will see the symbol appear at the bottom of the page, outside the file text)</p></li>
 <li><p>To save the file, write <code>:w</code> (<em>write</em>) and press enter. Now you can quit with <code>:q</code> (<em>quit</em>).</p></li>
 <li><p>Re-open the file with <code>vim</code>. Go again in <code>INSERT</code> mode and type something. Now try to close the file <em>without</em> saving with <code>:q</code>. Does it work? Why?</p></li>

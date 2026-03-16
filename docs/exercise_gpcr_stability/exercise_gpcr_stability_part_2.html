@@ -241,22 +241,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a> <span class="ex">1193POPC</span>  H18S47139   9.807   1.907   4.069  0.0000  0.0000  0.0000</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a> <span class="ex">1193POPC</span>  H18T47140   9.985   1.888   4.075  0.0000  0.0000  0.0000</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="ex">10.06535</span>  10.06535  10.56089</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The meaning of the columns is the same as before. The last molecules to appear are the phopsholipids (and in fact, in the topology, they are reported last). The last line of a <code>.gro</code> file has, like the first two, a special meaning. It contains the coordinates of the box, that is, the length of the box along x, y, and z. For example, this box is roughly a cube, with x and y lengths of <code>10.06535</code> nm and z length of <code>10.56089</code> nm. Sometimes, for special types of boxes (like those used for the protein-ligand simulations), there might be more than three values reported. The starting configuration, which you can visualize with <a href="https://www.ks.uiuc.edu/Research/vmd/">VMD</a>, is reported in Figure 1.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 100%">
-</colgroup>
+<p>The meaning of the columns is the same as before. The last molecules to appear are the phopsholipids (and in fact, in the topology, they are reported last). The last line of a <code>.gro</code> file has, like the first two, a special meaning. It contains the coordinates of the box, that is, the length of the box along x, y, and z. For example, this box is roughly a cube, with x and y lengths of <code>10.06535</code> nm and z length of <code>10.56089</code> nm. Sometimes, for special types of boxes (like those used for the protein-ligand simulations), there might be more than three values reported. The starting configuration, which you can visualize with <a href="https://www.ks.uiuc.edu/Research/vmd/">VMD</a>, is reported in <a href="#fig-gpcr-start" class="quarto-xref">Figure&nbsp;1</a>.</p>
+<div id="fig-gpcr-start" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-gpcr-start-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top">
 <thead>
 <tr class="header">
-<th style="text-align: center;"><img src="../images/image_gpcr_stability/startgpcr.png" class="img-fluid" alt="Figure 1"></th>
+<th style="text-align: center;"><img src="../images/image_gpcr_stability/startgpcr.png" width="700" class="figure-img"></th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td style="text-align: center;">Figure 1 <em>Side (left) and top (right) view of the system. The GPCR is reported in red as cartoons, while the lipids are shown in sticks colored in red (oxygen), blue (nitrogen), cyan (carbon), white (hydrogen), and yellow (phosphorus). The box is shown as blue lines.</em></td>
-</tr>
 </tbody>
 </table>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gpcr-start-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Side (left) and top (right) view of the system. The GPCR is reported in red as cartoons, while the lipids are shown in sticks colored in red (oxygen), blue (nitrogen), cyan (carbon), white (hydrogen), and yellow (phosphorus). The box is shown as blue lines.
+</figcaption>
+</figure>
+</div>
 <p>The first step is then to solvate the system. In the Lysozyme tutorial, before solvation, the <code>gmx editconf</code> command is used to prepare the box and to make it large enough to fit the protein. Here, you do not use it as the box is already prepared because it depends on the width of the lipid bilayer.</p>
 <p>Before running <code>gmx solvate</code>, you have to know which water model you want to use. For this force field, as also reported in the <code>reference_topology_GPCR_structure_1.top</code> file, the model is <a href="https://en.wikipedia.org/wiki/Water_model">TIP4PD</a> (you are importing the parameters with this line <code>#include "./forcefield/tip4pd.itp"</code>), a four-point water model. This means that each water molecule in your simulation will be actually represented with four sites: one oxygen atom, two hydrogen atoms, and a dummy site near the oxygen atom that has negative charge. This dummy atom is a numerical trick to better represent the distribution of charge of the lone pair in water’s oxygen. To access four-points water models, the flag name for <code>gmx solvate</code> is <code>-cs tip4p.gro</code>.</p>
 <p>Thus, you can solvate the system with the following</p>
@@ -275,22 +278,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Initial</span> number of water molecules: 21053</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Number</span> of water molecules to be deleted: 2117</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Final</span> number of water molecules: 18936</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The script removed ca. 2000 water molecules. You can see now, in Figure 2, that the system has been cleaned and looks much more biologically sound.</p>
-<table class="caption-top table">
+<p>The script removed ca. 2000 water molecules. You can see now, in <a href="#fig-gpcr-solv" class="quarto-xref">Figure&nbsp;2</a>, that the system has been cleaned and looks much more biologically sound.</p>
+<div id="fig-gpcr-solv" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-gpcr-solv-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top">
 <colgroup>
 <col style="width: 100%">
 </colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: center;"><img src="../images/image_gpcr_stability/solvatedgpcr.png" class="img-fluid" alt="Figure 2"></th>
+<th style="text-align: center;"><img src="../images/image_gpcr_stability/solvatedgpcr.png" width="700" class="figure-img"></th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td style="text-align: center;">Figure 2 <em>On the left, the solvated system after <code>gmx solvate</code>. On the right, the same system after removing ca. 2000 water molecules with the <code>water_removal.py</code> script. Protein and lipids are reported in grey, while water molecules in red (oxygen) and white (hydrogen). The fourth site of this water model is in a lighter red tone, but it nearly overlaps with the water oxygen atoms, and is thus practically invisible.</em></td>
-</tr>
 </tbody>
 </table>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gpcr-solv-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: On the left, the solvated system after <code>gmx solvate</code>. On the right, the same system after removing ca. 2000 water molecules with the <code>water_removal.py</code> script. Protein and lipids are reported in grey, while water molecules in red (oxygen) and white (hydrogen). The fourth site of this water model is in a lighter red tone, but it nearly overlaps with the water oxygen atoms, and is thus practically invisible.
+</figcaption>
+</figure>
+</div>
 <p>If you take a look at the <code>GPCR_structure_1_solvated_clean.gro</code> file, you will notice that the last lines will look like the following</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[...]</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="ex">22246SOL</span>     OW31349   9.408   9.566   9.374</span>
