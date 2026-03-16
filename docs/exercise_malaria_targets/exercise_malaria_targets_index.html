@@ -23,7 +23,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -152,19 +171,50 @@ ul.task-list li input[type="checkbox"] {
 
 
 <div class="exercise-nav">
-<p><a href="../excercise_malaria_targets/excercise_malaria_targets_part_1.html">1 PDB2GMX</a> <a href="../excercise_malaria_targets/excercise_malaria_targets_part_2.html">2 Define Box</a> <a href="../excercise_malaria_targets/excercise_malaria_targets_part_3.html">3 Solvate</a> <a href="../excercise_malaria_targets/excercise_malaria_targets_part_4.html">4 Ions</a> <a href="../excercise_malaria_targets/excercise_malaria_targets_part_5.html">5 Energy Minimization</a></p>
+<p><a href="../exercise_malaria_targets/exercise_malaria_targets_part_1.html">1 Set-up</a> <a href="../exercise_malaria_targets/exercise_malaria_targets_part_2.html">2 Solvate</a> <a href="../exercise_malaria_targets/exercise_malaria_targets_part_3.html">3 Add Ions</a> <a href="../exercise_malaria_targets/exercise_malaria_targets_part_4.html">4 Run MD</a> <a href="../exercise_malaria_targets/exercise_malaria_targets_part_5.html">5 Tips &amp; Tricks</a></p>
 </div>
-<section id="exercise" class="level2">
-<h2 class="anchored" data-anchor-id="exercise">Exercise</h2>
-<p>Excercise</p>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>This guide will provide a brief overview of the APO (without ligand) and HOLO (with ligand) states of protein kinase G (PKG), a key regulatory enzyme found in the malaria parasite Plasmodium. In <em>Plasmodium vivax</em>, a species responsible for severe forms of <a href="https://en.wikipedia.org/wiki/Malaria">malaria</a> in humans, PKG plays a critical role in various stages of the parasite’s lifecycle, including its development within the mosquito vector and its replication within the human host’s red blood cells. PKG is involved in signalling pathways that regulate essential processes such as parasite invasion of host cells, egress from infected cells, and differentiation into sexual forms for transmission to mosquitoes. Additionally, PKG has been identified as a potential target for antimalarial drug development due to its essential role in parasite survival and its divergence from human homologs, making it an attractive candidate for selective inhibition.</p>
+<p>Several experimental structures have been deposited for PKG with UNIPROT <a href="https://www.uniprot.org/uniprotkb/A5K0N4/entry">A5K0N4</a>. The PDB IDs user in this tutorial are <a href="https://www.rcsb.org/structure/5DYL">5DYL</a> for the APO form, <a href="https://www.rcsb.org/structure/5DZC">5DZC</a> for the HOLO form bound to a non-hydrolyzable analog of adenosine triphosphate (here named ANP), <a href="https://www.rcsb.org/structure/5F0A">5F0A</a> for the HOLO form bound to an inhibitor (here named 1FB), and <a href="https://www.rcsb.org/structure/5FET">5FET</a> for the HOLO form bound to another inhibitor (here named 1TR). The structure of the ligand is shown in <a href="#fig-malaria-ligs" class="quarto-xref">Figure&nbsp;1</a>.</p>
+<div id="fig-malaria-ligs" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-malaria-ligs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top">
+<colgroup>
+<col style="width: 100%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><img src="../images/image_ligands_malaria/ligands_malaria.png" width="700" class="figure-img"></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-malaria-ligs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: 2D representation of ANP, 1TR, and 1FB, respectively, the three ligands in the HOLO PKG systems.
+</figcaption>
+</figure>
+</div>
+<p>The exact role of these molecules when targeting PKG is not strictly relevant for this tutorial. If you are interested you can read the corresponding publication <span class="citation" data-cites="el2019structures">(<a href="#ref-el2019structures" role="doc-biblioref"><span class="nocase">El Bakkouri et al.</span> 2019</a>)</span> from which the APO and HOLO + ANP structures were taken, while the other two come from results still under peer revision and, therefore, unpublished. Differently from GPCRs in the other exercise, PKG is not a membrane protein, and as such it can be simulated in a box of water, analogously to what done during the Lysozyme tutorial.</p>
 <div class="nav-buttons">
 <p><a href="../exercise_malaria_targets/exercise_malaria_targets_part_1.html" class="nav-btn next-btn">Next →</a></p>
 </div>
+</section>
+<section id="references" class="level2">
+
+
 
 
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-el2019structures" class="csl-entry" role="listitem">
+<span class="nocase">El Bakkouri, Majida, Imène Kouidmi, Amy K Wernimont, et al.</span> 2019. <span>“Structures of the cGMP-Dependent Protein Kinase in Malaria Parasites Reveal a Unique Structural Relay Mechanism for Activation.”</span> <em>Proceedings of the National Academy of Sciences</em> 116 (28): 14164–73.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

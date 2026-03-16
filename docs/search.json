@@ -53,21 +53,21 @@
     "href": "exercise_malaria_targets/exercise_malaria_targets_index.html",
     "title": "Investigate APO and HOLO malaria targets",
     "section": "",
-    "text": "1 PDB2GMX 2 Define Box 3 Solvate 4 Ions 5 Energy Minimization"
+    "text": "1 Set-up 2 Solvate 3 Add Ions 4 Run MD 5 Tips & Tricks"
   },
   {
-    "objectID": "exercise_malaria_targets/exercise_malaria_targets_index.html#exercise",
-    "href": "exercise_malaria_targets/exercise_malaria_targets_index.html#exercise",
+    "objectID": "exercise_malaria_targets/exercise_malaria_targets_index.html#introduction",
+    "href": "exercise_malaria_targets/exercise_malaria_targets_index.html#introduction",
     "title": "Investigate APO and HOLO malaria targets",
-    "section": "Exercise",
-    "text": "Exercise\nExcercise\n\nNext →"
+    "section": "Introduction",
+    "text": "Introduction\nThis guide will provide a brief overview of the APO (without ligand) and HOLO (with ligand) states of protein kinase G (PKG), a key regulatory enzyme found in the malaria parasite Plasmodium. In Plasmodium vivax, a species responsible for severe forms of malaria in humans, PKG plays a critical role in various stages of the parasite’s lifecycle, including its development within the mosquito vector and its replication within the human host’s red blood cells. PKG is involved in signalling pathways that regulate essential processes such as parasite invasion of host cells, egress from infected cells, and differentiation into sexual forms for transmission to mosquitoes. Additionally, PKG has been identified as a potential target for antimalarial drug development due to its essential role in parasite survival and its divergence from human homologs, making it an attractive candidate for selective inhibition.\nSeveral experimental structures have been deposited for PKG with UNIPROT A5K0N4. The PDB IDs user in this tutorial are 5DYL for the APO form, 5DZC for the HOLO form bound to a non-hydrolyzable analog of adenosine triphosphate (here named ANP), 5F0A for the HOLO form bound to an inhibitor (here named 1FB), and 5FET for the HOLO form bound to another inhibitor (here named 1TR). The structure of the ligand is shown in Figure 1.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 1: 2D representation of ANP, 1TR, and 1FB, respectively, the three ligands in the HOLO PKG systems.\n\n\n\nThe exact role of these molecules when targeting PKG is not strictly relevant for this tutorial. If you are interested you can read the corresponding publication (El Bakkouri et al. 2019) from which the APO and HOLO + ANP structures were taken, while the other two come from results still under peer revision and, therefore, unpublished. Differently from GPCRs in the other exercise, PKG is not a membrane protein, and as such it can be simulated in a box of water, analogously to what done during the Lysozyme tutorial.\n\nNext →"
   },
   {
     "objectID": "exercise_malaria_targets/exercise_malaria_targets_part_3.html",
     "href": "exercise_malaria_targets/exercise_malaria_targets_part_3.html",
     "title": "Investigate APO and HOLO malaria targets",
     "section": "",
-    "text": "1 PDB2GMX 2 Define Box 3 Solvate 4 Ions 5 Energy Minimization"
+    "text": "1 Set-up 2 Solvate 3 Add Ions 4 Run MD 5 Tips & Tricks"
   },
   {
     "objectID": "exercise_malaria_targets/exercise_malaria_targets_part_3.html#exercise",
@@ -81,14 +81,14 @@
     "href": "exercise_malaria_targets/exercise_malaria_targets_part_1.html",
     "title": "Investigate APO and HOLO malaria targets",
     "section": "",
-    "text": "1 PDB2GMX 2 Define Box 3 Solvate 4 Ions 5 Energy Minimization"
+    "text": "1 Set-up 2 Solvate 3 Add Ions 4 Run MD 5 Tips & Tricks"
   },
   {
-    "objectID": "exercise_malaria_targets/exercise_malaria_targets_part_1.html#exercise",
-    "href": "exercise_malaria_targets/exercise_malaria_targets_part_1.html#exercise",
+    "objectID": "exercise_malaria_targets/exercise_malaria_targets_part_1.html#a-look-into-the-starting-files",
+    "href": "exercise_malaria_targets/exercise_malaria_targets_part_1.html#a-look-into-the-starting-files",
     "title": "Investigate APO and HOLO malaria targets",
-    "section": "Exercise",
-    "text": "Exercise\nExcercise\n\nPKG APO PKG HOLO 1FB PKG HOLO 1TR PKG HOLO ANP\n\n\n← Previous Back to Beginning Next →"
+    "section": "A look into the starting files",
+    "text": "A look into the starting files\nFirst of all, start by downloading the exercise directories from the github repository.\n\nPKG APO PKG HOLO 1FB PKG HOLO 1TR PKG HOLO ANP\n\nWe provide four different systems. These are always the same protein (PKG) but in different states, i.e., ligand-less (APO) or ligand-bound (HOLO) with three different molecules. You should download and run simulations of at least two of them, one being the APO and one a HOLO so that you can compare the structures at the end of the molecular dynamics simulation. You can unzip the downloaded directories with the command\ntar -xvf name_of_compressed_file.tar.gz\nThe individual directories of the different protein/ligand systems are organized as in the following\nPKG_APO/HOLO_X_excercise\n│   ionize.mdp\n│   reference_topology_PKG_XXX.gro\n│   reference_topology_PKG_XXX.top\n│   sbatch_me.sh\n│\n└─── forcefield\n│   │   [various forcefields files]\n│\n└─── step1_em\n│   │   em.mdp\n│\n└─── step2_nvt\n│   │   [various nvt.mdp files]\n│\n└─── step3_npt\n│   │   [various npt.mdp files]\n│\n└─── step4_prod\n    │   prod.mdp\nGoing by order, you can see\n\nThe ionize.mdp, reference_topology_PKG_XXX.gro, and reference_topology_PKG_XXX.top files. These are the building blocks to set up your starting configuration. These will be covered in depth later in the tutorial.\nA sbatch_me.sh file. This is a text file that contains the set of instructions that will run your starting configuration through energy minimization, NVT, NPT, and eventually the production phase.\nA forcefield directory. Inside this, you can find several text files that define ‘numerically’ the key components of your system. You might recognize some of them, like PKG.itp, the water model tip3.itp, and the ligands 1FB.itp, 1TR.itp, and ANP.itp. You can peek inside them and take a look at how a molecule is described numerically in MD simulations. The format of these files - that is, how these numbers are organized and reported - depends on the software you are using. Since in this course you use GROMACS, these files are written in GROMACS format. However, while these numbers and these files might be different for other software, the core idea of numerically representing with specific functions the intra- and inter-molecular interactions is paramount in molecular dynamics.\nA solutions_files directory. Here there are the start.gro and topol.top files that you should obtain at the end of this tutorial. If you want to run the simulations instantly, then move the files from this directory directly to PKG_APO/HOLO_X_excercise and go at the last sections of this tutorial about running the simulation.\nThe step1_em, step2_nvt, and step3_npt directories. Inside each of these you can find one or more mdp (molecular dynamics parameters) files that will be used to compile and run the energy minimization, the NVT, and the NPT equilibrations. These will be run sequentially by the script sbatch_me.sh, taking your starting configuration through a set of equilibration phases to relax the starting configuration gradually and avoid the system exploding.\nThe step4_prod directory. Here there is the prod.mdp file, which is the final mdp file for the production run of the system. This is usually the longest part of the simulation, which can take 3 to 5 days on Baobab depending on the system. The final output files of the simulation will be inside this directory, and the analysis for the exam will mainly revolve around the prod.xtc trajectory file.\n\nThe idea of this tutorial is to give you the main ingredients to build your own solvated simulation box without going through the hassle of finding a good target to simulate, fix the experimental structure files, find a consistent force field to describe the system, and embedding the protein in the membrane. Considering this, inside the main directory you can find a copy of three files which will be the basic blocks to build the system, namely\n\nionize.mdp, the mdp file to add the ions in the system;\nreference_topology_PKG_XXX.gro, the starting structure that contains the structure of PKG in its APO form or in its HOLO form alongside the corresponding docked ligand;\nreference_topology_PKG_XXX.top, the starting topology of the system.\n\nFrom these, and by using as reference the Lysozyme in water tutorial for solvation and ion addition, you should be able to obtain two files, the starting configuration of the solvated protein, which you will name start.gro, and the updated topology of the system, which you will name topol.top. These files will be then picked up by the sbatch_me.sh script and used as starting point to run the equilibration and the production runs of the system.\n\n\n\n\n\n\nNoteNote\n\n\n\nIn the following, the tutorial shows the set-up of the simulation box by using as example the HOLO+ANP structure. Nevertheless, the logic of the procedure is identical and can be applied directly to all the other configurations as well.\n\n\n\n← Previous Back to Beginning Next →"
   },
   {
     "objectID": "introduction_baobab.html",
@@ -130,7 +130,7 @@
     "href": "exercise_malaria_targets/exercise_malaria_targets_part_2.html",
     "title": "Investigate APO and HOLO malaria targets",
     "section": "",
-    "text": "1 PDB2GMX 2 Define Box 3 Solvate 4 Ions 5 Energy Minimization"
+    "text": "1 Set-up 2 Solvate 3 Add Ions 4 Run MD 5 Tips & Tricks"
   },
   {
     "objectID": "exercise_malaria_targets/exercise_malaria_targets_part_2.html#exercise",
@@ -144,7 +144,7 @@
     "href": "exercise_malaria_targets/exercise_malaria_targets_part_4.html",
     "title": "Investigate APO and HOLO malaria targets",
     "section": "",
-    "text": "1 PDB2GMX 2 Define Box 3 Solvate 4 Ions 5 Energy Minimization"
+    "text": "1 Set-up 2 Solvate 3 Add Ions 4 Run MD 5 Tips & Tricks"
   },
   {
     "objectID": "exercise_malaria_targets/exercise_malaria_targets_part_4.html#exercise",
@@ -158,7 +158,7 @@
     "href": "exercise_malaria_targets/exercise_malaria_targets_part_5.html",
     "title": "Investigate APO and HOLO malaria targets",
     "section": "",
-    "text": "1 PDB2GMX 2 Define Box 3 Solvate 4 Ions 5 Energy Minimization"
+    "text": "1 Set-up 2 Solvate 3 Add Ions 4 Run MD 5 Tips & Tricks"
   },
   {
     "objectID": "exercise_malaria_targets/exercise_malaria_targets_part_5.html#exercise",
@@ -214,7 +214,7 @@
     "href": "exercise_gpcr_stability/exercise_gpcr_stability_index.html#introduction",
     "title": "Investigate the dynamical stability a GPCR structure",
     "section": "Introduction",
-    "text": "Introduction\nThis guide will provide a brief overview of a G protein-coupled receptor (GPCR) system, specifically an adhesion GPCR (Liebscher et al. 2022) (or stachel GPCR). GPCRs are membrane-embedded proteins, but their structures are generally published without the embedding lipid bilayer, although sometimes lipid molecules bound to specific GPCR binding sites are resolved, like this cholesterol in the \\(\\beta\\)-adrenergic receptor.\nNowadays, there are well-established procedures to embed proteins in lipid bilayer, arguably the most known being CHARMM-GUI webserver. Nevertheless, to better focus on how to set up the simulation box to get the simulations going and analyze data, the starting structure provided in this tutorial is already embedded in a mixed lipid bilayer of cholesterol and phosphatidylcholine (POPC).\n\nNext →"
+    "text": "Introduction\nThis guide will provide a brief overview of a G protein-coupled receptor (GPCR) system. GPCRs are membrane-embedded proteins that mediate signalling across lipid bilayers by detecting molecules outside the cell and activating the corresponding intra-cellular responses. They are characterized by seven trans-membrane \\(\\alpha\\) helices that pass through the cell membrane with the N-terminal in the extracellular region and the C-terminal in the intracellular one. There are several classes of GPCRs, but here we focus on an old evolutionary class B2 adhesion GPCR (Liebscher et al. 2022) (or stachel GPCR). Adhesion GPCRs are pivotal in several physiological processes since they mediate cell–cell or cell–matrix interaction with intracellular G protein-mediated signalling.\nDespite being trans-membrane proteins, i.e., systems in which the lipid scaffolding is fundamental to their functioning, GPCR experimental structures are generally published without the embedding lipid bilayer, although sometimes lipid molecules bound to specific GPCR binding sites are resolved, like this cholesterol in the \\(\\beta\\)-adrenergic receptor.\nNowadays, there are well-established procedures to embed proteins in lipid bilayer and thus properly simulate the (closest) physiological state of these system, arguably the most known being CHARMM-GUI webserver. Nevertheless, to better focus on how to set up the simulation box to get the simulations going and analyze data, the starting structure provided in this tutorial is already embedded in a mixed lipid bilayer of cholesterol and phosphatidylcholine (POPC), a common mixture for cell membrane simulations.\n\nNext →"
   },
   {
     "objectID": "exercise_gpcr_stability/exercise_gpcr_stability_part_6.html",

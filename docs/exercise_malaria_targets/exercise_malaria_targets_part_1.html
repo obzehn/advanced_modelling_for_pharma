@@ -23,6 +23,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -152,13 +187,65 @@ ul.task-list li input[type="checkbox"] {
 
 
 <div class="exercise-nav">
-<p><a href="../excercise_malaria_targets/excercise_malaria_targets_part_1.html">1 PDB2GMX</a> <a href="../excercise_malaria_targets/excercise_malaria_targets_part_2.html">2 Define Box</a> <a href="../excercise_malaria_targets/excercise_malaria_targets_part_3.html">3 Solvate</a> <a href="../excercise_malaria_targets/excercise_malaria_targets_part_4.html">4 Ions</a> <a href="../excercise_malaria_targets/excercise_malaria_targets_part_5.html">5 Energy Minimization</a></p>
+<p><a href="../exercise_malaria_targets/exercise_malaria_targets_part_1.html">1 Set-up</a> <a href="../exercise_malaria_targets/exercise_malaria_targets_part_2.html">2 Solvate</a> <a href="../exercise_malaria_targets/exercise_malaria_targets_part_3.html">3 Add Ions</a> <a href="../exercise_malaria_targets/exercise_malaria_targets_part_4.html">4 Run MD</a> <a href="../exercise_malaria_targets/exercise_malaria_targets_part_5.html">5 Tips &amp; Tricks</a></p>
 </div>
-<section id="exercise" class="level2">
-<h2 class="anchored" data-anchor-id="exercise">Exercise</h2>
-<p>Excercise</p>
+<section id="a-look-into-the-starting-files" class="level2">
+<h2 class="anchored" data-anchor-id="a-look-into-the-starting-files">A look into the starting files</h2>
+<p>First of all, start by downloading the exercise directories from the github repository.</p>
 <div class="download-buttons">
 <p><a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/material/PKG_APO_exercise.tar.gz" download="PKG_APO_exercise.tar.gz" class="btn">PKG APO</a> <a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/material/PKG_HOLO_1FB_exercise.tar.gz" download="PKG_HOLO_1FB_exercise.tar.gz" class="btn">PKG HOLO 1FB</a> <a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/material/PKG_HOLO_1TR_exercise.tar.gz" download="PKG_HOLO_1TR_exercise.tar.gz" class="btn">PKG HOLO 1TR</a> <a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/material/PKG_HOLO_ANP_exercise.tar.gz" download="PKG_HOLO_ANP_exercise.tar.gz" class="btn">PKG HOLO ANP</a></p>
+</div>
+<p>We provide four different systems. These are always the same protein (PKG) but in different states, i.e., ligand-less (APO) or ligand-bound (HOLO) with three different molecules. You should download and run simulations of at least two of them, one being the APO and one a HOLO so that you can compare the structures at the end of the molecular dynamics simulation. You can unzip the downloaded directories with the command</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tar</span> <span class="at">-xvf</span> name_of_compressed_file.tar.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The individual directories of the different protein/ligand systems are organized as in the following</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">PKG_APO/HOLO_X_excercise</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   ionize.mdp</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   reference_topology_PKG_XXX.gro</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   reference_topology_PKG_XXX.top</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   sbatch_me.sh</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="ex">└───</span> forcefield</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   │   [various forcefields files]</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="ex">└───</span> step1_em</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   │   em.mdp</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="ex">└───</span> step2_nvt</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   │   [various nvt.mdp files]</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="ex">└───</span> step3_npt</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   │   [various npt.mdp files]</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="ex">└───</span> step4_prod</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="ex">│</span>   prod.mdp</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Going by order, you can see</p>
+<ul>
+<li><p>The <code>ionize.mdp</code>, <code>reference_topology_PKG_XXX.gro</code>, and <code>reference_topology_PKG_XXX.top</code> files. These are the building blocks to set up your starting configuration. These will be covered in depth later in the tutorial.</p></li>
+<li><p>A <code>sbatch_me.sh</code> file. This is a text file that contains the set of instructions that will run your starting configuration through energy minimization, NVT, NPT, and eventually the production phase.</p></li>
+<li><p>A <code>forcefield</code> directory. Inside this, you can find several text files that define ‘numerically’ the key components of your system. You might recognize some of them, like <code>PKG.itp</code>, the water model <code>tip3.itp</code>, and the ligands <code>1FB.itp</code>, <code>1TR.itp</code>, and <code>ANP.itp</code>. You can peek inside them and take a look at how a molecule is described numerically in MD simulations. The format of these files - that is, how these numbers are organized and reported - depends on the software you are using. Since in this course you use GROMACS, these files are written in GROMACS format. However, while these numbers and these files might be different for other software, the core idea of numerically representing with specific functions the intra- and inter-molecular interactions is paramount in molecular dynamics.</p></li>
+<li><p>A <code>solutions_files</code> directory. Here there are the <code>start.gro</code> and <code>topol.top</code> files that you should obtain at the end of this tutorial. If you want to run the simulations instantly, then move the files from this directory directly to <code>PKG_APO/HOLO_X_excercise</code> and go at the last sections of this tutorial about running the simulation.</p></li>
+<li><p>The <code>step1_em</code>, <code>step2_nvt</code>, and <code>step3_npt</code> directories. Inside each of these you can find one or more <code>mdp</code> (molecular dynamics parameters) files that will be used to compile and run the energy minimization, the NVT, and the NPT equilibrations. These will be run sequentially by the script <code>sbatch_me.sh</code>, taking your starting configuration through a set of equilibration phases to relax the starting configuration gradually and avoid the system exploding.</p></li>
+<li><p>The <code>step4_prod</code> directory. Here there is the <code>prod.mdp</code> file, which is the final mdp file for the production run of the system. This is usually the longest part of the simulation, which can take 3 to 5 days on Baobab depending on the system. The final output files of the simulation will be inside this directory, and the analysis for the exam will mainly revolve around the <code>prod.xtc</code> trajectory file.</p></li>
+</ul>
+<p>The idea of this tutorial is to give you the main ingredients to build your own solvated simulation box without going through the hassle of finding a good target to simulate, fix the experimental structure files, find a consistent force field to describe the system, and embedding the protein in the membrane. Considering this, inside the main directory you can find a copy of three files which will be the basic blocks to build the system, namely</p>
+<ul>
+<li><p><code>ionize.mdp</code>, the mdp file to add the ions in the system;</p></li>
+<li><p><code>reference_topology_PKG_XXX.gro</code>, the starting structure that contains the structure of PKG in its APO form or in its HOLO form alongside the corresponding docked ligand;</p></li>
+<li><p><code>reference_topology_PKG_XXX.top</code>, the starting topology of the system.</p></li>
+</ul>
+<p>From these, and by using as reference the <a href="http://www.mdtutorials.com/gmx/lysozyme/">Lysozyme in water</a> tutorial for solvation and ion addition, you should be able to obtain two files, the starting configuration of the solvated protein, which you will name <code>start.gro</code>, and the updated topology of the system, which you will name <code>topol.top</code>. These files will be then picked up by the <code>sbatch_me.sh</code> script and used as starting point to run the equilibration and the production runs of the system.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In the following, the tutorial shows the set-up of the simulation box by using as example the HOLO+ANP structure. Nevertheless, the logic of the procedure is identical and can be applied directly to all the other configurations as well.</p>
+</div>
 </div>
 <div class="nav-buttons">
 <p><a href="../exercise_malaria_targets/exercise_malaria_targets_index.html" class="nav-btn prev-btn">← Previous</a> <a href="../exercise_malaria_targets/exercise_malaria_targets_index.html" class="nav-btn home-btn">Back to Beginning</a> <a href="../exercise_malaria_targets/exercise_malaria_targets_part_2.html" class="nav-btn next-btn">Next →</a></p>
