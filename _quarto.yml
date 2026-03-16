@@ -2,9 +2,6 @@ project:
   type: website
   output-dir: docs
 
-include-files:
-  - "/material/**"
-
 website:
   title: "Advanced Modelling for Pharma"
   search: false
