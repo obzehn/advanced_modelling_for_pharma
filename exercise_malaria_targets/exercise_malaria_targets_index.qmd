@@ -10,3 +10,9 @@ format:
 ## Exercise
 
 Excercise
+
+
+
+<div class="nav-buttons">
+  <a href="exercise_malaria_targets_part_1.qmd" class="nav-btn next-btn">Next &rarr;</a>
+</div>

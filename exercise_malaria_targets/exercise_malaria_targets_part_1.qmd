@@ -10,3 +10,16 @@ format:
 ## Exercise
 
 Excercise
+
+<div class="download-buttons">
+  <a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/material/PKG_APO_exercise.tar.gz" download="PKG_APO_exercise.tar.gz" class="btn">PKG APO</a>
+  <a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/material/PKG_HOLO_1FB_exercise.tar.gz" download="PKG_HOLO_1FB_exercise.tar.gz" class="btn">PKG HOLO 1FB</a>
+  <a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/material/PKG_HOLO_1TR_exercise.tar.gz" download="PKG_HOLO_1TR_exercise.tar.gz" class="btn">PKG HOLO 1TR</a>
+  <a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/material/PKG_HOLO_ANP_exercise.tar.gz" download="PKG_HOLO_ANP_exercise.tar.gz" class="btn">PKG HOLO ANP</a>
+</div>
+
+<div class="nav-buttons">
+  <a href="exercise_malaria_targets_index.qmd" class="nav-btn prev-btn">&larr; Previous</a>
+  <a href="exercise_malaria_targets_index.qmd" class="nav-btn home-btn">Back to Beginning</a>
+  <a href="exercise_malaria_targets_part_2.qmd" class="nav-btn next-btn">Next &rarr;</a>
+</div>
