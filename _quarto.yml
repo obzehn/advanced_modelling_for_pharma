@@ -26,9 +26,9 @@ website:
       - text: "Exam Exercises"
         menu:
           - text: "Adhesion GPCR"
-            href: exercise_gpcr_stability/exercise_gpcr_stability_index.qmd
+            href: exercise_gpcr_stability.qmd
           - text: "Malaria target with ligands"
-            href: exercise_malaria_targets/exercise_malaria_targets_index.qmd
+            href: exercise_malaria_targets.qmd
       - text: "Contacts"
         href: contacts.qmd
 
@@ -36,9 +36,9 @@ bibliography: includes/references.bib
 
 format:
   html:
+    page-layout: full
     theme: spacelab
     css: styles.css
-    include-in-header: includes/scripts.html
     code-fold: true
     toc: true
     toc-depth: 1

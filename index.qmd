@@ -32,21 +32,21 @@ If you are not part of the course, please feel free to use this material freely,
   </li>
 
   <li>
-    <a href="/exercise_gpcr_stability/exercise_gpcr_stability_index.qmd" aria-label="GPCR stability">
+    <a href="exercise_gpcr_stability.qmd" aria-label="GPCR stability">
       <img class="thumb" src="images/icons/gpcr_stable.png" alt="GPCR embedded in membrane.">
     </a>
     <p class="desc">
-      <a class="title" href="exercise_gpcr_stability/exercise_gpcr_stability_index.qmd">Adhesion GPCR in membrane</a><br>
+      <a class="title" href="exercise_gpcr_stability.qmd">Adhesion GPCR in membrane</a><br>
       Exam exercise on the dynamical behaviour of different models of an adhesion GPCR.
     </p>
   </li>
 
   <li>
-    <a href="/exercise_malaria_targets/exercise_malaria_targets_index.qmd" aria-label="Malaria target">
+    <a href="exercise_malaria_targets.qmd" aria-label="Malaria target">
       <img class="thumb" src="images/icons/malaria_target.png" alt="PKG with ligand.">
     </a>
     <p class="desc">
-      <a class="title" href="/exercise_malaria_targets/exercise_malaria_targets_index.qmd">Malaria target with ligands</a><br>
+      <a class="title" href="exercise_malaria_targets.qmd">Malaria target with ligands</a><br>
       Exam exercise on APO and HOLO Protein kinase G systems.
     </p>
   </li>
