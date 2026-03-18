@@ -646,19 +646,19 @@ The panels of @fig-gpcr-pbc shows a few ways in which the trajectory can be post
 ::: {#fig-gpcr-pbc layout-ncol=2}
 
 ::: {}
-![](../images/image_gpcr_stability/gpcr_ori.gif){width="400" fig-align="center"}
+![](/images/image_gpcr_stability/gpcr_ori.gif){width="400" fig-align="center"}
 :::
 
 ::: {}
-![](../images/image_gpcr_stability/gpcr_pbc.gif){width="400" fig-align="center"}
+![](/images/image_gpcr_stability/gpcr_pbc.gif){width="400" fig-align="center"}
 :::
 
 ::: {}
-![](../images/image_gpcr_stability/gpcr_cent.gif){width="400" fig-align="center"}
+![](/images/image_gpcr_stability/gpcr_cent.gif){width="400" fig-align="center"}
 :::
 
 ::: {}
-![](../images/image_gpcr_stability/gpcr_fit.gif){width="400" fig-align="center"}
+![](/images/image_gpcr_stability/gpcr_fit.gif){width="400" fig-align="center"}
 :::
 
 Four different ways to re-wrap the same GPCR trajectory. The videos are 25 frames long, 1 frame every 10 ns (250 ns total). Water is removed for clarity. The first panel shows the original trajectory; the second shows molecules made whole across PBCs; the third centers the protein in the box; the fourth aligns the protein to the first frame.
