@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.33">
+<meta name="generator" content="quarto-1.9.29">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -54,10 +54,10 @@ div.csl-indent {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-6d4e4c6c342646cac9792aff734a6985.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dfa48a90d809c806c7ea2d5aecd9fc66.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-40407ab5d2a7cddbf48c2e70354151ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-13c16aafac6531a635013403a2500755.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -205,8 +205,7 @@ window.Quarto = {
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>This guide will provide a brief overview of a <a href="https://en.wikipedia.org/wiki/G_protein-coupled_receptor">G protein-coupled receptor</a> (GPCR) system. GPCRs are membrane-embedded proteins that mediate signalling across lipid bilayers by detecting molecules outside the cell and activating the corresponding intra-cellular responses. They are characterized by seven trans-membrane <span class="math inline">\(\alpha\)</span> helices that pass through the cell membrane with the N-terminal in the extracellular region and the C-terminal in the intracellular one. There are several classes of GPCRs, but here we focus on an old evolutionary class B2 adhesion GPCR <span class="citation" data-cites="liebscher2022stachel">(<a href="#ref-liebscher2022stachel" role="doc-biblioref">Liebscher et al. 2022</a>)</span> (or <em>stachel GPCR</em>). Adhesion GPCRs are pivotal in several physiological processes since they mediate cell–cell or cell–matrix interaction with intracellular G protein-mediated signalling.</p>
-<p>Despite being trans-membrane proteins, i.e., systems in which the lipid scaffolding is fundamental to their functioning, GPCR experimental structures are generally published without the embedding lipid bilayer, although sometimes lipid molecules bound to specific GPCR binding sites are resolved, like <a href="https://www.rcsb.org/3d-view/7BVQ/1">this cholesterol</a> in the <span class="math inline">\(\beta\)</span>-adrenergic receptor.</p>
-<p>Nowadays, there are well-established procedures to embed proteins in lipid bilayer and thus properly simulate the (closest) physiological state of these system, arguably the most known being <a href="https://www.charmm-gui.org/">CHARMM-GUI webserver</a>. Nevertheless, to better focus on how to set up the simulation box to get the simulations going and analyze data, the starting structure provided in this tutorial is already embedded in a mixed lipid bilayer of cholesterol and phosphatidylcholine (POPC), a common mixture for cell membrane simulations.</p>
+<p>Despite being trans-membrane proteins, i.e., systems in which the lipid scaffolding is fundamental to their functioning, GPCR experimental structures are generally published without the embedding lipid bilayer, although sometimes lipid molecules bound to specific GPCR binding sites are resolved, like <a href="https://www.rcsb.org/3d-view/7BVQ/1">this cholesterol</a> in the <span class="math inline">\(\beta\)</span>-adrenergic receptor. Nowadays, there are well-established procedures to embed proteins in lipid bilayer and thus properly simulate the (closest) physiological state of these system, arguably the most known being <a href="https://www.charmm-gui.org/">CHARMM-GUI webserver</a>. Nevertheless, to better focus on how to set up the simulation box to get the simulations going and analyze data, the starting structure provided in this tutorial is already embedded in a mixed lipid bilayer of cholesterol and phosphatidylcholine (POPC), a common mixture for cell membrane simulations.</p>
 <div class="nav-buttons">
 <p><a href="../exercise_gpcr_stability/exercise_gpcr_stability_part_1.html" class="nav-btn next-btn">Next →</a></p>
 </div>
@@ -624,6 +623,32 @@ Liebscher, I., T. Schöneberg, and D. Thor. 2022. <span>“Stachel-Mediated Acti
   });
   </script>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Advanced Modelling for Pharma 2026, FLG Group</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://farma-unites.unige.ch/en/gervasio-lab/">
+      <i class="bi bi-globe" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Gervasiolab/">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
 
 
 

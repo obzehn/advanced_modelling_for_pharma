@@ -5,6 +5,13 @@ project:
 website:
   title: "Advanced Modelling for Pharma"
   search: false
+  page-footer:
+    left: "Advanced Modelling for Pharma 2026, FLG Group"
+    right:
+      - icon: globe
+        href: https://farma-unites.unige.ch/en/gervasio-lab/ 
+      - icon: github
+        href: https://github.com/Gervasiolab/
   navbar:
     background: dark
     left:

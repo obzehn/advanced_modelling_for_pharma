@@ -8,6 +8,15 @@
   font-size: 0.8rem;
 }
 
+/* --- Change footer style --- */
+
+/* styles.css */
+.nav-footer {
+  font-size: 1.25rem; /* Makes text smaller */
+  padding-top: 10px;  /* Reduces top spacing */
+  padding-bottom: 10px; /* Reduces bottom spacing */
+}
+
 /* --- Contact list style --- */
 .contact-list {
   list-style: none;
