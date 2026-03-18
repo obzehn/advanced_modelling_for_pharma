@@ -15,7 +15,7 @@ This guide will provide a brief overview of the APO (without ligand) and HOLO (w
 Several experimental structures have been deposited for PKG with UNIPROT [A5K0N4](https://www.uniprot.org/uniprotkb/A5K0N4/entry). The PDB IDs user in this tutorial are [5DYL](https://www.rcsb.org/structure/5DYL) for the APO form, [5DZC](https://www.rcsb.org/structure/5DZC) for the HOLO form bound to a non-hydrolyzable analog of adenosine tri-phosphate (here named ANP), [5F0A](https://www.rcsb.org/structure/5F0A) for the HOLO form bound to an inhibitor (here named 1FB), and [5FET](https://www.rcsb.org/structure/5FET) for the HOLO form bound to another inhibitor (here named 1TR). The structure of the ligand is shown in @fig-malaria-ligs.
 
 ::: {#fig-malaria-ligs}
-<img src="../images/image_ligands_malaria/ligands_malaria.png" width="700">
+<img src="/images/image_ligands_malaria/ligands_malaria.png" width="700">
 
 2D representation of ANP, 1TR, and 1FB, respectively, the three ligands in the HOLO PKG systems.
 :::
@@ -154,7 +154,7 @@ Following up, the `#include` statements tell GROMACS where to find the elements 
 Finally, there is the `[ molecules ]` section. This is a very important section which must contain <ins>all</ins> the molecules of the system <ins>in the order in which they appear</ins>. Notice that, for the time being, the topology contains one protein (`PKG`), one magnesium ion (`MG`), one ligand (`ANP`), and two water molecules (`SOL`). This is unique for the HOLO system with ANP, because the ANP ligand is an adenosine tri-phosphate analogue which is coordinated to a magnesium ion together with two water molecules. This is important because the whole complex ANP + MG + 2 H<sub>2</sub>O is the correct physiological state of the HOLO state of this protein when bound to ANP. The ligand doesn't bind without the coordinating water molecules and magnesium ion. GROMACS doesn't know if a ligand necessitates a magnesium or other ions and water molecules in some given positions. Thus, they are part of the initial box **before** the solvation as they have been modelled already in the correct state. This is where the biological and chemical knowledge of the user is critical for building a physiologically correct system. Among the systems presented in this tutorial, ANP is the only ligand that necessitates other molecules to be modelled properly in its binding site. The topologies and starting structures of the other systems contain only the host protein PKG and a ligand (for the HOLO states) or the protein alone (for the APO case). The APO structure and the three ligands are shown in @fig-malaria-start.
 
 ::: {#fig-malaria-start}
-<img src="../images/image_ligands_malaria/apoandligands.png" width="700">
+<img src="/images/image_ligands_malaria/apoandligands.png" width="700">
 
 From left to right: PKG in its APO form; binding site with ANP, the magnesium ion, and the two coordinating water molecules; binding site with 1FB; binding site with 1TR. The residues nearest to the ligands are represented as lines. Color legends: red (oxygen), blue (nitrogen), yellow (phosphorus), pink (magnesium). Carbons are colored in cyan for the protein and ice blue for the ligands. Hydrogen atoms are hidden exception made for the water molecules, where they are white.
 :::
@@ -374,7 +374,7 @@ Basically, you have copied the configuration stored in `ionize.tpr`, which is th
 Summarizing, you now have the starting solvated and neutralized configuration stored in `start.gro` and the corresponding topology in `topol.top`. You can take a look at the final system with VMD. It should look similar to that shown in @fig-malaria-box.
 
 ::: {#fig-malaria-box}
-<img src="../images/image_ligands_malaria/holo_rot.gif" width="500">
+<img src="/images/image_ligands_malaria/holo_rot.gif" width="500">
 
 Final solvated dodecahedron box for the PKG+ANP HOLO system. Water is represented as a transparent white surface. PKG is in a red cartoon representation. ANP is represented as sticks. Ions are represented with their van der Waals radii and are in blue (sodium) and pink (magnesium). Water is reported as a transparent white surface. The chlorine ions are shown as yellow spheres based on their van der Waals radii. Remember that all the atoms in the system are actually points without a radius described by a set of coordinates, they are not spheres. However, you can use their van der Waals radii to estimate how 'large' the atoms are, that is, how much space around them is physically precluded to other atoms due to the atomic repulsion of the inter-molecular van der Waals forces.
 
@@ -574,19 +574,19 @@ The panels of @fig-malaria-pbc shows a few ways in which the trajectory can be p
 ::: {#fig-malaria-pbc layout-ncol=2}
 
 ::: {}
-![](../images/image_ligands_malaria/holo_ori.gif){width="400" fig-align="center"}
+![](/images/image_ligands_malaria/holo_ori.gif){width="400" fig-align="center"}
 :::
 
 ::: {}
-![](../images/image_ligands_malaria/holo_pbc.gif){width="400" fig-align="center"}
+![](/images/image_ligands_malaria/holo_pbc.gif){width="400" fig-align="center"}
 :::
 
 ::: {}
-![](../images/image_ligands_malaria/holo_cent.gif){width="400" fig-align="center"}
+![](/images/image_ligands_malaria/holo_cent.gif){width="400" fig-align="center"}
 :::
 
 ::: {}
-![](../images/image_ligands_malaria/holo_fit.gif){width="400" fig-align="center"}
+![](/images/image_ligands_malaria/holo_fit.gif){width="400" fig-align="center"}
 :::
 
 The same HOLO with 1TR trajectory re-wrapped in four different ways. The videos are 25 frames long, 1 frame every 10 ns, for a total of 250 ns of production. PKG is represented as a red cartoon ribbon, while 1TR is represented in van der Waals spheres. The water has been removed for the sake of clarity of representation. The first panel reports the original trajectory. The second shows the trajectory where the molecules have been made whole again across the PBCs. You can see that the protein diffuses laterally in the box and can jump boundaries. The third trajectory has the protein centered in the box. However, the binding site is still hard to visualise as the protein is rotating. The fourth panels shows the trajectory after fitting of the protein with respect to the last frame of the energy minimization. You can see that the ligand was bound for the whole duration of the production.
