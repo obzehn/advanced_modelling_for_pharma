@@ -1,7 +1,7 @@
 project:
   type: website
   output-dir: docs
-  resources: /images/states/*
+  resources: /images/states/**
 
 website:
   title: "Advanced Modelling for Pharma"

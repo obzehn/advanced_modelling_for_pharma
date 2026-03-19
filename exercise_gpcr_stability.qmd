@@ -12,9 +12,14 @@ format:
 
 This guide will provide a brief overview of a [G protein-coupled receptor](https://en.wikipedia.org/wiki/G_protein-coupled_receptor) (GPCR) system. GPCRs are membrane-embedded proteins that mediate signalling across lipid bilayers by detecting molecules outside the cell and activating the corresponding intra-cellular responses. They are characterized by seven trans-membrane $\alpha$ helices that pass through the cell membrane with the N-terminal in the extracellular region and the C-terminal in the intracellular one. There are several classes of GPCRs, but here we focus on an old evolutionary class B2 adhesion GPCR [@liebscher2022stachel] (or *stachel GPCR*). Adhesion GPCRs are pivotal in several physiological processes since they mediate cell–cell or cell–matrix interaction with intracellular G protein-mediated signalling.
 
-Despite being trans-membrane proteins, i.e., systems in which the lipid scaffolding is fundamental to their functioning, GPCR experimental structures are generally published without the embedding lipid bilayer, although sometimes lipid molecules bound to specific GPCR binding sites are resolved, like [this cholesterol](https://www.rcsb.org/3d-view/7BVQ/1) in the $\beta$-adrenergic receptor.
+Despite being trans-membrane proteins, i.e., systems in which the lipid scaffolding is fundamental to their functioning, GPCR experimental structures are generally published without the embedding lipid bilayer, although sometimes lipid molecules bound to specific GPCR binding sites are resolved, as shown here in @fig-gpcr-chl in the $\beta$-adrenergic receptor.
+
+::: {#fig-gpcr-chl}
 
 {{< mol-snapshot images/states/molstate_ADRB1_chl.molj >}}
+
+Cholesterol lipid molecule resolved with X-ray crystallography for ADRB1 from PDB ID: [7BVQ](https://www.rcsb.org/structure/7BVQ).
+:::
 
 Nowadays, there are well-established procedures to embed proteins in lipid bilayer and thus properly simulate the (closest) physiological state of these system, arguably the most known being [CHARMM-GUI webserver](https://www.charmm-gui.org/). Nevertheless, to better focus on how to set up the simulation box to get the simulations going and analyze data, the starting structure provided in this tutorial is already embedded in a mixed lipid bilayer of cholesterol and phosphatidylcholine (POPC), a common mixture for cell membrane simulations.
 
