@@ -175,7 +175,7 @@ Finally, there is the `[ molecules ]` section. This is a very important section 
 ::: {.panel-tabset}
 
 ## APO
-{{< mol-url images/states/structure_PKG_APO.pdb >}}
+{{< mol-snapshot images/states/molstate_PKG_APO.molj >}}
 
 ## HOLO - ANP
 {{< mol-snapshot images/states/molstate_PKG_HOLO_ANP.molj >}}

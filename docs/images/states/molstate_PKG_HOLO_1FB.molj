@@ -1,16 +1,16 @@
 {
-  "timestamp": 1774014377335,
+  "timestamp": 1774016733106,
   "version": "4.2.0",
-  "current": "fqOovlK5tgYyBhshRNxQOA",
+  "current": "VGXkmmGiCZisNKQ3riJ9yA",
   "playback": {
     "isPlaying": false,
     "nextSnapshotDelayInMs": 1500
   },
   "entries": [
     {
-      "timestamp": 1774014377334,
+      "timestamp": 1774016733105,
       "snapshot": {
-        "id": "fqOovlK5tgYyBhshRNxQOA",
+        "id": "VGXkmmGiCZisNKQ3riJ9yA",
         "data": {
           "tree": {
             "transforms": [
@@ -19,7 +19,7 @@
                 "transformer": "build-in.root",
                 "params": {},
                 "ref": "-=root=-",
-                "version": "LvMZj108cQOWAhSOGB0-uQ"
+                "version": "vJmaNqkb-1zr1sWHn5hrAQ"
               },
               {
                 "parent": "-=root=-",
@@ -27,7 +27,7 @@
                 "params": {
                   "url": {
                     "kind": "url",
-                    "id": "gDnVQdQ-OuXpmyVr6vUFOA",
+                    "id": "O4R4czmeK6pmO7cugBer0A",
                     "url": "images/states/structure_PKG_HOLO_1FB.pdb"
                   },
                   "label": "",
@@ -36,29 +36,29 @@
                 "state": {
                   "isGhost": true
                 },
-                "ref": "gJuGb2UdYpFPcrLS7YS97g",
-                "version": "g754Vuup-yUJ0i0wyufTdw"
+                "ref": "nROxo77dqkfy5PiVNk_xlg",
+                "version": "DgPUcrCG_FlceKoR52R3eg"
               },
               {
-                "parent": "gJuGb2UdYpFPcrLS7YS97g",
+                "parent": "nROxo77dqkfy5PiVNk_xlg",
                 "transformer": "ms-plugin.trajectory-from-pdb",
                 "params": {
                   "isPdbqt": false
                 },
-                "ref": "Wh20YCbPXeutk9SxScuaZg",
-                "version": "FlB52f0BXU5HGJwls14EhA"
+                "ref": "z8pwj2K595EhBcViUL9WDQ",
+                "version": "n9v0sNa38JlpQNc9DTiVLw"
               },
               {
-                "parent": "Wh20YCbPXeutk9SxScuaZg",
+                "parent": "z8pwj2K595EhBcViUL9WDQ",
                 "transformer": "ms-plugin.model-from-trajectory",
                 "params": {
                   "modelIndex": 0
                 },
-                "ref": "tcCDC_FnjSm2LJZ5jBFQJQ",
-                "version": "wZm3dDUSTc6ol0qE6RJuBg"
+                "ref": "t9U1vNHh9iplNx4zI-e9dw",
+                "version": "lN0EYaF2x-HbVi_-yJ3mnA"
               },
               {
-                "parent": "tcCDC_FnjSm2LJZ5jBFQJQ",
+                "parent": "t9U1vNHh9iplNx4zI-e9dw",
                 "transformer": "ms-plugin.custom-model-properties",
                 "params": {
                   "autoAttach": [],
@@ -83,11 +83,11 @@
                     }
                   }
                 },
-                "ref": "Agv41jHkl68cIApqMjsi2A",
-                "version": "veX1ZpxBkU_TUaieGVntKg"
+                "ref": "ODY6sMJXNMrEzld_t3Z-lA",
+                "version": "73bpKAA92dTV_rLaGaqoag"
               },
               {
-                "parent": "Agv41jHkl68cIApqMjsi2A",
+                "parent": "ODY6sMJXNMrEzld_t3Z-lA",
                 "transformer": "ms-plugin.structure-from-model",
                 "params": {
                   "type": {
@@ -97,11 +97,11 @@
                     }
                   }
                 },
-                "ref": "bU03YJPWwOQmgbeLdXP8yA",
-                "version": "ntWnOenJMGVTkXYprO2PEg"
+                "ref": "F_Z0yE_Tif7X_rT-1Dqb-Q",
+                "version": "U4W8nKp7iTQh6P1J7KhdIQ"
               },
               {
-                "parent": "bU03YJPWwOQmgbeLdXP8yA",
+                "parent": "F_Z0yE_Tif7X_rT-1Dqb-Q",
                 "transformer": "ms-plugin.custom-structure-properties",
                 "params": {
                   "autoAttach": [],
@@ -208,11 +208,11 @@
                     }
                   }
                 },
-                "ref": "jQP5r3UM1ybruOuxvHYCYQ",
-                "version": "cQ6fYfj30MXktfJf01nmIw"
+                "ref": "JAPc6BkyQb1vLBFBIjsMTw",
+                "version": "eqoK_efQmeDogDFURhZEfQ"
               },
               {
-                "parent": "jQP5r3UM1ybruOuxvHYCYQ",
+                "parent": "JAPc6BkyQb1vLBFBIjsMTw",
                 "transformer": "ms-plugin.structure-component",
                 "params": {
                   "type": {
@@ -225,11 +225,11 @@
                 "tags": [
                   "structure-component-static-polymer"
                 ],
-                "ref": "-qV7c6iHFp75iUlWfu1l7Q",
-                "version": "ZOxGKSmEnyJbF29oFo_IYQ"
+                "ref": "2bVQGHcq4lSdc6oRL0XEnw",
+                "version": "E63qzru8p-9dWuVEVmSLaQ"
               },
               {
-                "parent": "-qV7c6iHFp75iUlWfu1l7Q",
+                "parent": "2bVQGHcq4lSdc6oRL0XEnw",
                 "transformer": "ms-plugin.structure-representation-3d",
                 "params": {
                   "type": {
@@ -343,11 +343,11 @@
                 "tags": [
                   "polymer"
                 ],
-                "ref": "vQFJPAx9iNI9yNxTvuAgZg",
-                "version": "ouFj0r2vLcnS2-uidc4kDA"
+                "ref": "H4-kr5c0X6qOcnlbUpU9Ig",
+                "version": "YMnhw3njSzBjoCqRCBvwvg"
               },
               {
-                "parent": "jQP5r3UM1ybruOuxvHYCYQ",
+                "parent": "JAPc6BkyQb1vLBFBIjsMTw",
                 "transformer": "ms-plugin.structure-component",
                 "params": {
                   "type": {
@@ -360,11 +360,11 @@
                 "tags": [
                   "structure-component-static-ligand"
                 ],
-                "ref": "gZXMRrwwfFHCxVAisX1u4A",
-                "version": "BtGHTwVnD_ZikB_8AoI9TA"
+                "ref": "sIuydXI-cSkQUmUidGfmkA",
+                "version": "a2eGIzr4a77hDx4YeSrqtg"
               },
               {
-                "parent": "gZXMRrwwfFHCxVAisX1u4A",
+                "parent": "sIuydXI-cSkQUmUidGfmkA",
                 "transformer": "ms-plugin.structure-representation-3d",
                 "params": {
                   "type": {
@@ -508,11 +508,119 @@
                 "tags": [
                   "ligand"
                 ],
-                "ref": "-2Y2sw_G25px79xA9mb0Zg",
-                "version": "2MG1ZvmhaKVaQXei5tUlBA"
+                "ref": "_cB0etWXad0vL_GnT3oZUw",
+                "version": "Wb1lAPn34kxoZ-IbDMygUw"
               },
               {
-                "parent": "jQP5r3UM1ybruOuxvHYCYQ",
+                "parent": "sIuydXI-cSkQUmUidGfmkA",
+                "transformer": "ms-plugin.structure-representation-3d",
+                "params": {
+                  "type": {
+                    "name": "molecular-surface",
+                    "params": {
+                      "alpha": 0.25,
+                      "quality": "auto",
+                      "material": {
+                        "metalness": 0,
+                        "roughness": 1,
+                        "bumpiness": 0
+                      },
+                      "clip": {
+                        "variant": "pixel",
+                        "objects": []
+                      },
+                      "emissive": 0,
+                      "instanceGranularity": false,
+                      "lod": [
+                        0,
+                        0,
+                        0
+                      ],
+                      "cellSize": 200,
+                      "batchSize": 2000,
+                      "doubleSided": false,
+                      "flipSided": false,
+                      "flatShaded": false,
+                      "ignoreLight": false,
+                      "xrayShaded": false,
+                      "transparentBackfaces": "off",
+                      "bumpFrequency": 1,
+                      "bumpAmplitude": 1,
+                      "unitKinds": [
+                        "atomic",
+                        "spheres"
+                      ],
+                      "includeParent": false,
+                      "probeRadius": 1.4,
+                      "resolution": 0.5,
+                      "probePositions": 36,
+                      "ignoreHydrogens": false,
+                      "ignoreHydrogensVariant": "all",
+                      "traceOnly": false,
+                      "smoothColors": {
+                        "name": "auto",
+                        "params": {}
+                      },
+                      "sizeFactor": 1.5,
+                      "lineSizeAttenuation": false,
+                      "visuals": [
+                        "molecular-surface-mesh"
+                      ]
+                    }
+                  },
+                  "colorTheme": {
+                    "name": "chain-id",
+                    "params": {
+                      "asymId": "auth",
+                      "palette": {
+                        "name": "colors",
+                        "params": {
+                          "list": {
+                            "kind": "set",
+                            "colors": [
+                              1810039,
+                              14245634,
+                              7696563,
+                              15149450,
+                              6727198,
+                              15117058,
+                              10909213,
+                              6710886,
+                              14948892,
+                              3636920,
+                              5091146,
+                              9981603,
+                              16744192,
+                              16777011,
+                              10901032,
+                              16220607,
+                              10066329,
+                              6734501,
+                              16551266,
+                              9281739,
+                              15174339,
+                              10934356,
+                              16767279,
+                              15058068,
+                              11776947
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "sizeTheme": {
+                    "name": "physical",
+                    "params": {
+                      "scale": 1
+                    }
+                  }
+                },
+                "ref": "U5rxoSTmsrXSgQnYiZhb0g",
+                "version": "5BnQlKn1nZtyVq2AFm2ayg"
+              },
+              {
+                "parent": "JAPc6BkyQb1vLBFBIjsMTw",
                 "transformer": "ms-plugin.structure-component",
                 "params": {
                   "type": {
@@ -525,11 +633,11 @@
                 "tags": [
                   "structure-component-static-non-standard"
                 ],
-                "ref": "6WFpT93eBOHL9QoYa5YnFQ",
-                "version": "CyYh2qWNB-LCjibogE_0mw"
+                "ref": "Wh9ayvWrxXHTXnW_C_xZVg",
+                "version": "eMvCtVhsnWykm_W8phmcLg"
               },
               {
-                "parent": "6WFpT93eBOHL9QoYa5YnFQ",
+                "parent": "Wh9ayvWrxXHTXnW_C_xZVg",
                 "transformer": "ms-plugin.structure-representation-3d",
                 "params": {
                   "type": {
@@ -673,11 +781,11 @@
                 "tags": [
                   "non-standard"
                 ],
-                "ref": "RwJhqDZK5ejNq7uxToOLxA",
-                "version": "51OESzwevdqGs_IpvB6eaA"
+                "ref": "AxVRQNOrqs0RQFMdpu7Vug",
+                "version": "ZYrAJHy9oZWjG78N0onp5A"
               },
               {
-                "parent": "jQP5r3UM1ybruOuxvHYCYQ",
+                "parent": "JAPc6BkyQb1vLBFBIjsMTw",
                 "transformer": "ms-plugin.structure-selection-from-bundle",
                 "params": {
                   "bundle": {
@@ -702,11 +810,11 @@
                 "tags": [
                   "structure-focus-target-sel"
                 ],
-                "ref": "3J_dixAePKhoFa-fKt_U8w",
-                "version": "ilc0IfWIOOFSd7g6Kd3ZkA"
+                "ref": "ClgaESYGQ88ag0C8vZXnqA",
+                "version": "7oppI_7qUj9L8OnaFENOdw"
               },
               {
-                "parent": "3J_dixAePKhoFa-fKt_U8w",
+                "parent": "ClgaESYGQ88ag0C8vZXnqA",
                 "transformer": "ms-plugin.structure-representation-3d",
                 "params": {
                   "type": {
@@ -853,11 +961,11 @@
                 "tags": [
                   "structure-focus-target-repr"
                 ],
-                "ref": "Jb_vPzErKtrqUyUcFW_tcw",
-                "version": "cYPEnwtkq4vaZ_T5NrXAQQ"
+                "ref": "59rCAroLbeXKQPYCdOknWQ",
+                "version": "A5O1kEgsvkwPSbg8YYlXaA"
               },
               {
-                "parent": "jQP5r3UM1ybruOuxvHYCYQ",
+                "parent": "JAPc6BkyQb1vLBFBIjsMTw",
                 "transformer": "ms-plugin.structure-selection-from-expression",
                 "params": {
                   "expression": {
@@ -925,11 +1033,11 @@
                 "tags": [
                   "structure-focus-surr-sel"
                 ],
-                "ref": "TzcYyHbyOZ_vimPq9bqWQg",
-                "version": "6ZGDsdEkSDh6NKujwapkZA"
+                "ref": "0k5e3ha-t19bx40RtuF68A",
+                "version": "S7S8BQFvRZzVDihW98SqAg"
               },
               {
-                "parent": "TzcYyHbyOZ_vimPq9bqWQg",
+                "parent": "0k5e3ha-t19bx40RtuF68A",
                 "transformer": "ms-plugin.structure-representation-3d",
                 "params": {
                   "type": {
@@ -1076,11 +1184,11 @@
                 "tags": [
                   "structure-focus-surr-repr"
                 ],
-                "ref": "Q-fDgmeRciwtnRjHHcArdw",
-                "version": "mO2JqWQrwOJtyZlb4G1XZQ"
+                "ref": "CE9nxnKzOzQ1Hsdn-LQlAQ",
+                "version": "WXWFXlhh2L4e48UUru_S3g"
               },
               {
-                "parent": "TzcYyHbyOZ_vimPq9bqWQg",
+                "parent": "0k5e3ha-t19bx40RtuF68A",
                 "transformer": "ms-plugin.structure-representation-3d",
                 "params": {
                   "type": {
@@ -1154,11 +1262,11 @@
                 "tags": [
                   "structure-focus-surr-nci-repr"
                 ],
-                "ref": "QvcfIp7IyC4AOtc9jKPObg",
-                "version": "f768sdHCHI0jmZ-dCAayPQ"
+                "ref": "nnxm0TkTegVFe220N1gu9Q",
+                "version": "REhPSBHO7ybSVGtQ9AcKyw"
               },
               {
-                "parent": "Agv41jHkl68cIApqMjsi2A",
+                "parent": "ODY6sMJXNMrEzld_t3Z-lA",
                 "transformer": "ms-plugin.model-unitcell-3d",
                 "params": {
                   "alpha": 1,
@@ -1197,8 +1305,21 @@
                 "state": {
                   "isHidden": true
                 },
-                "ref": "kLnCJduvGI334qJROfCoOg",
-                "version": "B6JueveqWwl2DsIqt2eVPQ"
+                "ref": "heoNsS6qlb9yFFugcTmXUA",
+                "version": "rHKLW3u8pCfeH7eQC1nGhQ"
+              },
+              {
+                "parent": "-=root=-",
+                "transformer": "ms-plugin.create-group",
+                "params": {
+                  "label": "Measurements",
+                  "description": ""
+                },
+                "tags": [
+                  "measurement-group"
+                ],
+                "ref": "U_qnxqxiZrB7s1GCakHBCA",
+                "version": "z4Lf7e54gDvDMISqEG3wNg"
               }
             ]
           }
@@ -1233,14 +1354,14 @@
             "mode": "perspective",
             "fov": 0.7853981633974483,
             "position": [
-              106.97765446080962,
-              99.42383412254443,
-              93.64159237908417
+              104.20733306950969,
+              114.58711612166977,
+              80.85870264050408
             ],
             "up": [
-              -0.8666586542048857,
-              0.29630594282914485,
-              0.4013795776268507
+              -0.9077476360196334,
+              0.2643763221101615,
+              0.32572901253691655
             ],
             "target": [
               98.14591723072284,
@@ -1759,7 +1880,7 @@
         "structureFocus": {
           "current": {
             "label": "1FB 817 | B",
-            "ref": "jQP5r3UM1ybruOuxvHYCYQ",
+            "ref": "JAPc6BkyQb1vLBFBIjsMTw",
             "bundle": {
               "hash": 1849906115,
               "elements": [
