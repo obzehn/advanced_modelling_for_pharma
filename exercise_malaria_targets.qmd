@@ -109,14 +109,12 @@ From these, and by using as reference the [Lysozyme in water](http://www.mdtutor
 
 ::: {.callout-note}
 ## Note
-
-In the following, the tutorial shows the set-up of the simulation box by using as example the HOLO+ANP structure. Nevertheless, the logic of the procedure is identical and can be applied directly to all the other configurations as well.
-
+This tutorial shows the set-up of the simulation box by using as example the HOLO+ANP structure. Nevertheless, the logic of the procedure is identical and can be applied directly to all the other configurations as well.
 :::
 
 #### Preparing the HPC environment
 
-First of all, send the directory with the exercises to your home in Baobab (with `scp`) and login into Baobab or directly download it in a Baobab folder. Then, request a node with and interactive job for a couple of hours with `salloc` in the following way
+Login into Baobab and send the directory with the exercises to your home in Baobab (with `scp`), or directly download it there (with `wget`). Then, request a node with and interactive job for a couple of hours with `salloc` in the following way
 
 ```bash
 salloc --ntasks=1 --cpus-per-task=4 --partition=private-gervasio-cpu --time=120:00
@@ -136,9 +134,15 @@ and verify that the sourcing was okay by typing
 gmx --version
 ```
 
-Notice how here you are requesting 4 CPUs but no GPU, differently from the HPC tutorial (in fact, you are on `--partition=private-gervasio-cpu`). In this case, you are going to use the allocation on Baobab just to set up the box and not to run the simulation, so the GPU is not needed.
+You are now ready to assemble the starting configuration of your system.
 
-You are now ready to assemble the starting configuration of your system. One last point before moving on. GROMACS has a lot (> 100) tools that are accessible by typing `gmx` followed by a keyword. In this tutorial you will use `solvate`, `grompp`, `genion`, and `make_ndx`. If you have any doubts remember that you can look online for the explanation of the tool and which flags are needed (`-f`, `-o`, `-s` etc.). For example, [this](https://manual.gromacs.org/current/onlinehelp/gmx-solvate.html) is the manual page of `gmx solvate`. All this information is also available on the spot if you type `-h` or `--h` (for *help*) after the tool's name, e.g., `gmx solvate --h`.
+::: {.callout-note title="Hardware"}
+Notice how here you are requesting 4 CPUs but no GPU, differently from the HPC tutorial (in fact, you are on `--partition=private-gervasio-cpu`). In this case, you are going to use the allocation on Baobab just to set up the box and not to run the simulation, so the GPU is not needed.
+:::
+
+::: {.callout-tip title="Read the manual"}
+GROMACS has a lot (> 100) of tools that are accessible by typing `gmx` followed by a keyword. In this tutorial you will use `solvate`, `grompp`, `genion`, and `make_ndx`. If you have any doubts remember that you can look online for the explanation of the tool and which flags are needed (`-f`, `-o`, `-s` etc.). For example, [this](https://manual.gromacs.org/current/onlinehelp/gmx-solvate.html) is the manual page of `gmx solvate`. All this information is also available on the spot if you type `-h` or `--h` (for *help*) after the tool's name, e.g., `gmx solvate --h`.
+:::
 
 ## Box definition
 
@@ -164,11 +168,13 @@ ANP                    1
 SOL                    2
 ```
 
-First of all, notice that there are lines starting with a semi-column `;`. These are **comments**, that is, lines that are not read by GROMACS. Comments are used to annotate the files and write down details that are helping you - the user - remember what you are doing, what is the meaning of some variables, etc. To all effects, these are equivalent to your notes on the border of a book or on a slide to write something that is worth remembering, e.g. some explanation of the professor. They are ignored by the software and should be informative for the person writing or for the person supposed to read the code. Feel free to write your own comments, if it helps you. Just remember to put a `;` at the beginning of each line that you do not want to be read by GROMACS (you can't forget, as if you do the GROMACS command will simply fail and complain about non-sensical lines).
+First of all, notice that there are lines starting with a semi-column `;`. These are **comments**, that is, lines that are not read by GROMACS. Comments are used to annotate the files and write down details that are helping you - the user - remember what you are doing, what is the meaning of some variables, etc. They are ignored by the software and should be informative for the person writing or for the person supposed to read the code. Feel free to write your own comments, if it helps you, just remember to put a `;` at the beginning of each line that you do not want to be read by GROMACS, otherwise you will receive a fatal error.
 
-Following up, the `#include` statements tell GROMACS where to find the elements of the force field. As can be seen, they are collected inside the `forcefield` directory and must appear with a specific order. First, the set of parameters defining the force field (`forcefield.itp`). Then, the definition of the individual molecules (`PKG.itp`, `ANP.itp`, etc.) that will populate you system. These do not have to appear in a specific order, however <ins>all</ins> the molecules that you intend to use <ins>must</ins> be defined here. Building the topology, that is, filling in this file, is roughly the equivalent of running `gmx pdb2gmx` on the pdb file of the protein, as you did in the Lysozyme tutorial. In this case the system is much more complex and the pdb needs further handling. Thus, it wouldn't be possible to do in one simple line within GROMACS, so the topology is already provided. After the `#include` statements, there is the `[ system ]` section, which is simply the name of the system. It is worth giving the system a meaningful name to help in recognising the systems in the future.
+Following up, the `#include` statements tell GROMACS where to find the elements of the force field. As can be seen, they are collected inside the `forcefield` directory and must appear with a specific order. First, the set of parameters defining the force field (`forcefield.itp`). Then, the definition of the individual molecules (`PKG.itp`, `ANP.itp`, etc.) that will populate you system. These do not have to appear in a specific order, however <ins>all</ins> the molecules that you intend to use <ins>must</ins> be defined here. Building the topology, that is, filling in this file, is roughly the equivalent of running `gmx pdb2gmx` on the pdb file of the protein, as you did in the Lysozyme tutorial. In this case the system is much more complex and the pdb needs further handling. After the `#include` statements, there is the `[ system ]` section, which is simply the name of the system. It is worth giving the system a meaningful name to help in recognising the systems in the future.
 
-Finally, there is the `[ molecules ]` section. This is a very important section which must contain <ins>all</ins> the molecules of the system <ins>in the order in which they appear</ins>. Notice that, for the time being, the topology contains one protein (`PKG`), one magnesium ion (`MG`), one ligand (`ANP`), and two water molecules (`SOL`). This is unique for the HOLO system with ANP, because the ANP ligand is an adenosine tri-phosphate analogue which is coordinated to a magnesium ion together with two water molecules. This is important because the whole complex ANP + MG + 2 H<sub>2</sub>O is the correct physiological state of the HOLO state of this protein when bound to ANP. The ligand doesn't bind without the coordinating water molecules and magnesium ion. GROMACS doesn't know if a ligand necessitates a magnesium or other ions and water molecules in some given positions. Thus, they are part of the initial box **before** the solvation as they have been modelled already in the correct state. This is where the biological and chemical knowledge of the user is critical for building a physiologically correct system. Among the systems presented in this tutorial, ANP is the only ligand that necessitates other molecules to be modelled properly in its binding site. The topologies and starting structures of the other systems contain only the host protein PKG and a ligand (for the HOLO states) or the protein alone (for the APO case). The APO structure and the three ligands are shown in the panels of @fig-malaria-start.
+Finally, there is the `[ molecules ]` section, which must contain <ins>all</ins> the molecules of the system <ins>in the order in which they appear</ins>. Notice that, for the time being, the topology contains one protein (`PKG`), one magnesium ion (`MG`), one ligand (`ANP`), and two water molecules (`SOL`). This is unique for the HOLO system with ANP, because the ANP ligand is an ADP analogue which is coordinated to a magnesium ion together with two water molecules. As such, the whole complex ANP + MG + 2 H<sub>2</sub>O is the correct physiological state of the HOLO state of this protein when bound to ANP. The ligand doesn't bind without the coordinating water molecules and magnesium ion.
+
+GROMACS (and other modelling software) doesn't know if a ligand necessitates some ions and coordinating water molecules. Thus, they are part of the initial box **before** the solvation as they have been modelled already in the correct state. This is where the biological and chemical knowledge of the user is critical for building a physiologically correct system. Among the systems presented in this tutorial, ANP is the only ligand that necessitates other molecules to be modelled properly in its binding site. The topologies of the other structures contain only the host protein PKG and a ligand (for the HOLO states) or the protein alone (for the APO case). The APO structure and the three ligands are shown in the panels of @fig-malaria-start.
 
 ::: {#fig-malaria-start}
 
@@ -191,7 +197,7 @@ Finally, there is the `[ molecules ]` section. This is a very important section 
 APO and HOLO states of PKG with ANP, 1FB, and 1TR.
 :::
 
-Now, take a look at the starting configuration `reference_topology_PKG_HOLO_ANP.gro` by opening this file with a text reader. The `.gro` file has a fixed format, and it is better to not modify it by hand if you are not completely sure about what you are doing. The first lines look like this
+Now, take a look at the starting configuration `reference_topology_PKG_HOLO_ANP.gro`. The `.gro` file has a fixed format, and it is better to not modify it by hand if you are not completely sure about what you are doing. The top of the file looks like this
 
 ```bash
 PKG HOLO with ANP ligand
@@ -207,7 +213,7 @@ PKG HOLO with ANP ligand
 [...]
 ```
 
-The file has a first line which contains the title of the box (`PKG HOLO with ANP ligand`), a second line which contains the number of the atoms in the box (`12908`), and then it contains in order all the atoms of the system. These are organized usually as nine columns. The first (here `1ACE`) is the specific number and name of the residue - which in this case is the capped N-terminal of PKG. The second column contains the specific name of the atom, and usually the first letter indicates the element (here you have a hydrogen followed by a carbon, two hydrogen atoms, another carbon, and so on). The third is simply the number of the entry. It always starts with `1` and goes up to the number of elements in the box. Then, columns four to six contain the x, y, and z coordinates of that atom, while the columns seven to nine contain its velocity, reported by axial component. Here you can see how the velocities are not reported, and so you have only six columns. All atoms must always have a position, but might have zero or undefined velocity. This is the case now, as you are building the box from a static experimental image. One of the main roles of the equilibrations phase is this - to relax the starting positions and assign reasonable starting velocities to all the atoms.
+The first line contains the title of the box (`PKG HOLO with ANP ligand`), the second line contains the number of the atoms in the box (`12908`), and the following ones report in order all the atoms of the system. These are organized usually as nine columns. The first (here `1ACE`) is the specific number and name of the residue, which in this case is the capped N-terminal of PKG. The second column contains the specific name of the atom, and usually the first letter indicates the element (here you have a hydrogen followed by a carbon, two hydrogen atoms, another carbon, and so on). The third is simply the number of the entry. It always starts with `1` and goes up to the number of elements in the box. Then, columns four to six contain the x, y, and z coordinates of that atom, while the columns seven to nine contain its velocity, reported by axial component. Here you can see how the velocities are not reported, and so you have only six columns. All atoms must always have a position, but might have zero or undefined velocity. This is the case now, as you are building the box from a static experimental image. One of the main roles of the equilibrations phase is this - to relax the starting positions and assign reasonable starting velocities to all the atoms.
 
 At the other end of the file, the last lines look like this
 
@@ -224,7 +230,7 @@ At the other end of the file, the last lines look like this
    0.00000   0.00000   0.00000   0.00000   0.00000   0.00000   0.00000   0.00000   0.00000
 ```
 
-The meaning of the columns is the same as before. The last molecules to appear are the two water molecules (and in fact, in the topology, they are reported last). The last line of a `.gro` file has, like the first two, a special meaning. It contains the coordinates of the box, that is, the length of the box along x, y, and z. Sometimes it can have more than three numbers for particular box shapes. You can see how this box is actually undefined - GROMACS keeps this line used, as it has a special role, but it is filled with zeros. You will need to define a box before solvating the system.
+The meaning of the columns is the same as before. The last molecules to appear are the two water molecules (and in fact, in the topology file, they are reported last). The last line of a `.gro` file has, like the first two, a special meaning, as it reports the side length of the box along x, y, and z. Sometimes it can have more than three numbers for particular box shapes. You can see how this box is actually undefined - GROMACS keeps this line used, as it has a special role, but it is filled with zeros. You will need to define a box before solvating the system.
 
 You can now set up the box by using `gmx editconf`
 
@@ -232,7 +238,7 @@ You can now set up the box by using `gmx editconf`
 gmx editconf -f reference_topology_PKG_HOLO_ANP.gro -o reference_topology_PKG_HOLO_ANP_boxed.gro -bt dodecahedron -c -d 1
 ```
 
-Here you are starting from the reference structure (`-f reference_topology_PKG_HOLO_ANP.gro`) and asking GROMACS to position your protein in the centre (`-c`), build a dodecahedron box (`-bt dodecahedron`), and make sure that the protein is at least 1 nm distant (`-d 1`) from the box sides to avoid periodic boundary conditions (PBCs) artifacts. Please not that, exactly because of PBCs, there is not a real centre of the box, and positioning the protein in it with `-c` is mostly for representation purposes rather than real physics. 
+Here you are starting from the reference structure (`-f reference_topology_PKG_HOLO_ANP.gro`) and asking GROMACS to position your protein in the centre (`-c`), build a dodecahedron box (`-bt dodecahedron`), and make sure that the protein is at least 1 nm distant (`-d 1`) from the box sides to avoid periodic boundary conditions (PBCs) artifacts. Please note that, exactly because of PBCs, there is not a real centre of the box, and positioning the protein in it with `-c` is mostly for representation purposes rather than real physics. 
 
 Differently from the Lysozyme tutorial, here you are also specifying the geometry of the box. In terms of simulations results, the outcome should not depend on the dimension or shape of the simulation box, as long as it is large enough to accommodate the contents (the protein in this case) and avoid self-interaction between PBC images. So, why bother changing the shape or dimension? Why don't just make a huge cube? A hint should come from one of the last lines of the output of `gmx editconf`, which will look something like this
 
@@ -240,13 +246,13 @@ Differently from the Lysozyme tutorial, here you are also specifying the geometr
 new box volume  :1496.67               (nm^3)
 ```
 
-Try now to build the same system by specifying a cubic (`-bt cubic`) box, you will end up with something like this
+Try now to build the same system (but <u>do not use it</u>) by specifying a cubic (`-bt cubic`) box, you will end up with something like this
 
 ```bash
 new box volume  :2116.61               (nm^3)
 ```
 
-This means that you will have a roughly ~40% larger box, and so more water to solvate, a higher number of molecules to simulate, and consequently much slower simulations. You can try to keep a cubic box and follow up with the solvation, so you can see how many more water molecules are added with respect to the dodecahedron case.
+This means that you will have a roughly ~40% larger box, and so more water to solvate, a higher number of molecules to simulate, and consequently much slower simulations.
 
 ## Solvating
 
@@ -271,7 +277,7 @@ Density                :     999.599 (g/l)
 Number of solvent molecules:  44578 
 ```
 
-GROMACS tries to fill the box with water to reach the density of ca. 1 g/L. The most important part here is the number of water molecules inserted, in this case `44578` (this number can oscillate slightly). You now has just to add this number at the end of the topology to tell GROMACS that the content of the box has changed.
+GROMACS tries to fill the box with water to reach the density of ca. 1 g/L. The most important part here is the number of water molecules inserted, in this case `44578` (this number can oscillate slightly, as molecules are randomly inserted). You now has just to add this number at the end of the topology to tell GROMACS that the content of the box has changed.
 
 First, copy the reference topology
 
@@ -305,7 +311,7 @@ You are now ready to add the ions in the system. First, you need to generate a `
 gmx grompp -f ionize.mdp -c reference_topology_PKG_HOLO_ANP_solvated.gro -p reference_topology_PKG_HOLO_ANP_solvated.top -o ionize.tpr
 ```
 
-For some systems this command will fail with a fatal error. If you look at the error, you can see a section with the following information
+You might see (depending on GROMACS version) that for some systems this command fails with a fatal error containing the following information
 
 ```bash
 NOTE 2 [file reference_topology_PKG_HOLO_ANP_solvated.top, line 15]:
@@ -328,7 +334,11 @@ Basically, a tpr file is used to run simulations. As such, when GROMACS tries to
 gmx grompp -f ionize.mdp -c reference_topology_PKG_HOLO_ANP_solvated.gro -p reference_topology_PKG_HOLO_ANP_solvated.top -o ionize.tpr --maxwarn 1
 ```
 
-You will see that now GROMACS still complains, but gets the job done. It is very important, however, to understand that the ionization step is nearly the **only** case in which it is okay to use the `--maxwarn` flag, as you **know** that the physics of the system is wrong and you actually need the tpr to fix it with `gmx genion`. In general, you should **never** use this flag. If there is a major warning and a GROMACS command fails, then you have to check why and fix the problem. You may be tempted to use `--maxwarn` to get through errors you do not understand, and the flag will let you do it. Nevertheless, the simulation will probably fail instantly the moment you try to run it, and, if not, you are likely to produce garbage results due to overlooking fundamental physics mistakes in the box preparation.
+You will see that now GROMACS still complains, but gets the job done. It is very important, however, to understand that the ionization step is nearly the **only** case in which it is okay to use the `--maxwarn` flag, as you **know** that the physics of the system is wrong and you actually need the tpr to fix it with `gmx genion`.
+
+::: {.callout-warning title="Silencing warnings"}
+You may be temped to use `--maxwarn` to get through errors, but generally <u>you should never use this flag without understanding the problem</u>. If there is a major warning then you have to check what is happening. With `--maxwarn` you can compile the binary but the simulation will probably fail instantly the moment you try to run it, or, worse, it will run but you are likely to produce garbage results due to overlooking fundamental physics mistakes in the box preparation.
+:::
 
 Now, you should have a `ionize.tpr` file in your directory, following the `gmx grompp` command. You are ready to insert the ions with the following command
 
@@ -336,7 +346,9 @@ Now, you should have a `ionize.tpr` file in your directory, following the `gmx g
 gmx genion -s ionize.tpr -neutral -pname NA -nname CL -o start.gro
 ```
 
-Here, you are asking GROMACS to make the system neutral (`-neutral`), call the positive ions `NA`, the negative ions `CL`, and call the resulting output `start.gro`. Trivially, within this force field the atoms NA and CL refer to sodium (Na, +1) and chlorine (Cl, -1) ions. Again, differently from the Lysozyme tutorial, you are not giving as input the topology and you will update it after the addition of ions. With `gmx genion`, GROMACS tries to substitute some molecules in the system with the necessary number of ions. You will be promted by GROMACS to choose which part of the system you are okay to substitute in favour of water molecules
+Here, you are asking GROMACS to make the system neutral (`-neutral`), call the positive ions `NA`, the negative ions `CL`, and call the resulting output `start.gro`. Trivially, within this force field the atoms NA and CL refer to sodium (Na, +1) and chlorine (Cl, -1) ions. Again, differently from the Lysozyme tutorial, you are not giving as input the topology and you will update it after the addition of ions.
+
+With `genion`, GROMACS tries to substitute some molecules in the system with the necessary number of ions. You will be promted by GROMACS to choose which part of the system you are okay to substitute in favour of water molecules
 
 ```bash
 Will try to add 3 NA ions and 0 CL ions.
@@ -364,7 +376,7 @@ Group    19 ( Water_and_ions) has 133741 elements
 Select a group: 
 ```
 
-From the first line you can see that GROMACS understood that the system has a total of -3 charge and will then need three positive ions to have a total of zero net charge. Since you do not want to substitute any part of the protein or the ligand with ions, choose the `SOL` group, the number 17, and GROMACS will randomly choose seven water molecules, remove them and place there a sodium ion.
+From the first line you can see that GROMACS understood that the system has a total of -3 charge and will then need three positive ions to have a total of zero net charge. Since you do not want to substitute any part of the protein or the ligand, choose the `SOL` group, and GROMACS will randomly pick seven water molecules, remove them and place there a sodium ion.
 
 ```bash
 Select a group: 17
@@ -403,6 +415,16 @@ No ions to add, will just copy input configuration.
 
 Basically, you have copied the configuration stored in `ionize.tpr`, which is the one in `reference_topology_PKG_HOLO_ANP_solvated.gro`, and called it `start.gro`. You should now copy the topology and call it `topol.top`, but you do not have to update it as no water molecules have been removed and no ions have been added, and you are good to go.
 
+::: {.callout-note title="Salt concentration"}
+Life doesn't happen in pure water. Generally, during the system preparation a certain amount of salt is added to reach a given physiological salt concentration. These ions are added on top of those needed to neutralize the system. If you want a more realistic set-up, you can ionize the system to 0.150 M with
+
+```bash
+gmx genion -s ionize.tpr -neutral -pname NA -nname CL -conc 0.150 -o start.gro
+```
+
+but remember to update accordingly the topology with both `NA` and `CL` atoms.
+:::
+
 Summarizing, you now have the starting solvated and neutralized configuration stored in `start.gro` and the corresponding topology in `topol.top`. You can take a look at the final system with VMD. It should look similar to that shown in @fig-malaria-box.
 
 ::: {#fig-malaria-box}
@@ -415,7 +437,7 @@ Final solvated dodecahedron box for the PKG+ANP HOLO system. Water is represente
 ## Dynamics
 
 #### A look at the `sbatch_me.sh` file
-Whether you completed the tutorial or you moved the corresponding files from the `solution_files` directory, now the content of the exercise directory should be similar to this
+The content of the exercise directory should now be similar to this
 
 ```bash
 PKG_APO/HOLO_X_exercise
@@ -438,13 +460,13 @@ PKG_APO/HOLO_X_exercise
     │   prod.mdp
 ```
 
-plus the `solution_files` directory and some leftover files from the system generation. It is mandatory that `sbatch_me.sh`, `start.gro`, and `topol.top` are together in the same directory in which there are the energy minimization, NVT, NPT, and production directories, otherwise the script `sbatch_me.sh` won't be able to run the simulations for you.
+plus some leftover files from the system generation. It is mandatory that `sbatch_me.sh`, `start.gro`, and `topol.top` are together in the same directory in which there are the energy minimization, NVT, NPT, and production directories, otherwise the script `sbatch_me.sh` won't be able to run the simulations for you.
 
 During both the Lysozyme tutorial and the preparation of the box for this exercise, you logged in a Baobab node by using the `salloc` command. In this way you can have access to a node and run an interactive job. This is nice because you can have real time answers from the node and you see clearly what is going on and what you are doing, which is pivotal for error-prone procedures like the generation of the starting box. However, when you close the connection, log out from Baobab, or simply turn off the computer, you lose the access to the computer and any running simulation will stop. Does this mean that you should be always connected? And that you should stay constantly in front of your computer, even for a few days at a time, while the simulations run, scared or losing the internet connection and see your runs fail?
 
-Clearly this is not the case. As explained also in the [first part](https://github.com/obzehn/GROMACS_hands-on_intro/tree/main?tab=readme-ov-file#allocating-an-interactive-job) of this github, Baobab has a so-called queueing system, named [slurm](https://slurm.schedmd.com/overview.html). With slurm, you can prepare a *submission script* which contains the main commands that you want to run alongside the resources that you need. This is exactly what the `sbatch_me.sh` script is.
+Clearly this is not the case. As explained also in the [Introduction to HPC](/introduction_baobab.qmd), Baobab has a so-called queueing system, named [slurm](https://slurm.schedmd.com/overview.html). With slurm, you can prepare a *submission script* that contains the main commands that you want to run alongside the resources that you need. This is exactly what the `sbatch_me.sh` script is.
 
-You can look at the content of the `sbatch_me.sh` with a text editor. The first lines look like this
+Take a look at the content of the `sbatch_me.sh`. The first lines look like this
 
 ```bash
 #!/bin/bash 
@@ -466,7 +488,9 @@ You can look at the content of the `sbatch_me.sh` with a text editor. The first 
 
 You can recognize some of the flags that you were giving to the `salloc` command, such as `--partition=private-gervasio-gpu` and `--cpus-per-task 16`. Basically these lines are specifying which kind of hardware you need to run the simulations. If you are curious, you can look up their meaning in the slurm website.
 
-Slurm reads this files and sends you in a queue while it waits to find some computer that is available and that has the requested hardware. When it finds it, it takes control of it for the amount of time specified in `--time 144:00:00`, that is, six days. This amount of time will be sufficient to both conclude the equilibration and the production runs. As in the interactive case, the first thing to do once the node is allocated is to source GROMACS, which is the first thing done by the script with the lines following the `#SBATCH` node requests, i.e., with the following
+Slurm reads this files and sends you in a queue while it waits to find some computer that is available and that has the requested hardware. When it finds it, it takes control of it for the amount of time specified in `--time 144:00:00`, that is, six days. This amount of time will be sufficient to both conclude the equilibration and the production runs.
+
+Continuing along the `sbatch_me.sh` script, as in the interactive case, the first thing to do once the node is allocated is to source GROMACS, which is the first thing done by the script with the lines following the `#SBATCH` node requests, i.e., with the following
 
 ```bash
 [...]
@@ -481,19 +505,7 @@ Then there are a few technical details about how GROMACS should use the availabl
 
 Lastly, there are a series of commands that enter with `cd` the `step1_em`, `step2_nvt`, `step3_npt`, and `step4_prod` directories and systematically run `gmx grompp` to prepare the corresponding tpr files and then run them with `gmx mdrun`.
 
-You can send the submission script `sbatch_me.sh` and let slurm handle the simulations by using the [sbatch](https://slurm.schedmd.com/sbatch.html) command. This command should be run from Baobab's head-node, and not from the node that you received by running `salloc`. Thus, if your command line still looks like this
-
-```bash
-(baobab)-[username@cpuxxx some_directory_name] $
-```
-
-type `exit` to exit the node. Once the terminal looks like this
-
-```bash
-(baobab)-[username@login1 some_directory_name]$
-```
-
-e.g., your `username` is logged in on `login1`, the head-node of Baobab, and not on some `cpuxxx` or `gpuxxx` node, you are good to go. From the `PKG_APO/HOLO_X_excercise` directory, that is, where the submission script `sbatch_me.sh` is located, you can submit `sbatch_me.sh` to slurm with the following command
+You can send the submission script `sbatch_me.sh` and let slurm handle the simulations by using the [sbatch](https://slurm.schedmd.com/sbatch.html) command. This should be run from Baobab's head-node, and not from the node that you received by running `salloc`. Thus, from the `PKG_APO` or `HOLO_X_excercise` directory where the submission script `sbatch_me.sh` is located, you can submit the job slurm with the following command
 
 ```bash
 sbatch sbatch_me.sh
@@ -518,7 +530,7 @@ The output will look something like this
           16568567 private-g    PKG_ANP username  R       2:11      1 gpu039
 ```
 
-The `R` under the column `ST` (for *status*) stands for *running*. Usually, the job stays in the queue with some other status, like `PD`, before changing to `R`. Once it's running, you will see that slurm directly writes the output to the exercise directories, e.g., you will see `em.gro`, `em.trr`, and other output files appearing in `step1_em`, `nvt_1.log`, `nvt_1.gro` etc. in `step2_nvt`, and so on. Now that the job is submitted and running, you can log out from Baobab without risking to stop it. For the malaria target exercises, the time needed to complete the whole equilibration phase (steps 1 to 3) is of about two hours, while to complete the production it will take roughly two days, so a total of two days overall.
+The `R` under the column `ST` (for *status*) stands for *running*. Usually, the job stays in the queue with some other status, like `PD` (for *pending*), before changing to `R`. Once it's running, you will see that slurm directly writes the output to the exercise directories, e.g., you will see `em.gro`, `em.trr`, and other output files appearing in `step1_em`, `nvt_1.log`, `nvt_1.gro` etc. in `step2_nvt`, and so on. Now that the job is submitted and running, you can log out from Baobab without risking to stop it. For the malaria target exercises, the time needed to complete the whole equilibration phase (steps 1 to 3) is of about two hours, while to complete the production it will take roughly two days, so a total of two days overall.
 
 #### A look at the process of equilibration
 
@@ -556,7 +568,7 @@ pcoupl                   = no
 [...]
 ```
 
-The thermostat is connected separately to the two phases of your system. As for the GPCRs systems, the components in the box are coupled separately to the thermostat to achieve better thermostatting (as specified by `tc-grps`). However, differently from the GPCRs, you didn't have to produce an index file here because the names you are using for the groups are standard ones that are automatically recognized by GROMACS. Notice how there is no pressure coupling (`pcouple = no`). For the NPT runs, instead, the barostat is activated and the box can oscillate and change its volume. You can see the parameters of the barostat in the `THERMOSTAT AND BAROSTAT` sections for any of the `npt_X.mdp` file.
+The thermostat is connected separately to the two phases of your system. As for the GPCRs systems, the components in the box are coupled separately to the thermostat to achieve better thermostatting (as specified by `tc-grps`). However, differently from the GPCR exercise, you didn't have to produce an index file here because the names you are using for the groups are standard ones that are automatically recognized by GROMACS. Notice how there is no pressure coupling (`pcouple = no`). For the NPT runs, instead, the barostat is activated and the box can oscillate and change its volume. You can see the parameters of the barostat in the `THERMOSTAT AND BAROSTAT` sections for any of the `npt_X.mdp` files.
 
 ```bash
 [...]
@@ -587,13 +599,17 @@ The production run is usually simulated without restraints at all, and in fact t
 ## Tips and tricks
 #### Tips and tricks for handling trajectories
 
-Trajectories are fidgety things. The standard format of the GROMACS trajectory, an `.xtc` file, contains the positions of the atoms as a function of time, collected as a sequence of frames. The frequency of the output is set by the keyword `nstxout-compressed` in the mdp files, in units of time steps. For the protein/ligand productions, this is 10000, that is, `10000 x 0.002 ps = 20 ps`. Considering that the run is long 250 ns, this means that you will collect 12500 frames. The content of the frames is defined by the keyword `compressed-x-grps`. Since this was not set in the mdp files, the default is the whole system, that is, the protein and, if present, ligands and ions. You can imagine how writing coordinates for hundreds of thousands of atoms for thousands of frames can be very memory intensive. Deciding in advance what to print and the frequency is very important, and can save you a lot of space. However, it is better to stay on the safer side as the only way to recover not printed data is to rerun the simulation.
+Trajectories are fidgety things. The standard format of the GROMACS trajectory, an `.xtc` file, contains the positions of the atoms as a function of time, collected as a sequence of frames. The frequency of the output is set by the keyword `nstxout-compressed` in the mdp files, in units of time steps. For the protein/ligand productions, this is 10000, that is, `10000 x 0.002 ps = 20 ps`. Considering that the run is long 250 ns, this means that you will collect 12500 frames. The content of the frames is defined by the keyword `compressed-x-grps`. Since this was not set in the mdp files, the default is the whole system, that is, the protein with water and, if present, ligands and ions.
 
-This short section covers a couple of key points in handling trajectories and the representation of periodic boundary conditions. It is important to understand that the information of the trajectory is the same, and changing its representation *doesn't change the content*. There are a few reasons why post-processing of the trajectory is fundamental. The most important is for analysis purposes, as some tools might be sensible to the representation of the molecules. For example, RMSD calculation might break down and give non-sensical jumps if the tool that calculates it doesn't reconstruct the trajectory by fixing broken molecules across boundaries. Building on this point, very large trajectories are also hard to handle from the hardware perspective, and it is better to reduce them to the strictly necessary so that tools analyzing them are faster. Handling trajectories is important also for representation purposes, e.g., rendering a fancy image for a publication. Moreover, this is connected to understanding via visualization, as watching the trajectory is very important to gain insights on the system and check possible criticalities, and human eyes work better with whole molecules.
+::: {.callout-tip title="Data volume"}
+You can imagine how writing coordinates for hundreds of thousands of atoms for thousands of frames can be very memory intensive. Deciding in advance what to print and the frequency is very important, and can save you a lot of space. However, it is better to stay on the safer side as the only way to recover not printed data is to rerun the simulation.
+:::
 
-The main tool for trajectory handling in GROMACS is [`gmx trjconv`](https://manual.gromacs.org/current/onlinehelp/gmx-trjconv.html). Take a look at the manual for the optional flags and see if anything fits what you want to do (or check with `gmx trjconv --h`). This is a tool that notoriously necessitates of some experience to achieve an efficient usage, but it is worth pointing out a few key commands. Generally, after running `gmx trjconv` GROMACS asks some further information (depending on the flags you are using) in terms of contents of the system. The most important thing here is to read properly what GROMACS asks and answer accordingly to your own purpose.
+This short section covers a couple of key points in handling trajectories and the representation of periodic boundary conditions. It is important to understand that the information of the trajectory is the same, and changing its representation <u>doesn't change the content</u>. There are a few reasons why post-processing of the trajectory is fundamental. The most important is for analysis purposes, as some tools might be sensible to the representation of the molecules. For example, RMSD calculation might break down and give non-sensical jumps if the tool that calculates it doesn't reconstruct the trajectory by fixing broken molecules across periodic boundaries. Building on this point, very large trajectories are also hard to handle from the hardware perspective, and it is better to reduce them to the strictly necessary so that tools analyzing them are faster. Handling trajectories is important also for representation purposes, e.g., rendering a fancy image for a publication. Moreover, this is connected to understanding via visualization, as watching the trajectory is very important to gain insights on the system and check possible criticalities, and human eyes work better with whole molecules.
 
-The panels of @fig-malaria-pbc shows a few ways in which the trajectory can be post-processed. The videos were rendered with VMD with PKG shown as a red cartoon ribbon and the ligand as van der Waals spheres. Please consider also that the dodecahedron box is represented internally as a triclinic like, so the PBC box represented as blud lines read by VMD is different from the animation in the representation. The panels are discussed in the following in a left-to-right order
+The main tool for trajectory handling in GROMACS is [`gmx trjconv`](https://manual.gromacs.org/current/onlinehelp/gmx-trjconv.html). Take a look at the manual for the optional flags and see if anything fits what you want to do (or check with `gmx trjconv --h`). This is a tool that notoriously necessitates some experience to achieve an efficient usage, but it is worth pointing out a few key commands. Generally, after running `gmx trjconv` GROMACS asks some further information (depending on the flags you are using) in terms of contents of the system. The most important thing here is to read properly what GROMACS asks and answer accordingly to your own purpose.
+
+The panels of @fig-malaria-pbc shows a few ways in which the trajectory can be post-processed. The videos were rendered with VMD with PKG shown as a red cartoon ribbon and the ligand as van der Waals spheres. Please consider also that the dodecahedron box is represented internally as a triclinic like box, so the PBC box represented as blue lines read by VMD is different from the animation in the representation. The panels are
 
 - The original trajectory. Molecules that are broken across the boundaries give rise to the typical spaghetti-like bonds. Notice how nothing leaves the box, as the PBCs put the atoms back in the box, but on the other side;
 
@@ -621,16 +637,16 @@ The panels of @fig-malaria-pbc shows a few ways in which the trajectory can be p
 ![](/images/image_ligands_malaria/holo_fit.gif){width="400" fig-align="center"}
 :::
 
-The same HOLO with 1TR trajectory re-wrapped in four different ways. The videos are 25 frames long, 1 frame every 10 ns, for a total of 250 ns of production. PKG is represented as a red cartoon ribbon, while 1TR is represented in van der Waals spheres. The water has been removed for the sake of clarity of representation. The first panel reports the original trajectory. The second shows the trajectory where the molecules have been made whole again across the PBCs. You can see that the protein diffuses laterally in the box and can jump boundaries. The third trajectory has the protein centered in the box. However, the binding site is still hard to visualise as the protein is rotating. The fourth panels shows the trajectory after fitting of the protein with respect to the last frame of the energy minimization. You can see that the ligand was bound for the whole duration of the production.
+The same HOLO with 1TR trajectory re-wrapped in four different ways. PKG is represented as a red cartoon ribbon, while 1TR is represented in van der Waals spheres. Water is removed for clarity. The first panel shows the original trajectory; the second shows molecules made whole across PBCs; the third centers the protein in the box; the fourth aligns the protein to the last frame of the energy minimization. You can see that the ligand was bound for the whole duration of the production.
 :::
 
-For the exam, the main post-processing of the trajectory that you might need is the removal of the water molecules, as this will make the trajectory much smaller and easy to download and analyze. It is also worth to correct the PBCs and center the protein, which basically means obtaining what is shown in the third panel of Figure 3. You can do this in one command as in the following
+For the exam, the main post-processing of the trajectory that you might need is the removal of the water molecules, as this will make the trajectory much smaller and easy to download and analyze. It is also worth to correct the PBCs and center the protein, which basically means obtaining what is shown in the third panel of @fig-malaria-pbc. You can do this in one command as in the following
 
 ```bash
 gmx trjconv -f prod.xtc -s nvt_1.tpr -pbc mol -center -o center_traj.xtc
 ```
 
-and, when prompted by GROMACS, by selecting the group `Protein` for centering and `System` for output. The output will be called `center_traj.xtc` and will contain the whole trajectory where all the molecules are made whole across the PBCs and the protein is centered in the box. You can then fit the protein to its starting position to better visualize the binding site (like panel 4 of Figure 3) as in the following
+and, when prompted by GROMACS, by selecting the group `Protein` for centering and `System` for output. The output will be called `center_traj.xtc` and will contain the whole trajectory where all the molecules are made whole across the PBCs and the protein is centered in the box. You can then fit the protein to its starting position to better visualize the binding site (like panel 4 of @fig-malaria-pbc) as in the following
 
 ```bash
 gmx trjconv -f center_traj.xtc -s nvt_1.tpr -fit rot+trans -o center_traj_fit.xtc
@@ -645,9 +661,13 @@ gmx trjconv -f center_traj_fit.xtc -s em.tpr -o nowater.gro -dump 0
 
 In both cases, select `non-Water` as the output group. These will produce two files, `nowater.gro` and `nowater.xtc`, which are the first frame of the production run and the associated trajectory, respectively, but without the water. The files should be much smaller than the original `prod.xtc`. You can use these two files to visualize the trajectory in VMD. You can get rid of the intermediary files and remove them, that is, `rm center_traj.xtc center_traj_fit.xtc`.
 
-Two major points here. First, notice how the tpr passed to trjconv is `nvt_1.tpr`, the one compiled by the `sbatch_me.sh` script following the energy minimization. This is useful in cases where the refitting and re-centering is made more complex by the presence of more than one molecule which should stay consistent in terms of reference frame. For example, you can see in panel 2 of Figure 3 how simply applying a PBC correction with `-pbc mol` might not be enough. In some frames the ligand is on a side of the box while the protein is on the other, giving the impression that the ligand left the binding site, while this is not the case. Such visualization artifacts can be solved by the usage of a good reference structure (like `nvt_1.tpr`, as in the beginning without dynamics the molecules were still at the centre of the box), some patience, and a good combination of flags (usually `-pbc mol -center` is a good starting point). Secondly, removing water might be a good idea for visualization purposes, but not for analysis ones. What about the interaction of water with the ligand/binding site? Are there any? Are they important? This is very relevant in systems like HOLO + ANP, where the two water molecules coordinating the magnesium ion are part of the physiological ligand-bound state. As such, use with care and keeping in mind what you want to do with the cleaned trajectory.
+::: {.callout-warning title="Remove carefully"}
+Remember that [`rm`](https://ss64.com/bash/rm.html) permanently deletes files. There is no Trash/Recycle bin in the terminal, and if by mistake you delete something that you need, like the production trajectory, you will have to re-run the simulation.
+:::
 
-As a final statement, the process of reducing the trajectory shown in the latter is transferable to whatever you want to output that is contained in the box. You will just have to select the group you want to maintain in the output when prompted by trjconv. If the specific group you want is not among those automatically suggested, you can create a new one with `gmx make_ndx` and pass the index file to `trjconv` via the flag `-n` (the GPCR tutorial has an introduction on index generation). 
+Two major points here. First, notice how the tpr passed to trjconv is `nvt_1.tpr`, the one compiled by the `sbatch_me.sh` script following the energy minimization. This is useful in cases where the refitting and re-centering is very complex due to the presence of more than one molecule which should stay consistent in terms of reference frame. For example, you can see in panel 2 of @fig-malaria-pbc how simply applying a PBC correction with `-pbc mol` might not be enough, as in some frames the ligand is on a side of the box while the protein is on the other, giving the impression that the ligand left the binding site, while this is not the case. Such visualization artifacts can be solved by the usage of a good reference structure (like `nvt_1.tpr`, as in the beginning without dynamics the molecules were still at the centre of the box), some patience, and a good combination of flags (usually `-pbc mol -center` is a good starting point). Secondly, removing water might be a good idea for visualization purposes, but not for analysis ones. What about the interaction of water with the ligand/binding site? Are there any? Are they important? This is very relevant in systems like HOLO + ANP, where the two water molecules coordinating the magnesium ion are part of the physiological ligand-bound state. As such, use with care and keeping in mind what you want to do with the cleaned trajectory.
+
+As a final statement, the process of reducing the trajectory shown in the latter is transferable to whatever you want to output that is contained in the box. You will just have to select the group you want to maintain in the output when prompted by trjconv. If the specific group you want is not among those automatically suggested, you can create a new one with `gmx make_ndx` and pass the index file to `trjconv` via the flag `-n` (the adhesion GPCR exercise has an introduction on index generation). 
 
 :::
 
