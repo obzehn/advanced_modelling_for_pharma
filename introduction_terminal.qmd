@@ -42,7 +42,7 @@ As few general notes before starting with the tutorial.
 ---
 
 ### **Exercise 1: Where Am I?**  
-**Goal:** Learn to check the current directory and it's content.
+**Goal:** Learn to check the current directory and its content.
 
 **Commands:** `pwd`, `ls`
 
