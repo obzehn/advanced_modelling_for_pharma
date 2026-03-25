@@ -372,25 +372,25 @@ Figure&nbsp;1: Cholesterol lipid molecule resolved with X-ray crystallography fo
 <section id="solvating-1" class="level4">
 <h4 class="anchored" data-anchor-id="solvating-1">Solvating</h4>
 <p>At the beginning, you can take a look at the starting topology (<code>reference_topology_GPCR_structure_1.top</code>) and the starting configuration to solvate (<code>reference_topology_GPCR_structure_1.gro</code>). The topology reads like this</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#include "./forcefield/forcefield.itp"</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#include "./forcefield/cholesterol.itp"</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#include "./forcefield/GPCR.itp"</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#include "./forcefield/POPC.itp"</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#include "./forcefield/tip4pd.itp"</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#include "./forcefield/ions.itp" </span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">"./forcefield/forcefield.itp"</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">"./forcefield/cholesterol.itp"</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">"./forcefield/GPCR.itp"</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">"./forcefield/POPC.itp"</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">"./forcefield/tip4pd.itp"</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">"./forcefield/ions.itp"</span><span class="pp"> </span></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="bu">[</span> system <span class="bu">]</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="kw">;</span> <span class="ex">Name</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="ex">GPCR</span> structure 1</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> system <span class="op">]</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="op">;</span> Name</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>GPCR structure <span class="dv">1</span></span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="bu">[</span> molecules <span class="bu">]</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="kw">;</span> <span class="ex">Compound</span>        <span class="co">#mols</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="ex">GPCR</span>                1</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="ex">CHL</span>                70</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="ex">POPC</span>              280</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> molecules <span class="op">]</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="op">;</span> Compound        <span class="er">#mols</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>GPCR                <span class="dv">1</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>CHL                <span class="dv">70</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>POPC              <span class="dv">280</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>First of all, notice that sometimes there are lines starting with a semi-column <code>;</code>. These are <strong>comments</strong>, that is, lines that are not read by GROMACS. Comments are used to annotate the files and write down details that are helping you - the users - remember what you are doing, what is the meaning of some variables, etc. They are ignored by the software and should be informative for the person writing or for the person supposed to read the code. Feel free to write your own comments, if it helps you, just remember to put a <code>;</code> at the beginning of each line that you do not want to be read by GROMACS, otherwise you will receive a fatal error.</p>
 <p>Following up, the <code>#include</code> statements tell GROMACS where to find the elements of the force field. As can be seen, they are collected inside the <code>forcefield</code> directory and must appear with a specific order. First, the set of parameters defining the force field (<code>forcefield.itp</code>). Then, the definition of the individual molecules (<code>cholesterol.itp</code>, <code>GPCR.itp</code>, etc.) that will populate your system. These do not have to appear in a specific order, however <ins>all</ins> the molecules that you intend to use <ins>must</ins> be defined here. Building the topology, that is, filling in this file, is roughly the equivalent of running <code>gmx pdb2gmx</code> on the pdb file of the protein, as you did in the Lysozyme tutorial. After the the <code>#include</code> statements, there is the <code>[ system ]</code> section, which is simply the name of the system. It is worth giving the system a meaningful name to help in recognizing the systems in the future.</p>
-<p>Finally, there is the <code>[ molecules ]</code> section, which must contain <ins>all</ins> the molecules of the system <ins>in the order in which they appear</ins>. Notice that, for the time being, the topology contains one GPCR, 70 cholesterol molecules (<code>CHL</code>), and 280 phospholipids (<code>POPC</code>).</p>
+<p>Finally, there is the <code>[ molecules ]</code> section, which must contain <ins>all</ins> the molecules of the system <ins>in the order in which they appear in the box</ins>. Notice that, for the time being, the topology contains one GPCR, 70 cholesterol molecules (<code>CHL</code>), and 280 phospholipids (<code>POPC</code>).</p>
 <p>Now, take a look at the starting configuration <code>reference_topology_GPCR_structure_1.gro</code>. The <code>.gro</code> file has a fixed format, and it is better to not modify it by hand if you are not completely sure about what you are doing. The top of the file looks like this</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">GPCR</span> structure 1</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">47140</span></span>
