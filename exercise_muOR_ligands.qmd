@@ -176,7 +176,32 @@ Following up, the `#include` statements tell GROMACS where to find the elements 
 
 Finally, there is the `[ molecules ]` section, which must contain <ins>all</ins> the molecules of the system <ins>in the order in which they appear in the box</ins>. Notice that, for the time being, the topology contains the muOR, the ligand (*ENDO* for endomorphine), 64 cholesterol molecules (`CHL`), and 256 phospholipids (`POPC`).
 
-Now, take a look at the starting configuration `reference_topology_GPCR_structure_1.gro`. The `.gro` file has a fixed format, and it is better to not modify it by hand if you are not completely sure about what you are doing. The top of the file looks like this
+GROMACS (and other modelling software) doesn't know if a ligand necessitates some ions and coordinating water molecules. Thus, they are part of the initial box **before** the solvation as they have been modelled already in the correct state. This is where the biological and chemical knowledge of the user is critical for building a physiologically correct system. Among the systems presented in this tutorial, there is no ligand that necessitates other molecules to be modelled properly in its binding site. Other important paramenters to consider if you prepare a system are the protonation state of both the ligand and the protein, the binding pose of the ligand, eventual missing pieces of protein that need to be modelled by hand, mutations that need to be back-mutated and so on.
+
+The APO structure and the two ligands are shown in the panels of @fig-muor-overlook.
+
+::: {#fig-muor-overlook}
+
+::: {.panel-tabset}
+
+## APO
+<!-- {{< mol-snapshot images/states/molstate_PKG_APO.molj >}} --->
+{{< mol-url images/states/muOR_apo.pdb >}}
+
+## HOLO - ENDO
+{{< mol-snapshot images/states/molstate_MUOR_ENDO.molj >}}
+<!--{{< mol-url images/states/muOR_ENDO.pdb >}} --->
+
+## HOLO - BPN
+{{< mol-snapshot images/states/molstate_MUOR_BPN.molj >}}
+<!-- {{< mol-url images/states/muOR_BPN.pdb >}} --->
+
+:::
+
+APO and HOLO states of the mu-opioid receptor with endomorphine (*ENDO*) and buprenorphine (*BPN*).
+:::
+
+Now, take a look at the starting configuration `reference_topology_MUOR_ENDO.gro`. The `.gro` file has a fixed format, and it is better to not modify it by hand if you are not completely sure about what you are doing. The top of the file looks like this
 
 ```bash
 MUOR HOLO ENDO
@@ -205,109 +230,111 @@ At the other end of the file, the last lines look like this
   10.15889  10.15889   9.41398
 ```
 
-The meaning of the columns is the same as before. The last molecules to appear are the phopsholipids (and in fact, in the topology, they are reported last). The last line of a `.gro` file has, like the first two, a special meaning, as it reports the side length of the box along x, y, and z. For example, this box is roughly a cube, with x and y lengths of `10.15889` nm and z length of `9.41398` nm. Sometimes, for special types of boxes (like those used for the protein-ligand simulations), there might be more than three values reported. The starting configuration, which you can visualize with [VMD](https://www.ks.uiuc.edu/Research/vmd/), is reported in @fig-gpcr-start.
+The meaning of the columns is the same as before. The last molecules to appear are the phopsholipids (and in fact, in the topology, they are reported last). The last line of a `.gro` file has, like the first two, a special meaning, as it reports the side length of the box along x, y, and z. For example, this box is roughly a cube, with x and y lengths of `10.15889` nm and z length of `9.41398` nm. Sometimes, for special types of boxes (like those used for the protein-ligand simulations), there might be more than three values reported. The starting configuration, which you can visualize with [VMD](https://www.ks.uiuc.edu/Research/vmd/), is reported in @fig-muor-start.
 
-::: {#fig-gpcr-start}
-<img src="/images/image_gpcr_stability/startgpcr.png" width="700">
+::: {#fig-muor-start}
+<img src="/images/image_muor_ligands/startmuor.png" width="700">
 
-Side (left) and top (right) view of the system. The GPCR is reported in red as cartoons, while the lipids are shown in sticks colored in red (oxygen), blue (nitrogen), cyan (carbon), white (hydrogen), and yellow (phosphorus). The box is shown as blue lines.
+Side (left) and top (right) view of the system. The GPCR is reported in red as cartoons, while the lipids are shown in sticks and endomorphine is represented as spheres. Color legend is red (oxygen), blue (nitrogen), cyan (carbon), white (hydrogen), and yellow (phosphorus). The box is shown as blue lines.
 :::
 
 The first step is then to solvate the system. In the Lysozyme tutorial, before solvation, the `gmx editconf` command is used to prepare the box and to make it large enough to fit the protein. Here, you do not use it as the box is already prepared because it depends on the width of the lipid bilayer.
 
-Before running `gmx solvate`, you have to know which water model you want to use. For this force field, as also reported in the `reference_topology_GPCR_structure_1.top` file, the model is [TIP4PD](https://en.wikipedia.org/wiki/Water_model) (you are importing the parameters with this line `#include "./forcefield/tip4pd.itp"`), a four-point water model. This means that each water molecule in your simulation will be actually represented with four sites: one oxygen atom, two hydrogen atoms, and a dummy site near the oxygen atom that has negative charge. This dummy atom is a numerical trick to better represent the distribution of charge of the lone pair in water's oxygen. To access four-points water models, the flag name for `gmx solvate` is `-cs tip4p.gro`.
+Before running `gmx solvate`, you have to know which water model you want to use. For this force field, as also reported in the `reference_topology_MUOR_ENDO.top` file, the model is [TIP4PD](https://en.wikipedia.org/wiki/Water_model) (you are importing the parameters with this line `#include "./forcefield/tip4pd.itp"`), a four-point water model. This means that each water molecule in your simulation will be actually represented with four sites: one oxygen atom, two hydrogen atoms, and a dummy site near the oxygen atom that has negative charge. This dummy atom is a numerical trick to better represent the distribution of charge of the lone pair in water's oxygen. To access four-points water models, the flag name for `gmx solvate` is `-cs tip4p.gro`.
 
 Thus, you can solvate the system with the following
 
 ```bash
-gmx solvate -cp reference_topology_GPCR_structure_1.gro -cs tip4p.gro -o GPCR_structure_1_solvated.gro
+gmx solvate -cp reference_topology_MUOR_ENDO.gro -cs tip4p.gro -o MUOR_ENDO_solvated.gro
 ```
 
-where you are asking to add water to the structure with `-cp reference_topology_GPCR_structure_1.gro`, use as reference a four-points water model with `-cs tip4p.gro`, add call the resulting output structure `-o GPCR_structure_1_solvated.gro`. Some of you may notice that in the Lysozyme tutorial you also have to pass the topology of the system with the `-p` flag. This is not mandatory, but if you pass it then the updated topology will have the same name as the input one, which makes things harder to trace back if something goes wrong. However, if you do not pass the topology, you will have to update it by hand to include the presence of the water molecules.
+where you are asking to add water to the structure with `-cp reference_topology_MUOR_ENDO.gro`, use as reference a four-points water model with `-cs tip4p.gro`, add call the resulting output structure `-o MUOR_ENDO_solvated.gro`. Some of you may notice that in the Lysozyme tutorial you also have to pass the topology of the system with the `-p` flag. This is not mandatory, but if you pass it then the updated topology will have the same name as the input one, which makes things harder to trace back if something goes wrong. However, if you do not pass the topology, you will have to update it by hand to include the presence of the water molecules.
 
 The (last lines of the) output of the solvate command will look something like this
 
 ```bash
 [...]
-Volume                 :     1069.94 (nm^3)
-Density                :        1013 (g/l)
-Number of solvent molecules:  21053
+Volume                 :     971.551 (nm^3)
+Density                :     1007.58 (g/l)
+Number of solvent molecules:  18525
 ```
 
-GROMACS tries to fill the box with water to reach the density of ca. 1g/L. The most important part here is the number of water molecules inserted, in this case `21053` (this number can oscillate slightly, as molecules are randomly inserted). In principle, you could add this number at the end of the topology and you would be done with the solvation, as in the Lysozyme tutorial. However, you might think that the system has actually more than one phase (lipids and protein) and that GROMACS tried to insert water molecules in each and every empty volume it could find. How did it behave near the protein and the lipids? You can check with VMD.
+GROMACS tries to fill the box with water to reach the density of ca. 1g/L. The most important part here is the number of water molecules inserted, in this case `18525` (this number can oscillate slightly, as molecules are randomly inserted). In principle, you could add this number at the end of the topology and you would be done with the solvation, as in the Lysozyme tutorial. However, you might think that the system has actually more than one phase (lipids and protein) and that GROMACS tried to insert water molecules in each and every empty volume it could find. How did it behave near the protein and the lipids? You can check with VMD.
 
 #### Removing additional water
 
-The result after solvation is shown in @fig-gpcr-solv. Water has been inserted in all places where there was some spare free volume, also between the lipid leaflets, which is not realistic as this is an hydrophobic region. Generally, this is not a major problem, and within the first nanoseconds of run the water molecules get expelled naturally because of the chemical nature of the lipid tail region. Nevertheless, for delicate systems like this that involve proteins highly susceptible to non-physiological starting configurations, it is better to get rid of them and clean the system before adding the ions.
+The result after solvation is shown in @fig-muor-solv. Water has been inserted in all places where there was some spare free volume, also between the lipid leaflets, which is not realistic as this is an hydrophobic region. Generally, this is not a major problem, and within the first nanoseconds of run the water molecules get expelled naturally because of the chemical nature of the lipid tail region. Nevertheless, for delicate systems like this that involve proteins highly susceptible to non-physiological starting configurations, it is better to get rid of them and clean the system before adding the ions.
 
 You can remove these wrongly placed water molecules with the `water_removal.py` Python script, which you can run with the following command
 
 ```bash
-python3 water_removal.py GPCR_structure_1_solvated.gro GPCR_structure_1_solvated_clean.gro
+python3 water_removal.py MUOR_ENDO_solvated.gro MUOR_ENDO_solvated_clean.gro
 ```
 
-The script takes as input `GPCR_structure_1_solvated.gro`, check where there are overlapping water molecules with the lipids and the protein, removes them, and returns the cleaned system under the name `GPCR_structure_1_solvated_clean.gro`. The output looks something like this
+The script takes as input `MUOR_ENDO_solvated.gro`, check where there are overlapping water molecules with the lipids and the protein, removes them, and returns the cleaned system under the name `MUOR_ENDO_solvated_clean.gro`. The output looks something like this
 
 ```bash
-Initial number of water molecules: 21053
-Number of water molecules to be deleted: 2117
-Final number of water molecules: 18936
+Initial number of water molecules: 18525
+Number of water molecules to be deleted: 1457
+Final number of water molecules: 17068
 ```
 
-The script removed ca. 2000 water molecules. You can see now, in @fig-gpcr-solv, that the system has been cleaned and looks much more biologically sound.
+The script removed ca. 1500 water molecules. You can see now, in @fig-muor-solv, that the system has been cleaned and looks much more biologically sound.
 
 
-::: {#fig-gpcr-solv}
-<img src="/images/image_gpcr_stability/solvatedgpcr.png" width="700">
+::: {#fig-muor-solv}
+<img src="/images/image_muor_ligands/solvatedmuor.png" width="700">
 
-On the left, the solvated system after `gmx solvate`. On the right, the same system after removing ca. 2000 water molecules with the `water_removal.py` script. Protein and lipids are reported in grey, while water molecules in red (oxygen) and white (hydrogen).
+On the left, the solvated system after `gmx solvate`. On the right, the same system after removing ca. 1500 water molecules with the `water_removal.py` script. Protein, lipids and ligand are coloured as in @fig-muor-start, while water molecules in red (oxygen) and white (hydrogen).
 :::
 
-If you take a look at the `GPCR_structure_1_solvated_clean.gro` file, you will notice that the last lines will look like the following
+If you take a look at the `MUOR_ENDO_solvated_clean.gro` file, you will notice that the last lines will look like the following
 
 ```bash
 [...]
-22246SOL     OW31349   9.408   9.566   9.374
-22246SOL    HW131350   9.375   9.645   9.418
-22246SOL    HW231351   9.463   9.599   9.303
-22246SOL     MW31352   9.411   9.580   9.371
-  10.06535  10.06535  10.5608
+19140SOL     OW17962  10.317   9.424   9.395
+19140SOL    HW117963  10.373   9.416   9.317
+19140SOL    HW217964  10.294   9.334   9.417
+19140SOL     MW17965  10.322   9.411   9.388
+  10.15889  10.15889   9.41398
 ```
 
-where `SOL` is the name of the solvent molecules (water) and each `SOL` molecule has four atoms. The box size, as expected, didn't change. You may notice that `gmx solvate` also removed the columns with the velocities. This is not a problem, as during the thermal equilibration (the NVT phase) GROMACS will calculate and reintroduce them. Moreover, when there are many atoms in the box, the space between the second and the third column might disappear. For example, `OW31349` is an atom called `OW` and it's the entry number `31349`, but the space between is not present anymore. This also is not a problem sa long as the length of each field remains constant.
+where `SOL` is the name of the solvent molecules (water) and each `SOL` molecule has four atoms. The box size, as expected, didn't change. When there are many atoms in the box, the space between the second and the third column might disappear. For example, `OW17962` is an atom called `OW` and it's the entry number `31349`, but the space between is not present anymore. This also is not a problem sa long as the length of each field remains constant.
 
-The first lines look like before exception made for the number of atoms, which now has been updated to contain also those of water (in fact the starting dry box had 47140 atoms to which you added 18936 four-point water molecules, that is `47140 + 18936 x 4 = 122884`).
+The first lines look like before exception made for the number of atoms, which now has been updated to contain also those of water (in fact the starting dry box had `43865` atoms to which you added `17068` four-point water molecules, that is `43865 + 17068 x 4 = 112137`).
 
 ```bash
-GPCR structure 1
-122884
-    1NTHR     N    1   5.174   5.111   3.908
-    1NTHR    H1    2   5.156   5.041   3.838
-    1NTHR    H2    3   5.086   5.138   3.950
-    1NTHR    H3    4   5.223   5.065   3.984
-    1NTHR    CA    5   5.256   5.221   3.857
+MUOR HOLO ENDO
+112137
+    1ACE    CH3    1   3.289   5.610   2.425
+    1ACE   HH31    2   3.378   5.555   2.394
+    1ACE   HH32    3   3.240   5.653   2.338
+    1ACE   HH33    4   3.228   5.533   2.474
+    1ACE      C    5   3.301   5.713   2.542
+    1ACE      O    6   3.375   5.697   2.643
 [...]
 ```
 
-Now, you can update the topology. First, copy the reference topology and call it `reference_topology_GPCR_structure_1_solvated.top`
+Now, you can update the topology. First, copy the reference topology and call it `reference_topology_MUOR_ENDO_solvated.top`
 
 ```bash
-cp reference_topology_GPCR_structure_1.top reference_topology_GPCR_structure_1_solvated.top
+cp reference_topology_MUOR_ENDO.top reference_topology_MUOR_ENDO_solvated.top
 ```
 
-Then, add the amount of water molecules to `reference_topology_GPCR_structure_1_solvated.top` by correcting the `[ molecules ]` section
+Then, add the amount of water molecules to `reference_topology_MUOR_ENDO_solvated.top` by correcting the `[ molecules ]` section
 
 ```C++
 [...]
 [ molecules ]
 ; Compound        #mols
-GPCR                1
-CHL    	           70
-POPC  	          280
-SOL             18936
+MUOR                1
+ENDO                1
+CHL                64
+POPC              256
+SOL             17068
 ```
 
-You have to add the name of the water in the box (`SOL`) and the number reported after cleaning up the system with the python script. At this point, the structure of the solvated system is contained in `GPCR_structure_1_solvated_clean.gro`, while its topology in `reference_topology_GPCR_structure_1_solvated.top`.
+You have to add the name of the water in the box (`SOL`) and the number reported after cleaning up the system with the python script. At this point, the structure of the solvated system is contained in `MUOR_ENDO_solvated_clean.gro`, while its topology in `reference_topology_MUOR_ENDO_solvated.top`.
 
 ## Adding ions
 
