@@ -1,7 +1,9 @@
 project:
   type: website
   output-dir: docs
-  resources: /images/states/**
+  resources:
+    - /images/states/**
+    - /material/**
 
 website:
   title: "Advanced Modelling for Pharma"
@@ -30,6 +32,8 @@ website:
             href: exercise_gpcr_stability.qmd
           - text: "Malaria target with ligands"
             href: exercise_malaria_targets.qmd
+          - text: "mu-Opioid receptor"
+            href: exercise_muOR_ligands.qmd
       - text: "Contacts"
         href: contacts.qmd
 

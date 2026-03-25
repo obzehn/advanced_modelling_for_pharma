@@ -51,4 +51,14 @@ If you are not part of the course, please feel free to use this material freely,
     </p>
   </li>
 
+  <li>
+    <a href="exercise_muOR_ligands.qmd" aria-label="MUOR ligands">
+      <img class="thumb" src="images/icons/muor_ENDO.png" alt="muOR embedded in membrane with ENDO.">
+    </a>
+    <p class="desc">
+      <a class="title" href="exercise_muOR_ligands.qmd">mu-Opioid receptor in membrane with ligands</a><br>
+      Exam exercise on APO and HOLO mu-Opioid receptor systems in a membrane.
+    </p>
+  </li>
+
 </ul>

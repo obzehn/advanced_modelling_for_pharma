@@ -31,22 +31,22 @@ First of all, start by downloading the exercise directories from the github repo
 <div class="download-buttons">
   <a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/material/GPCR_structure_1_exercise.tar.gz" class="btn">
     <img src="images/icons/icon_gpcr_1.png" alt="">
-    <span>Download Structure 1</span>
+    <span>Download<br>Structure 1</span>
   </a>
 
   <a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/material/GPCR_structure_2_exercise.tar.gz" class="btn">
     <img src="images/icons/icon_gpcr_2.png" alt="">
-    <span>Download Structure 2</span>
+    <span>Download<br>Structure 2</span>
   </a>
 
   <a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/material/GPCR_structure_3_exercise.tar.gz" class="btn">
     <img src="images/icons/icon_gpcr_3.png" alt="">
-    <span>Download Structure 3</span>
+    <span>Download<br>Structure 3</span>
   </a>
 
   <a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/material/GPCR_structure_4_exercise.tar.gz" class="btn">
     <img src="images/icons/icon_gpcr_4.png" alt="">
-    <span>Download Structure 4</span>
+    <span>Download<br>Structure 4</span>
   </a>
 </div>
 

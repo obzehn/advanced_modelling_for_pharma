@@ -33,22 +33,22 @@ First of all, start by downloading the exercise directories from the github repo
 <div class="download-buttons">
   <a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/material/PKG_APO_exercise.tar.gz" class="btn">
     <img src="images/icons/icon_pkg_apo.png" alt="">
-    <span>Download PKG APO</span>
+    <span>Download PKG<br>APO</span>
   </a>
 
   <a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/material/PKG_HOLO_1FB_exercise.tar.gz" class="btn">
     <img src="images/icons/icon_pkg_holo_1fb.png" alt="">
-    <span>Download PKG HOLO - 1FB</span>
+    <span>Download PKG<br>HOLO - 1FB</span>
   </a>
 
   <a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/material/PKG_HOLO_1TR_exercise.tar.gz" class="btn">
     <img src="images/icons/icon_pkg_holo_1tr.png" alt="">
-    <span>Download PKG HOLO - 1TR</span>
+    <span>Download PKG<br>HOLO - 1TR</span>
   </a>
 
   <a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/material/PKG_HOLO_ANP_exercise.tar.gz" class="btn">
     <img src="images/icons/icon_pkg_holo_anp.png" alt="">
-    <span>Download PKG HOLO - ANP</span>
+    <span>Download PKG<br>HOLO - ANP</span>
   </a>
 </div>
 
