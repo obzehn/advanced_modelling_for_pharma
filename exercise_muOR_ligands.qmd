@@ -176,7 +176,7 @@ Following up, the `#include` statements tell GROMACS where to find the elements 
 
 Finally, there is the `[ molecules ]` section, which must contain <ins>all</ins> the molecules of the system <ins>in the order in which they appear in the box</ins>. Notice that, for the time being, the topology contains the muOR, the ligand (*ENDO* for endomorphine), 64 cholesterol molecules (`CHL`), and 256 phospholipids (`POPC`).
 
-GROMACS (and other modelling software) doesn't know if a ligand necessitates some ions and coordinating water molecules. Thus, they are part of the initial box **before** the solvation as they have been modelled already in the correct state. This is where the biological and chemical knowledge of the user is critical for building a physiologically correct system. Among the systems presented in this tutorial, there is no ligand that necessitates other molecules to be modelled properly in its binding site. Other important paramenters to consider if you prepare a system are the protonation state of both the ligand and the protein, the binding pose of the ligand, eventual missing pieces of protein that need to be modelled by hand, mutations that need to be back-mutated and so on.
+GROMACS (and other modelling software) doesn't know if a ligand necessitates some ions and coordinating water molecules. Thus, they are part of the initial box **before** the solvation as they have been modelled already in the correct state. This is where the biological and chemical knowledge of the user is critical for building a physiologically correct system. Among the systems presented in this tutorial, there is no ligand that necessitates other molecules to be modelled properly in its binding site. Other important paramenters to consider if you prepare a system are the protonation state of both the ligand and the protein, the binding pose of the ligand, eventual missing structural sections of the protein that need to be modelled by hand, mutations that need to be back-mutated and so on.
 
 The APO structure and the two ligands are shown in the panels of @fig-muor-overlook.
 
@@ -285,7 +285,7 @@ The script removed ca. 1500 water molecules. You can see now, in @fig-muor-solv,
 ::: {#fig-muor-solv}
 <img src="/images/image_muor_ligands/solvatedmuor.png" width="700">
 
-On the left, the solvated system after `gmx solvate`. On the right, the same system after removing ca. 1500 water molecules with the `water_removal.py` script. Protein, lipids and ligand are coloured as in @fig-muor-start, while water molecules in red (oxygen) and white (hydrogen).
+On the left, the solvated system after `gmx solvate`. On the right, the same system after removing ca. 1500 water molecules with the `water_removal.py` script. Notice how there are no more water molecules in the lipid bilayer. Protein, lipids and ligand are coloured as in @fig-muor-start, while water molecules in red (oxygen) and white (hydrogen).
 :::
 
 If you take a look at the `MUOR_ENDO_solvated_clean.gro` file, you will notice that the last lines will look like the following
@@ -340,39 +340,40 @@ You have to add the name of the water in the box (`SOL`) and the number reported
 
 #### Adding ions
 
-You are now ready to add the ions in the system. First, you need to generate a `.tpr` file, which is a binary file that GROMACS can read to understand the charges of the different molecules in the system and select automatically how many ions should be added. You can do this by using `gmx grompp` and pointing to the parameters file `ionize.mdp` with the flag `-f`, to the starting solvated structure `PCR_structure_1_solvated_clean.gro` with the flag `-c`, to the solvated topology `reference_topology_GPCR_structure_1_solvated.top` with the flag `-p`, and finally name the output tpr file `ionize.tpr` with the flag `-o`
+You are now ready to add the ions in the system. First, you need to generate a `.tpr` file, which is a binary file that GROMACS can read to understand the charges of the different molecules in the system and select automatically how many ions should be added. You can do this by using `gmx grompp` and pointing to the parameters file `ionize.mdp` with the flag `-f`, to the starting solvated structure `MUOR_ENDO_solvated_clean.gro` with the flag `-c`, to the solvated topology `reference_topology_MUOR_ENDO_solvated.top` with the flag `-p`, and finally name the output tpr file `ionize.tpr` with the flag `-o`
 
 ```bash
-gmx grompp -f ionize.mdp -c GPCR_structure_1_solvated_clean.gro -p reference_topology_GPCR_structure_1_solvated.top -o ionize.tpr
+gmx grompp -f ionize.mdp -c MUOR_ENDO_solvated_clean.gro -p reference_topology_MUOR_ENDO_solvated.top -o ionize.tpr
 ```
 
 You might see (depending on GROMACS version) that for some systems the command fails with a fatal error containing the following information
 
 ```bash
-NOTE 2 [file reference_topology_GPCR_structure_1_solvated.top, line 17]:
-  System has non-zero total charge: 7.000000
+NOTE 2 [file reference_topology_MUOR_ENDO_solvated.top, line 19]:
+  System has non-zero total charge: 13.999743
   Total charge should normally be an integer. See
   http://www.gromacs.org/Documentation/Floating_Point_Arithmetic
   for discussion on how close it should be to an integer.
 
-WARNING 1 [file reference_topology_GPCR_structure_1_solvated.top, line 17]:
+WARNING 1 [file reference_topology_MUOR_ENDO_solvated.top, line 19]:
   You are using Ewald electrostatics in a system with net charge. This can
   lead to severe artifacts, such as ions moving into regions with low
   dielectric, due to the uniform background charge. We suggest to
   neutralize your system with counter ions, possibly in combination with a
   physiological salt concentration.
+
 ```
 
-Basically, a tpr file is used to run simulations. As such, when GROMACS tries to prepare one through `gmx grompp`, it check if the physics of the system is reasonable or not. In this case, it found that your system has a net charge of +7, and is telling you that this is very bad as the systems should always have zero total net charge. You can bypass this check by adding the flag `--maxwarn 1` to the command line, that is, ignore one (and only one) warning
+Basically, a tpr file is used to run simulations. As such, when GROMACS tries to prepare one through `gmx grompp`, it check if the physics of the system is reasonable or not. In this case, it found that your system has a positive net charge, and is telling you that this is very bad as the systems should always have zero total net charge. You can bypass this check by adding the flag `--maxwarn 1` to the command line, that is, ignore one (and only one) warning
 
 ```bash
-gmx grompp -f ionize.mdp -c GPCR_structure_1_solvated_clean.gro -p reference_topology_GPCR_structure_1_solvated.top -o ionize.tpr --maxwarn 1
+gmx grompp -f ionize.mdp -c MUOR_ENDO_solvated_clean.gro -p reference_topology_MUOR_ENDO_solvated.top -o ionize.tpr -maxwarn 1
 ```
 
-You will see that now GROMACS still complains, but gets the job done. It is very important, however, to understand that the ionization step is nearly the **only** case in which it is okay to use the `--maxwarn` flag, as you **know** that the physics of the system is wrong and you actually need the tpr to fix it with `gmx genion`.
+You will see that now GROMACS still complains, but gets the job done. It is very important, however, to understand that the ionization step is nearly the **only** case in which it is okay to use the `-maxwarn` flag, as you **know** that the physics of the system is wrong and you actually need the tpr to fix it with `gmx genion`.
 
 ::: {.callout-warning title="Silencing warnings"}
-You may be temped to use `--maxwarn` to get through errors, but generally <u>you should never use this flag without understanding the problem</u>. If there is a major warning then you have to check what is happening. With `--maxwarn` you can compile the binary but the simulation will probably fail instantly the moment you try to run it, or, worse, it will run but you are likely to produce garbage results due to overlooking fundamental physics mistakes in the box preparation.
+You may be temped to use `-maxwarn` to get through errors, but generally <u>you should never use this flag without understanding the problem</u>. If there is a major warning then you have to check what is happening. With `-maxwarn` you can compile the binary but the simulation will probably fail instantly the moment you try to run it, or, worse, it will run but you are likely to produce garbage results due to overlooking fundamental physics mistakes in the box preparation.
 :::
 
 Now, you should have a `ionize.tpr` file in your directory, following the `gmx grompp` command. You are ready to insert the ions with the following command
@@ -386,48 +387,55 @@ Here, you are asking GROMACS to make the system neutral (`-neutral`), call the p
 With `genion`, GROMACS tries to substitute some molecules in the system with the necessary number of ions. You will be prompted by GROMACS to choose which part of the system you are okay to substitute in favour of water molecules
 
 ```bash
-Will try to add 0 NA ions and 7 CL ions.
+Will try to add 0 NA ions and 14 CL ions.
 Select a continuous group of solvent molecules
-Group     0 (         System) has 122884 elements
-Group     1 (        Protein) has  4440 elements
-Group     2 (      Protein-H) has  2187 elements
-Group     3 (        C-alpha) has   282 elements
-Group     4 (       Backbone) has   847 elements
-Group     5 (      MainChain) has  1129 elements
-Group     6 (   MainChain+Cb) has  1395 elements
-Group     7 (    MainChain+H) has  1407 elements
-Group     8 (      SideChain) has  3033 elements
-Group     9 (    SideChain-H) has  1058 elements
-Group    10 (    Prot-Masses) has  4440 elements
-Group    11 (    non-Protein) has 118444 elements
-Group    12 (          Other) has 42700 elements
-Group    13 (            CHL) has  5180 elements
-Group    14 (           POPC) has 37520 elements
-Group    15 (          Water) has 75744 elements
-Group    16 (            SOL) has 75744 elements
-Group    17 (      non-Water) has 47140 elements
+Group     0 (         System) has 112137 elements
+Group     1 (        Protein) has  4825 elements
+Group     2 (      Protein-H) has  2367 elements
+Group     3 (        C-alpha) has   292 elements
+Group     4 (       Backbone) has   879 elements
+Group     5 (      MainChain) has  1172 elements
+Group     6 (   MainChain+Cb) has  1455 elements
+Group     7 (    MainChain+H) has  1458 elements
+Group     8 (      SideChain) has  3367 elements
+Group     9 (    SideChain-H) has  1195 elements
+Group    10 (    Prot-Masses) has  4825 elements
+Group    11 (    non-Protein) has 107312 elements
+Group    12 (          Other) has 39040 elements
+Group    13 (            CHL) has  4736 elements
+Group    14 (           POPC) has 34304 elements
+Group    15 (          Water) has 68272 elements
+Group    16 (            SOL) has 68272 elements
+Group    17 (      non-Water) has 43865 elements
 Select a group: 
 ```
 
-From the first line you can see that GROMACS understood that the system has a total of +7 charge and will then need seven negative ions to have a total of zero net charge. Since you do not want to substitute any part of the protein or lipids, choose the `SOL` group, and GROMACS will randomly choose seven water molecules, remove them and place there a chlorine ion.
+From the first line you can see that GROMACS understood that the system has a total of ca. +14 charge and will then need fourteen negative ions to have a total of ca. zero net charge. Since you do not want to substitute any part of the protein or lipids, choose the `SOL` group, and GROMACS will randomly choose seven water molecules, remove them and place there a chlorine ion.
 
 ```bash
 Selected 16: 'SOL'
-Number of (4-atomic) solvent molecules: 18936
-Using random seed -819201.
-Replacing solvent molecule 1842 (atom 54508) with CL
-Replacing solvent molecule 5002 (atom 67148) with CL
-Replacing solvent molecule 3105 (atom 59560) with CL
-Replacing solvent molecule 1445 (atom 52920) with CL
-Replacing solvent molecule 4490 (atom 65100) with CL
-Replacing solvent molecule 4475 (atom 65040) with CL
-Replacing solvent molecule 6661 (atom 73784) with CL
+Number of (4-atomic) solvent molecules: 17068
+Using random seed 1834818167.
+Replacing solvent molecule 14306 (atom 101089) with CL
+Replacing solvent molecule 15927 (atom 107573) with CL
+Replacing solvent molecule 7440 (atom 73625) with CL
+Replacing solvent molecule 6745 (atom 70845) with CL
+Replacing solvent molecule 8092 (atom 76233) with CL
+Replacing solvent molecule 12068 (atom 92137) with CL
+Replacing solvent molecule 3940 (atom 59625) with CL
+Replacing solvent molecule 564 (atom 46121) with CL
+Replacing solvent molecule 10093 (atom 84237) with CL
+Replacing solvent molecule 12948 (atom 95657) with CL
+Replacing solvent molecule 2208 (atom 52697) with CL
+Replacing solvent molecule 6294 (atom 69041) with CL
+Replacing solvent molecule 10286 (atom 85009) with CL
+Replacing solvent molecule 11481 (atom 89789) with CL
 ```
 
 As for the solvation, you need now to update the topology as some water molecules have been removed and some chlorine ions have been added. Start by copying the solvated topology into a new topology called `topol.top`
 
 ```bash
-cp reference_topology_GPCR_structure_1_solvated.top topol.top
+cp reference_topology_MUOR_ENDO_solvated.top topol.top
 ```
 
 and change the `[ molecules ]` section by removing the seven water molecules from the total and adding the seven chlorine ions (`CL`)
@@ -435,17 +443,24 @@ and change the `[ molecules ]` section by removing the seven water molecules fro
 ```C++
 [ molecules ]
 ; Compound        #mols
-GPCR                1
-CHL    	           70
-POPC  	          280
-SOL             18929
-CL                  7
+MUOR                1
+ENDO                1
+CHL                64
+POPC              256
+SOL             17054
+CL                 14
 ```
 
-Summarizing, you now have the starting solvated and neutralized configuration stored in `start.gro` and the corresponding topology in `topol.top`. You can take a look at the final system with VMD. It should look similar to that shown in @fig-gpcr-ions.
+::: {.callout-warning title="Non-integer charge"}
+Here you can notice that the charge is actually not an integer, as also pointed out by the `Note` during the generation of the tpr for ionisation. Non-integer charges should usually be avoided, as the addition of ions with integer charge cannot formally neutralize the system. In fact, the system's charge of `13.999743` plus fourteen cloride ions of charge `-1` will leave the system with a net charge of `-0.000257`. This is a by-product of a force field conversion (a porting of the des-Amber force field to GROMACS format), and it's not optimal.
 
-::: {#fig-gpcr-ions}
-<img src="/images/image_gpcr_stability/ionisedgpcr.png" width="700">
+You have two options to overcome this problem. The first is to repartition the leftover charge, so redistribute it to some molecule in the box to reach net zero charge; the second is to proceed with leftover charge. Generally, the refactoring of the charge is very dangerous, and might not be simple for numerical reasons. Thus, a common approach -and the one we will use here- is to proceed anyway assuming that the leftover charge is so small that it impacts very little the dynamics of the system. Practically speaking, this means that all the times you will generate a tpr file with `grompp` you will have to `-maxwarn 1` the warning due to the box's small net charge.
+:::
+
+Summarizing, you now have the starting solvated and neutralized configuration stored in `start.gro` and the corresponding topology in `topol.top`. You can take a look at the final system with VMD. It should look similar to that shown in @fig-muor-ions.
+
+::: {#fig-muor-ions}
+<img src="/images/image_muor_ligands/ionisedmuor.png" width="700">
 
 Side (left) and top (right) view of the system after solvation and ion addition. Water is reported as a transparent white surface. The chlorine ions are shown as yellow spheres based on their van der Waals radii. Remember that all the atoms in the system are actually points without a radius described by a set of coordinates, they are not spheres. However, you can use their van der Waals radii to estimate how 'large' the atoms are, that is, how much space around them is physically precluded to other atoms due to the atomic repulsion of the inter-molecular van der Waals forces.
 :::
@@ -463,7 +478,7 @@ but remember to update accordingly the topology with both `NA` and `CL` atoms.
 ## Make an index
 #### Generate the index file
 
-The last passage before running the simulation is, sometimes, to generate an **index** file. This type of file is used to name part of the system by grouping the corresponding atom numbers under a given name. In this case, you need an index file because the thermostat is expecting two different groups to couple for temperature regulation, one that contains the protein and the lipids, which you will call `Protein_and_memb`, and one that contains the water and the ions, which you will call `Water_and_ions`. The reasons behind this are technical and go beyond the scope of this tutorial. However, the index file is a powerful tool to address only parts of the simulation box, and as such it is important to know how to generate one.
+The last passage before running the simulation is, sometimes, to generate an **index** file. This type of file is used to name part of the system by grouping the corresponding atom numbers under a given name. In this case, you need an index file because the thermostat is expecting two different groups to couple for temperature regulation, one that contains the protein and the lipids, which you will call `non-Solv`, and one that contains the water and the ions, which you will call `Water_and_ions`. The reasons behind this are technical and go beyond the scope of this tutorial. However, the index file is a powerful tool to address only parts of the simulation box, and as such it is important to know how to generate one.
 
 The command to generate an index file is `make_ndx`. As input you should give the final configuration and call the output simply `index.ndx`, as in the following
 
@@ -474,59 +489,59 @@ gmx make_ndx -f start.gro -o index.ndx
 GROMACS will answer by showing you what types of molecules it sees inside the box and which name it would give to them
 
 ```bash
-  0 System              : 122863 atoms
-  1 Protein             :  4440 atoms
-  2 Protein-H           :  2187 atoms
-  3 C-alpha             :   282 atoms
-  4 Backbone            :   847 atoms
-  5 MainChain           :  1129 atoms
-  6 MainChain+Cb        :  1395 atoms
-  7 MainChain+H         :  1407 atoms
-  8 SideChain           :  3033 atoms
-  9 SideChain-H         :  1058 atoms
- 10 Prot-Masses         :  4440 atoms
- 11 non-Protein         : 118423 atoms
- 12 Other               : 42700 atoms
- 13 CHL                 :  5180 atoms
- 14 POPC                : 37520 atoms
- 15 CL                  :     7 atoms
- 16 Water               : 75716 atoms
- 17 SOL                 : 75716 atoms
- 18 non-Water           : 47147 atoms
- 19 Ion                 :     7 atoms
- 20 Water_and_ions      : 75723 atoms
+  0 System              : 112095 atoms
+  1 Protein             :  4825 atoms
+  2 Protein-H           :  2367 atoms
+  3 C-alpha             :   292 atoms
+  4 Backbone            :   879 atoms
+  5 MainChain           :  1172 atoms
+  6 MainChain+Cb        :  1455 atoms
+  7 MainChain+H         :  1458 atoms
+  8 SideChain           :  3367 atoms
+  9 SideChain-H         :  1195 atoms
+ 10 Prot-Masses         :  4825 atoms
+ 11 non-Protein         : 107270 atoms
+ 12 Other               : 39040 atoms
+ 13 CHL                 :  4736 atoms
+ 14 POPC                : 34304 atoms
+ 15 CL                  :    14 atoms
+ 16 Water               : 68216 atoms
+ 17 SOL                 : 68216 atoms
+ 18 non-Water           : 43879 atoms
+ 19 Ion                 :    14 atoms
+ 20 Water_and_ions      : 68230 atoms
 ```
 
-A few of these groups are very important, e.g., group 1 is the protein, group 13 contains the cholesterol lipids while group 14 the POPC lipids, and so on. You can also see that GROMACS already puts together in a group water and ions (group 20, `Water_and_ions`). Thus, you will only need to generate another group that contains everything excluded water and ions, that is, the protein and the lipids. You can achieve this by typing
+A few of these groups are very important, e.g., group 1 is the protein, group 13 contains the cholesterol lipids while group 14 the POPC lipids, and so on. You can also see that GROMACS already puts together in a group water and ions (group 20, `Water_and_ions`). Thus, you will only need to generate another group that contains everything excluded water and ions, that is, the protein, the lipids, and the ligand. You can achieve this by typing
 
 ```bash
-1 | 13 | 14
+! 20
 ```
 
-and pressing enter. You can read the legend at the end of the list of groups to understand what you just did. You basically said to take everything that is inside group 1 OR inside group 13 OR inside group 14, which means `Protein`, `CHL`, and `POPC` groups. If you press enter again, GROMACS will show the list of groups inside the index file, and you can see how now there is a new one at the end
+and pressing enter. You can read the legend at the end of the list of groups to understand what you just did. You basically said to take everything that is <u>not</u> (`!`) inside group `20`, so the protein, the ligand, and the membrane. If you press enter again, GROMACS will show the list of groups inside the index file, and you can see how now there is a new one at the end
 
 ```bash
 [...]
- 18 non-Water           : 47147 atoms
- 19 Ion                 :     7 atoms
- 20 Water_and_ions      : 75723 atoms
- 21 Protein_CHL_POPC    : 47140 atoms
+ 18 non-Water           : 43879 atoms
+ 19 Ion                 :    14 atoms
+ 20 Water_and_ions      : 68230 atoms
+ 21 !Water_and_ions     : 43865 atoms
 ```
 
 which is the union of the protein with the lipids. You can rename it by typing
 
 ```bash
-name 21 Protein_and_memb
+name 21 non-Solv
 ```
 
 Press enter again to confirm the command, and you will see now that the group changed name
 
 ```bash
 [...]
- 18 non-Water           : 47147 atoms
- 19 Ion                 :     7 atoms
- 20 Water_and_ions      : 75723 atoms
- 21 Protein_and_memb    : 47140 atoms
+ 18 non-Water           : 43879 atoms
+ 19 Ion                 :    14 atoms
+ 20 Water_and_ions      : 68230 atoms
+ 21 non-Solv            : 43865 atoms
 ```
 
 You can exit the index generation by typing `q` and pressing enter. In your main directory you should now have the starting configuration `start.gro`, the corresponding topology `topol.top`, and the index file that you just generated, `index.ndx`. This is all what you need to run the following simulations.
@@ -536,7 +551,7 @@ You can exit the index generation by typing `q` and pressing enter. In your main
 The content of the exercise directory should now be similar to this
 
 ```bash
-GPCR_structure_X_excercise
+muOR_HOLO_ENDO_exercise
 │   sbatch_me.sh
 │   index.ndx
 │   start.gro
@@ -571,7 +586,7 @@ Take a look at the content of the `sbatch_me.sh`. The first lines look like this
 #SBATCH --account=gervasio_teach_19h330
 #SBATCH --partition=private-gervasio-gpu
 #SBATCH --time 144:00:00
-#SBATCH --job-name GPCR1
+#SBATCH --job-name muOR_ENDO
 #SBATCH --error jobname-error.e%j
 #SBATCH --output jobname-out.o%j
 #SBATCH --ntasks 1
@@ -600,7 +615,11 @@ module load GROMACS/2023.1-CUDA-11.7.0
 
 Then there are a few technical details about how GROMACS should use the available resources to run the simulations with `gmx mdrun` (e.g. `-ntmpi`, `-ntomp`, etc.). Lastly, there are a series of `cd` commands that enter the `step1_em`, `step2_nvt`, `step3_npt`, and `step4_prod` directories and systematically run `gmx grompp` to prepare the corresponding tpr files and then run them with `gmx mdrun`.
 
-You can send the submission script `sbatch_me.sh` and let slurm handle the simulations by using the [sbatch](https://slurm.schedmd.com/sbatch.html) command. This should be run from Baobab's head-node, and not from the node that you received by running `salloc`. Thus, from the `GPCR_structure_X_excercise` directory where the submission script `sbatch_me.sh` is located, you can submit the job slurm with the following command
+::: {.callout-note title="Maxwarn flags"}
+Notice that all the `gmx grompp` commands contain the `-maxwarn 1` flag. This is due to the leftover charge from the ionization step which will raise a warning every time you compile a tpr with this topology.
+:::
+
+You can send the submission script `sbatch_me.sh` and let slurm handle the simulations by using the [sbatch](https://slurm.schedmd.com/sbatch.html) command. This should be run from Baobab's head-node, and not from the node that you received by running `salloc`. Thus, from the `muOR_HOLO_X_exercise` directory where the submission script `sbatch_me.sh` is located, you can submit the job slurm with the following command
 
 ```bash
 sbatch sbatch_me.sh
@@ -609,7 +628,7 @@ sbatch sbatch_me.sh
 If the command runs successfully, slurm returns the number that is assigned to your job, something like this
 
 ```bash
-Submitted batch job 16567322
+Submitted batch job 7404228
 ```
 
 You can check the status of the job by running (and substituting `username` with yours)
@@ -622,10 +641,10 @@ The output will look something like this
 
 ```bash
              JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-          16567322 private-g    GPCR1 username  R       0:55      1 gpu037
+           7404228 private-g muOR_END username  R       0:47      1 gpu037
 ```
 
-The `R` under the column `ST` (for *status*) stands for *running*. Usually, the job stays in the queue with some other status, like `PD` (for *pending*), before changing to `R`. Once it's running, you will see that slurm directly writes the output to the exercise directories, e.g., you will see `em.gro`, `em.trr`, and other output files appearing in `step1_em`, `nvt_1.log`, `nvt_1.gro` etc. in `step2_nvt`, and so on. Now that the job is submitted and running, you can log out from Baobab without risking to stop it. For the GPCRs exercises, the time needed to complete the whole equilibration phase (steps 1 to 3) is of about two hours, while to complete the production it will take roughly five days, so a total of five days overall.
+The `R` under the column `ST` (for *status*) stands for *running*. Usually, the job stays in the queue with some other status, like `PD` (for *pending*), before changing to `R`. Once it's running, you will see that slurm directly writes the output to the exercise directories, e.g., you will see `em.gro`, `em.edr`, and other output files appearing in `step1_em`, `nvt_1.log`, `nvt_1.gro` etc. in `step2_nvt`, and so on. Now that the job is submitted and running, you can log out from Baobab without risking to stop it. For the muOR exercises, the time needed to complete the whole equilibration phase (steps 1 to 3) is of about two days, while to complete the production it will take roughly two days, so a total of four to five days overall.
 
 #### A look at the process of equilibration
 
@@ -655,7 +674,7 @@ The other most important section is the one where you set the thermostat and bar
 ;----------------------------------------------
 ; >> Temperature
 tcoupl                   = v-rescale
-tc-grps                  = Protein_and_memb Water_and_ions
+tc-grps                  = non-Solv              Water_and_ions
 tau_t                    = 0.5                   0.5
 ref_t                    = 300                   300
 ; >>  Pressure
@@ -683,64 +702,64 @@ The reason why there are several NVT and NPT sub-phases is that the system shoul
 ;---------------------------------------------
 ; POSITION RESTRAINTS
 ;---------------------------------------------
-define                    = -DPOSRES_PRO -DPOSRES_FC_SC=1000 -DPOSRES_FC_BB=1000 -DPOSRES_LIP -DRES_LIP_K=1000
+define                    = -DPOSRES_PRO -DPOSRES_FC_SC=1000 -DPOSRES_FC_BB=1000 -DPOSRES_LIP -DRES_LIP_K=1000 -DPOSRES_LIG -DPOSRES_LIG_K=1000
 [...]
 ```
 
-The technical implementation and the specific meaning of these parameters is beyond the scope of this tutorial. The take at home message is that, due to the restraints, at the beginning of the equilibration both the lipids and the protein can't really move freely in space, but water can. In this way you can thermalize first the water molecules. Then, gradually, the restraints on the atoms of the system are decreased to let the whole system equilibrate. You can check the values of the parameters in the `POSITION RESTRAINTS` of the `nvt_X.mdp` and `npt_X.mdp` files. You will see that they gradually decrease up to disappearing in the last NPT equilibration.
+The technical implementation and the specific meaning of these parameters is beyond the scope of this tutorial. The take at home message is that, due to the restraints, at the beginning of the equilibration, the lipids, the ligand, and the protein can't really move freely in space, but water can. In this way you can thermalize first the water molecules. Then, gradually, the restraints on the atoms of the system are decreased to let the whole system equilibrate. You can check the values of the parameters in the `POSITION RESTRAINTS` of the `nvt_X.mdp` and `npt_X.mdp` files. You will see that they gradually decrease up to disappearing in the last NPT equilibration.
 
-The production run is usually simulated without restraints at all, and in fact there is no restraint defined in `prod.mdp`, as you would like to simulate the 'natural' behaviour of the system. In this tutorial, the [statistical ensemble](https://en.wikipedia.org/wiki/Ensemble_(mathematical_physics)) of the production run is still the isothermal-isobaric ensemble (NPT), as you can see from the `prod.mdp` file since both the thermostat and the barostat are active. It is informally called *production* because it is the part of the simulation that is used most of the times for the analysis, as it comes after the equilibration and it is supposed to be well relaxed.
+The production run is usually simulated without restraints at all, and in fact there is no restraint defined in `prod.mdp`, as you would like to simulate the 'natural' behaviour of the system. In this tutorial, the [statistical ensemble](https://en.wikipedia.org/wiki/Ensemble_(mathematical_physics)) of the production run is still the isothermal-isobaric ensemble (NPT), as you can see from the `prod.mdp` file since both the thermostat and the barostat are active. It is informally called *production* because it is the part of the simulation that is used most of the times for the analysis, i.e. your in-silico experiment, as it comes after the equilibration and it is supposed to be well relaxed.
 
 ## Tips and tricks
 #### Tips and tricks for trajectories handling
-Trajectories are fidgety things. The standard format of the GROMACS trajectory, an `.xtc` file, contains the positions of the atoms as a function of time, collected as a sequence of frames. The frequency of the output is set by the keyword `nstxout-compressed` in the mdp files, in units of time steps. For the GPCRs productions, this is 10000, that is, `10000 x 0.002 ps = 20 ps`. Considering that the run is long 500 ns, this means that you will collect 25000 frames. The content of the frames is defined by the keyword `compressed-x-grps`. Since this was not set in the mdp files, the default is the whole system, that is, the protein, the lipid molecules, the ions, and all the water molecules.
+Trajectories are fidgety things. The standard format of the GROMACS trajectory, an `.xtc` file, contains the positions of the atoms as a function of time, collected as a sequence of frames. The frequency of the output is set by the keyword `nstxout-compressed` in the mdp files, in units of time steps. For the muOR systems productions, this parameter is set to 10000, that is, `10000 x 0.002 ps = 20 ps`. Considering that the run is 200 ns long (as set by `nsteps = 100000000` in `prod.mdp`), this means that you will collect 10000 frames. The content of the frames is defined by the keyword `compressed-x-grps`. Since this keyword was not set in the mdp files, the default is the whole system, that is, the protein, the ligand, the lipid molecules, the ions, and all the water molecules.
 
 ::: {.callout-tip title="Data volume"}
 You can imagine how writing coordinates for hundreds of thousands of atoms for thousands of frames can be very memory intensive. Deciding in advance what to print and the frequency is very important, and can save you a lot of space. However, it is better to stay on the safer side as the only way to recover not printed data is to rerun the simulation.
 :::
 
-This short section covers a couple of key points in handling trajectories and the representation of periodic boundary conditions. It is important to understand that the information of the trajectory is the same, and changing its representation <u>doesn't change the content</u>. There are a few reasons why post-processing of the trajectory is fundamental. The most important is for analysis purposes, as some tools might be sensible to the representation of the molecules. For example, RMSD calculation might break down and give non-sense jumps if the tool that calculates it doesn't reconstruct the trajectory by fixing broken molecules across periodic boundaries. Building on this point, very large trajectories are also hard to handle from the hardware perspective, and it is better to reduce them to the strictly necessary so that tools analyzing them are faster. Handling trajectories is important also for representation purposes, e.g., rendering a fancy image for a publication. Moreover, this is connected to understanding via visualization, as watching the trajectory is very important to gain insights on the system and check possible criticalities, and human eyes work better with whole molecules.
+This short section covers a couple of key points in handling trajectories and the representation of periodic boundary conditions. It is important to understand that the information of the trajectory is the same, and changing its representation <u>doesn't change the content</u>. There are a few reasons why post-processing of the trajectory is fundamental. The most important is for analysis purposes, as some tools might be sensible to the representation of the molecules. For example, RMSD calculation might break down and give non-sense jumps if the tool that calculates it doesn't reconstruct the trajectory by fixing broken molecules across periodic boundaries. Building on this point, very large trajectories are also hard to handle from the hardware perspective, and it is better to reduce them to the strictly necessary so that tools can analyze them are faster. Handling trajectories is important also for representation purposes, e.g., rendering a fancy image for a publication. Moreover, this is connected to understanding via visualization, as watching the trajectory is very important to gain insights on the system and check possible criticalities, and human eyes work better with whole molecules.
 
 The main tool for trajectory handling in GROMACS is [`gmx trjconv`](https://manual.gromacs.org/current/onlinehelp/gmx-trjconv.html). Take a look at the manual for the optional flags and see if anything fits what you want to do (or check with `gmx trjconv --h`). This is a tool that notoriously necessitates some experience to achieve an efficient usage, but it is worth pointing out a few key commands. Generally, after running `gmx trjconv` GROMACS asks some further information (depending on the flags you are using) in terms of contents of the system. The most important thing here is to read properly what GROMACS asks and answer accordingly to your own purpose.
 
-The panels of @fig-gpcr-pbc shows a few ways in which the trajectory can be post-processed. The videos were rendered with VMD. They are
+The panels of @fig-muor-pbc shows a few ways in which the trajectory can be post-processed. The videos were rendered with VMD. They are
 
 - The original trajectory, represented as simple lines. Molecules that are broken across the boundaries give rise to the typical spaghetti-like bonds. Notice how nothing leaves the box, as the PBCs put the atoms back in the box, but on the other side. You can change VMD representation in favour of other types less prone to artifacts, like van der Waals radii, but molecules will still be visually be broken;
 
-- The trajectory corrected for PBCs broken molecules. This can be achieved with the flag `-pbc mol`. Notice how some lipids seem to be exiting the box: this is the PBC reconstruction carried out by GROMACS. That part of the lipid would be coming back in on the other side of the box, but with `-pbc mol` you are asking GROMACS to make the molecules whole, and so some atoms are moved from one side of the box to the other to complete the molecules. The protein can be seen as it diffuses laterally in the plane bilayer;
+- The trajectory corrected for PBCs broken molecules. This can be achieved with the flag `-pbc mol`. Notice how some lipids seem to be exiting the box: this is the PBC reconstruction carried out by GROMACS. That part of the lipid molecules should be coming back in on the other side of the box, but with `-pbc mol` you are asking GROMACS to make the molecules whole, and so some atoms are moved from one side of the box to the other to complete the molecules. The protein can be seen as it slowly diffuses laterally in the plane bilayer;
 
 - The trajectory re-centered around the protein and corrected for PBCs broken molecules. This can be achieved with the flag `-pbc mol` and `-center` and prompting GROMACS to center the protein in the box. This type of visualization might be useful if you want to focus on the protein rather than the lipids and want to get rid of its diffusion in the membrane;
 
 - The trajectory refitted on the protein first frame. This comes from two concatenated passages. The first usually is the same as the point before this one, that is, PBC removal and re-centering. Then, the output is further post-produced with `trjconv` by setting the flag `-fit rot+trans`, and prompting GROMACS to use the protein alpha carbons as reference. Briefly, GROMACS tries to match the position of the protein in each frame with the starting one (passed with the flag `-s`). You can see how the protein is barely wiggling, and actually is the box that is slightly rotating around it. As before, this type of post-processing is important when the group that is being fitted (the protein here) should stay as still as possible. The protein/ligand malaria targets of the other exercise are a very good example, as this post-processing makes much easier to visualize the binding site and the ligand.
 
-::: {#fig-gpcr-pbc layout-ncol=2}
+::: {#fig-muor-pbc layout-ncol=2}
 
 ::: {}
-![](/images/image_gpcr_stability/gpcr_ori.gif){width="400" fig-align="center"}
-:::
-
-::: {}
-![](/images/image_gpcr_stability/gpcr_pbc.gif){width="400" fig-align="center"}
+![](/images/image_muor_ligands/muor_ori.gif){width="400" fig-align="center"}
 :::
 
 ::: {}
-![](/images/image_gpcr_stability/gpcr_cent.gif){width="400" fig-align="center"}
+![](/images/image_muor_ligands/muor_pbc.gif){width="400" fig-align="center"}
 :::
 
 ::: {}
-![](/images/image_gpcr_stability/gpcr_fit.gif){width="400" fig-align="center"}
+![](/images/image_muor_ligands/muor_cent.gif){width="400" fig-align="center"}
 :::
 
-Four different ways to re-wrap the same GPCR trajectory. Water is removed for clarity. The first panel shows the original trajectory; the second shows molecules made whole across PBCs; the third centers the protein in the box; the fourth aligns the protein to the last frame of the energy minimization.
+::: {}
+![](/images/image_muor_ligands/muor_fit.gif){width="400" fig-align="center"}
 :::
 
-For the exam, the main post-processing of the trajectory that you might need is the removal of the water molecules, as this will make the trajectory much smaller and easy to download and analyze. It is also worth to correct the PBCs and center the protein, which basically means obtaining what is shown in the third panel of @fig-gpcr-pbc. You can do this in one command as in the following
+Four different ways to re-wrap the same trajectory. Water is removed for clarity. The first panel shows the original trajectory; the second shows molecules made whole across PBCs; the third centers the protein in the box; the fourth aligns the protein to the last frame of the energy minimization.
+:::
+
+For the exam, the main post-processing of the trajectory that you might need is the removal of the water molecules, as this will make the trajectory much smaller and easy to download and analyze. It is also worth to correct the PBCs and center the protein, which basically means obtaining what is shown in the third panel of @fig-muor-pbc. You can do this in one command as in the following
 
 ```bash
 gmx trjconv -f prod.xtc -s nvt_1.tpr -pbc mol -center -o center_traj.xtc
 ```
 
-and, when prompted by GROMACS, by selecting the group `Protein` for centering and `System` for output. The output will be called `center_traj.xtc` and will contain the whole trajectory where all the molecules are made whole across the PBCs and the protein is centered in the box. You can then fit the protein to its starting position to better visualize the binding site (like panel 4 of @fig-gpcr-pbc) as in the following
+and, when prompted by GROMACS, by selecting the group `Protein` for centering and `System` for output. The output will be called `center_traj.xtc` and will contain the whole trajectory where all the molecules are made whole across the PBCs and the protein is centered in the box. You can then fit the protein to its starting position to better visualize the binding site (like panel 4 of @fig-muor-pbc) as in the following
 
 ```bash
 gmx trjconv -f center_traj.xtc -s nvt_1.tpr -fit rot+trans -o center_traj_fit.xtc
@@ -756,10 +775,10 @@ gmx trjconv -f center_traj_fit.xtc -s em.tpr -o nowater.gro -dump 0
 In both cases, select `non-Water` as the output group. These will produce two files, `nowater.gro` and `nowater.xtc`, which are the first frame of the production run and the associated trajectory, respectively, but without the water. The files should be much smaller than the original `prod.xtc`. You can use these two files to visualize the trajectory in VMD. You can get rid of the intermediary files and remove them, that is, `rm center_traj.xtc center_traj_fit.xtc`.
 
 ::: {.callout-warning title="Remove carefully"}
-Remember that [`rm`](https://ss64.com/bash/rm.html) permanently deletes files. There is no Trash/Recycle bin in the terminal, and if by mistake you delete something that you need, like the production trajectory, you will have to re-run the simulation.
+Remember that [`rm`](https://ss64.com/bash/rm.html) permanently deletes files. There is no Trash/Recycle bin in the terminal, and if by mistake you delete something that you need, like the production trajectory, you will have to re-run the simulation. So please pay attention to what you delete and always keep the original `prod.xtc` file as reference.
 :::
 
-Notice how the tpr passed to trjconv is `nvt_1.tpr`, the one compiled by the `sbatch_me.sh` script following the energy minimization. This is useful in cases where the refitting and re-centering is complex due to the presence of more than one molecule which should stay consistent in terms of reference frame. Many visualization artifacts can be solved by the usage of a good reference structure (like `nvt_1.tpr`, as in the beginning without dynamics the molecules were still at the centre of the box), some patience, and a good combination of flags (usually `-pbc mol -center` is a good starting point). However, removing water might be a good idea for visualization purposes, but not for analysis ones. What about the interaction of water with the protein, especially if there is a ligand? Are there any? Are they important? For these GPCRs systems, and in the context of this tutorial, the answer is no, and you can just discard them. Nevertheless, use with care and keeping in mind what you want to do with the cleaned trajectory.
+Notice how the tpr passed to trjconv is `nvt_1.tpr`, the one compiled by the `sbatch_me.sh` script following the energy minimization. This is useful in cases where the refitting and re-centering is complex due to the presence of more than one molecule that has to stay consistent in terms of reference frame. Many visualization artifacts can be solved by using a good reference structure (like `nvt_1.tpr`, as in the beginning without dynamics the molecules were still at the centre of the box), some patience, and a good combination of flags (usually `-pbc mol -center` is a good starting point). However, removing water might be a good idea for visualization purposes, but not for analysis ones. What about the interaction of water with the protein and the ligand? Are there any? Are they important? For these muOR systems, and in the context of this tutorial, the answer is yes, as the hydration of the intracellular binding pocket is different between the APO and the HOLO states and correlates with the activity of the GPCR.
 
 As a final statement, the process of reducing the trajectory shown in the latter is transferable to whatever you want to output that is contained in the box. You will just have to select the group you want to maintain in the output when prompted by trjconv. If the specific group you want is not among those automatically suggested, you can create a new one with `gmx make_ndx` and pass the index file to `trjconv` via the flag `-n` as shown in the latter for the index generation of the thermostat groups. 
 
