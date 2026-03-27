@@ -299,7 +299,7 @@ If you take a look at the `MUOR_ENDO_solvated_clean.gro` file, you will notice t
   10.15889  10.15889   9.41398
 ```
 
-where `SOL` is the name of the solvent molecules (water) and each `SOL` molecule has four atoms. The box size, as expected, didn't change. When there are many atoms in the box, the space between the second and the third column might disappear. For example, `OW17962` is an atom called `OW` and it's the entry number `31349`, but the space between is not present anymore. This also is not a problem sa long as the length of each field remains constant.
+where `SOL` is the name of the solvent molecules (water) and each `SOL` molecule has four atoms. The box size, as expected, didn't change. When there are many atoms in the box, the space between the second and the third column might disappear. For example, `OW17962` is an atom called `OW` and it's the entry number `17962`, but the space between is not present anymore. This also is not a problem sa long as the length of each field remains constant.
 
 The first lines look like before exception made for the number of atoms, which now has been updated to contain also those of water (in fact the starting dry box had `43865` atoms to which you added `17068` four-point water molecules, that is `43865 + 17068 x 4 = 112137`).
 
@@ -735,19 +735,19 @@ The panels of @fig-muor-pbc shows a few ways in which the trajectory can be post
 ::: {#fig-muor-pbc layout-ncol=2}
 
 ::: {}
-![](/images/image_muor_ligands/muor_ori.gif){width="400" fig-align="center"}
+![](/images/image_muor_ligands/muor_ori.gif){width="375" fig-align="center"}
 :::
 
 ::: {}
-![](/images/image_muor_ligands/muor_pbc.gif){width="400" fig-align="center"}
+![](/images/image_muor_ligands/muor_pbc.gif){width="375" fig-align="center"}
 :::
 
 ::: {}
-![](/images/image_muor_ligands/muor_cent.gif){width="400" fig-align="center"}
+![](/images/image_muor_ligands/muor_cent.gif){width="375" fig-align="center"}
 :::
 
 ::: {}
-![](/images/image_muor_ligands/muor_fit.gif){width="400" fig-align="center"}
+![](/images/image_muor_ligands/muor_fit.gif){width="375" fig-align="center"}
 :::
 
 Four different ways to re-wrap the same trajectory. Water is removed for clarity. The first panel shows the original trajectory; the second shows molecules made whole across PBCs; the third centers the protein in the box; the fourth aligns the protein to the last frame of the energy minimization.
