@@ -1,0 +1,346 @@
+/* ---------------------------- */
+/* --- navigation bar style --- */
+/* ---------------------------- */
+.navbar-brand {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.navbar-nav .nav-link {
+  font-size: 0.8rem;
+}
+
+/* --------------------------- */
+/* --- Change footer style --- */
+/* --------------------------- */
+
+/* styles.css */
+.nav-footer {
+  font-size: 1.25rem; /* Makes text smaller */
+  padding-top: 10px;  /* Reduces top spacing */
+  padding-bottom: 10px; /* Reduces bottom spacing */
+}
+
+/* -------------------------- */
+/* --- Contact list style --- */
+/* -------------------------- */
+.contact-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--quarto-border-color, #ddd);
+}
+
+.contact-list li {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 16px;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--quarto-border-color, #ddd);
+}
+
+.contact-list .photo-wrap {
+  width: 140px;
+  height: 140px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.contact-list img.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.contact-list .who {
+  margin: 0;
+  line-height: 1.35;
+}
+
+.contact-list .who .name {
+  font-size: 1.05rem;
+  font-weight: 650;
+  margin: 0 0 4px 0;
+}
+
+.contact-list .who .role {
+  margin: 0 0 8px 0;
+  color: var(--quarto-fg-muted, #666);
+}
+
+.contact-list .who .email {
+  margin: 0;
+}
+
+.contact-list .who .email a {
+  text-decoration: none;
+  color: var(--quarto-link-color, #0b6cff);
+  border-bottom: 1px dotted currentColor;
+}
+
+.contact-list .who .email a:hover {
+  border-bottom-style: solid;
+}
+
+@media (max-width: 600px) {
+  .contact-list li {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .contact-list .photo-wrap {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+  }
+
+  .contact-list .who {
+    text-align: center;
+  }
+}
+
+/* ------------------------- */
+/* --- Linked list style --- */
+/* ------------------------- */
+
+/* Container for the whole list */
+.linked-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--quarto-border-color, #ddd);
+}
+
+/* Each row */
+.linked-list li {
+  display: grid;
+  grid-template-columns: 180px 1fr; /* image | description */
+  gap: 16px;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--quarto-border-color, #ddd);
+}
+
+/* Make the image a block and scale nicely */
+.linked-list .thumb {
+  display: block;
+  width: 100%;
+  max-width: 140px;
+  border-radius: 6px;
+  transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+/* Hover feedback */
+.linked-list a:hover .thumb {
+  transform: scale(1.02);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+}
+
+/* Description area */
+.linked-list .desc {
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Make the title within the description clearly clickable */
+.linked-list .desc a.title {
+  font-weight: 600;
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 1px dotted currentColor;
+}
+.linked-list .desc a.title:hover {
+  border-bottom-style: solid;
+}
+
+/* Responsive: stack on narrow screens */
+@media (max-width: 600px) {
+  .linked-list li {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
+/* ------------------------------------- */
+/* ---------- Download buttons ---------- */
+/* ------------------------------------- */
+
+.download-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+
+.download-buttons .btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+
+  background-color: #cacccc91; /* Material blue */
+  color: rgb(83, 83, 83);
+  padding: 0.6rem 0.9rem;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+
+  /* Material-like elevation */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  transition: all 0.2s ease;
+}
+
+.download-buttons .btn img {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+}
+
+/* Hover effect */
+.download-buttons .btn:hover {
+  background-color: #5785b9;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transform: translateY(-1px);
+}
+
+/* Click effect */
+.download-buttons .btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 3px rgba(0,0,0,0.2);
+}
+
+/* ------------------------------------- */
+/* ---------- Terminal widget ---------- */
+/* ------------------------------------- */
+.terminal-widget{
+  font-family: monospace;
+}
+
+.tree ul{
+  list-style:none;
+  margin:0;
+  padding-left:20px;
+  position:relative;
+}
+
+.tree ul::before{
+  content:"";
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:8px;
+  border-left:1px solid #aaa;
+}
+
+.tree li{
+  position:relative;
+  margin:4px 0;
+  padding-left:20px;
+  cursor:pointer;
+}
+
+.tree li::before{
+  content:"";
+  position:absolute;
+  top:10px;
+  left:0;
+  width:12px;
+  border-top:1px solid #aaa;
+}
+
+.tree li:last-child::after{
+  content:"";
+  position:absolute;
+  left:8px;
+  top:11px;
+  bottom:0;
+  background:white;
+  width:2px;
+}
+
+/* current directory */
+.tree li.current{
+  color:#1f77b4;
+  font-weight:bold;
+}
+
+/* immediate children (descendants) */
+.tree li.descendant{
+  font-weight:bold;
+  color:black;
+}
+
+/* reset bold for nested li inside descendant */
+.tree li.descendant li{
+  font-weight:normal;
+  color:#777;
+}
+
+.path{
+  color:#777;
+  margin-left:8px;
+  font-size:0.9em;
+}
+
+.pwd{
+  margin-top:10px;
+  font-weight:bold;
+  color: #794141;
+}
+
+.caption {
+  font-size: 0.9em;
+  color: #555;
+  margin-top: 8px;
+}
+
+/* ----------------------------------------- */
+/* ---------- Exercise card style ---------- */
+/* ----------------------------------------- */
+
+.exercise {
+  counter-reset: step;         /* reset steps inside each exercise */
+  margin: 1.0rem 0;
+  padding: 0rem 1.2rem;
+  border: 1px solid #d3d3d3;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.05);
+}
+
+/* Exercise title styling (manual numbering) */
+.exercise h3 {
+  font-weight: 800;
+  margin-bottom: 0.9rem;
+  font-size: larger;
+}
+
+/* Steps styling */
+.exercise ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.exercise ul li {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  gap: 0.8rem;
+  align-items: start;
+  counter-increment: step;
+  margin-bottom: 0.6rem;
+}
+
+.exercise ul li::before {
+  content: counter(step, lower-alpha);
+  background: rgba(96, 107, 204, 0.6); /* semi-transparent */
+  color: white;
+  font-weight: 600;
+  border-radius: 3px;
+  text-align: center;
+  padding: 0.15rem 0.1rem;
+  font-size: 0.85rem;
+}
