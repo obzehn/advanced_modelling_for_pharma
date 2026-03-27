@@ -20,7 +20,7 @@ website:
     left:
       - text: "Home"
         href: index.qmd
-      - text: "Tutorials"
+      - text: "Theory"
         menu:
           - text: "Introduction to Terminals"
             href: introduction_terminal.qmd

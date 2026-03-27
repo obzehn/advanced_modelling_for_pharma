@@ -7,8 +7,9 @@ format:
 
 This website is in support of the *Advanced Modelling and Data Analysis for Pharmaceutical Sciences* course for the Master Degree of Pharmacy at the University of Geneva. For more details, questions, and more course material, please refer to the corresponding Moodle page or reach out to the [team](contacts.qmd).
 
-If you are not part of the course, please feel free to use this material freely, but the authors do not take any responsability or make any claim of correctness on the provided input files.
+If you are not part of the course, please feel free to use this material freely, but the authors do not take any responsibility or make any claim of correctness on the provided input files.
 
+<h2>Theory</h2>
 <ul class="linked-list">
 
   <li>
@@ -27,9 +28,14 @@ If you are not part of the course, please feel free to use this material freely,
     </a>
     <p class="desc">
       <a class="title" href="introduction_baobab.qmd">Introduction to Baobab and HPC</a><br>
-      Introduction to few key concepts behind High Perfomance Computing (HPC) and Baobab, one of UniGe's HPCs.
+      Introduction to few key concepts behind High Perfomance Computing (HPC) and Baobab.
     </p>
   </li>
+
+</ul>
+
+<h2>Exercises</h2>
+<ul class="linked-list">
 
   <li>
     <a href="exercise_gpcr_stability.qmd" aria-label="GPCR stability">
@@ -37,7 +43,7 @@ If you are not part of the course, please feel free to use this material freely,
     </a>
     <p class="desc">
       <a class="title" href="exercise_gpcr_stability.qmd">Adhesion GPCR in membrane</a><br>
-      Exam exercise on the dynamical behaviour of different models of an adhesion GPCR.
+      Study the dynamical behaviour of models of an adhesion GPCR.
     </p>
   </li>
 
@@ -47,7 +53,7 @@ If you are not part of the course, please feel free to use this material freely,
     </a>
     <p class="desc">
       <a class="title" href="exercise_malaria_targets.qmd">Malaria target with ligands</a><br>
-      Exam exercise on APO and HOLO Protein kinase G systems.
+      Study APO and HOLO states of the protein kinase G.
     </p>
   </li>
 
@@ -57,7 +63,7 @@ If you are not part of the course, please feel free to use this material freely,
     </a>
     <p class="desc">
       <a class="title" href="exercise_muOR_ligands.qmd">mu-Opioid receptor in membrane with ligands</a><br>
-      Exam exercise on APO and HOLO mu-Opioid receptor systems in a membrane.
+      Study APO and HOLO states of the mu-Opioid receptor systems in a membrane.
     </p>
   </li>
 
