@@ -28,7 +28,7 @@ If you are not part of the course, please feel free to use this material freely,
     </a>
     <p class="desc">
       <a class="title" href="introduction_baobab.qmd">Introduction to Baobab and HPC</a><br>
-      Introduction to few key concepts behind High Perfomance Computing (HPC) and Baobab.
+      Introduction to few key concepts behind High Performance Computing (HPC) and Baobab.
     </p>
   </li>
 
@@ -43,7 +43,7 @@ If you are not part of the course, please feel free to use this material freely,
     </a>
     <p class="desc">
       <a class="title" href="exercise_gpcr_stability.qmd">Adhesion GPCR in membrane</a><br>
-      Study the dynamical behaviour of models of an adhesion GPCR.
+      Study the dynamical behavior of models of an adhesion GPCR.
     </p>
   </li>
 

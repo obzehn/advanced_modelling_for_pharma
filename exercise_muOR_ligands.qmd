@@ -233,7 +233,7 @@ At the other end of the file, the last lines look like this
 The meaning of the columns is the same as before. The last molecules to appear are the phopsholipids (and in fact, in the topology, they are reported last). The last line of a `.gro` file has, like the first two, a special meaning, as it reports the side length of the box along x, y, and z. For example, this box is roughly a cube, with x and y lengths of `10.15889` nm and z length of `9.41398` nm. Sometimes, for special types of boxes (like those used for the protein-ligand simulations), there might be more than three values reported. The starting configuration, which you can visualize with [VMD](https://www.ks.uiuc.edu/Research/vmd/), is reported in @fig-muor-start.
 
 ::: {#fig-muor-start}
-<img src="/images/image_muor_ligands/startmuor.png" width="700">
+<img src="/images/image_muor_ligands/startmuor.jpg" width="700">
 
 Side (left) and top (right) view of the system. The GPCR is reported in red as cartoons, while the lipids are shown in sticks and endomorphine is represented as spheres. Color legend is red (oxygen), blue (nitrogen), cyan (carbon), white (hydrogen), and yellow (phosphorus). The box is shown as blue lines.
 :::
@@ -283,7 +283,7 @@ The script removed ca. 1500 water molecules. You can see now, in @fig-muor-solv,
 
 
 ::: {#fig-muor-solv}
-<img src="/images/image_muor_ligands/solvatedmuor.png" width="700">
+<img src="/images/image_muor_ligands/solvatedmuor.jgp" width="700">
 
 On the left, the solvated system after `gmx solvate`. On the right, the same system after removing ca. 1500 water molecules with the `water_removal.py` script. Notice how there are no more water molecules in the lipid bilayer. Protein, lipids and ligand are coloured as in @fig-muor-start, while water molecules in red (oxygen) and white (hydrogen).
 :::
@@ -460,7 +460,7 @@ You have two options to overcome this problem. The first is to repartition the l
 Summarizing, you now have the starting solvated and neutralized configuration stored in `start.gro` and the corresponding topology in `topol.top`. You can take a look at the final system with VMD. It should look similar to that shown in @fig-muor-ions.
 
 ::: {#fig-muor-ions}
-<img src="/images/image_muor_ligands/ionisedmuor.png" width="700">
+<img src="/images/image_muor_ligands/ionisedmuor.jpg" width="700">
 
 Side (left) and top (right) view of the system after solvation and ion addition. Water is reported as a transparent white surface. The chlorine ions are shown as yellow spheres based on their van der Waals radii. Remember that all the atoms in the system are actually points without a radius described by a set of coordinates, they are not spheres. However, you can use their van der Waals radii to estimate how 'large' the atoms are, that is, how much space around them is physically precluded to other atoms due to the atomic repulsion of the inter-molecular van der Waals forces.
 :::
