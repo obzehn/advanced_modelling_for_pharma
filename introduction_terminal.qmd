@@ -48,9 +48,7 @@ As few general notes before starting with the tutorial.
 
 Without a graphical interface, you cannot see where you are located (Desktop? Downloads? Home? etc.) and what is inside the directory. You can check these by using the `pwd` (*print working directory*) and `ls` (*list*) commands, respectively.
 
-::: {.exercise}
-### Localization
-
+::: {.callout-caution collapse="false" title="Exercise 1 - Localization"}
 - Run `pwd`
 
 - The command will answer with something of the form like `/directory1/directory2/final_directory`. This means that, in this moment, you are inside `final_directory` (the last entry of the line), which itself is inside `directory2` that is inside `directory1`. Notice how the names of the different directories are separated by the symbol `/`. The core idea is that there is a starting directory, called **root** (indicated by the first symbol `/` on the left) that contains all directories. Then, like a tree from its root, all the following content of the computer is inside directories of directories. This is the standard organization of all computers (although in Windows Terminals like Powershell you might see `\` rather than `/` to separate directories).
@@ -60,7 +58,6 @@ Without a graphical interface, you cannot see where you are located (Desktop? Do
 - Run `ls`
 
 - This command will show the content of the directory where you are (that is, the one given by `pwd`) as a list of files. If it shows nothing, then the directory is empty.
-
 :::
 
 ---
@@ -72,8 +69,7 @@ Without a graphical interface, you cannot see where you are located (Desktop? Do
 
 To change a directory, you run `cd` (*change directory*) and insert the path of the directory you want to move to. Generally, when you open a terminal, you are in your `home` directory. From wherever you are, you can always run `cd ~` or `cd`.
 
-::: {.exercise}
-### Navigation
+::: {.callout-caution collapse="false" title="Exercise 2 - Navigation"}
 
 - Enter your home
 
@@ -175,8 +171,7 @@ Try navigating using both absolute and relative path in your terminal. Remember 
 
 To create a new directory, you can run the command `mkdir` (*make directory*). Specifically, running `mkdir name_directory` will generate a directory with name `name_directory` in the directory where you are, equivalently to `mkdir ./name_directory`. You can use absolute and relative paths as well, e.g., `mkdir ../name_directory` to create it inside the directory containing the current one or `mkdir /home/bob/Documents/name_directory` to create it specifically at that path.
 
-::: {.exercise}
-### Creating directories
+::: {.callout-caution collapse="false" title="Exercise 3 - Create directories"}
 
 - Create a directory called `playground`
 
@@ -194,8 +189,7 @@ To create a new directory, you can run the command `mkdir` (*make directory*). S
 
 You can create files with the `touch` command.
 
-::: {.exercise}
-### Creating files
+::: {.callout-caution collapse="false" title="Exercise 4 - Create files"}
 
 - Create three files: `dog.txt`, `cat.txt`, `elephant.txt` in the `animals` directory
 
@@ -218,8 +212,7 @@ You can create files with the `touch` command.
 
 You can access the content of a file by using the command `cat`. The simple version `cat file` will print the content of `file` on the screen. `echo`, instead, is used for printing something specific. `echo "Hello World!"` will print `Hello World!` on the screen.
 
-::: {.exercise}
-### Reading and echoing
+::: {.callout-caution collapse="false" title="Exercise 5 - Reading and echoing"}
 
 - Navigate to the directory containing the file `dog.txt`
 
@@ -238,8 +231,7 @@ You will notice that the `echo` command is unchanged, but we added a `> dog.txt`
 ### **Exercise 6: Append Content**  
 **Goal:** Learn output redirection (>>)
 
-::: {.exercise}
-### Appending
+::: {.callout-caution collapse="false" title="Exercise 6 - Appending"}
 
 - Append another sentence to `dog.txt` using `>>`, e.g. `echo "your cool sentence" >> dog.txt`
 
@@ -260,8 +252,7 @@ Notice that `>` **rewrites** the content of the file, that is, whatever is conta
 
 You can rename or move a file with the command `mv` (*move*). Example usages are `mv a.txt b.txt`, which renames file `a.txt` in `b.txt`, and `mv a.txt ./Documents/`, which moves file `a.txt` from the current directory inside the `Documents` directory. You can also combine them like `mv a.txt ./Documents/b.txt` which both moves and renames the file. The same can be applied to directories.
 
-::: {.exercise}
-### Moving and renaming
+::: {.callout-caution collapse="false" title="Exercise 7 - Moving and renaming"}
 
 - Rename the `elephant.txt` into `toad.txt` in the animal folder
 
@@ -281,8 +272,7 @@ You can rename or move a file with the command `mv` (*move*). Example usages are
 
 You can copy files with the command `cp` (*copy*), e.g. `cp a b` will copy fle `a` in `b`. Remember that absolute and relative paths can be used everywhere you specify a file or a directory, for example `cp ../a.txt /home/Documents/a_backup.txt` will copy the `a.txt` file from the directory one above us to a file named `a_backup.txt` inside the directory `/home/Documents/`
 
-::: {.exercise}
-### Copying
+::: {.callout-caution collapse="false" title="Exercise 8 - Copying"}
 
 - Copy the `dog.txt` file both into `dog.txt` and `dog_backup.txt`. Which one works? Why?
 
@@ -305,8 +295,7 @@ You can remove files and directories with `rm` (*remove*) and `rmdir` (*remove d
 There is no Recycling Bin. Everything that is deleted is lost, permanently. Double think before deleting stuff, and double check your commands. Removing files and directories from certain System directories can permanently damage the operative system of your computer, or you can easily delete one month worth of data analysis. As a safety rule, do not touch things that you are not sure what they are.
 :::
 
-::: {.exercise}
-### Deleting
+::: {.callout-caution collapse="false" title="Exercise 9 - Deleting"}
 
 - Create a directory called `poaching` inside `playground`
 
@@ -331,8 +320,7 @@ There is no Recycling Bin. Everything that is deleted is lost, permanently. Doub
 
 Until now, you saw how to add data to a file by using the `echo` command. This is a neat trick to store on file output from commands, but in general it is not very useful to open and modify files. There are several text editors available in terminals, and which one to use largely depends on the personal preferences. Two of the most common are [`vim`](https://www.vim.org/) and [`nano`](https://en.wikipedia.org/wiki/GNU_nano). These are complex software packages with a billion options, and sadly the learning curve is a bit steep, but the basics for opening, modifying and saving (a basic usage of a text editor) are very simple.
 
-::: {.exercise}
-### VIM
+::: {.callout-caution collapse="false" title="Exercise 10 - vim"}
 
 - Open the `toad.txt` file in the `animal` folder with `vim` by running `vim toad.txt`
 

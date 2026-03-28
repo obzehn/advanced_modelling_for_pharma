@@ -237,9 +237,18 @@ Since this guide focuses on <code>bash</code> and <code>zsh</code>:</p>
 <p><strong>Goal:</strong> Learn to check the current directory and its content.</p>
 <p><strong>Commands:</strong> <code>pwd</code>, <code>ls</code></p>
 <p>Without a graphical interface, you cannot see where you are located (Desktop? Downloads? Home? etc.) and what is inside the directory. You can check these by using the <code>pwd</code> (<em>print working directory</em>) and <code>ls</code> (<em>list</em>) commands, respectively.</p>
-</section>
-<section id="localization" class="level3 exercise">
-<h3 class="anchored" data-anchor-id="localization">Localization</h3>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercise 1 - Localization">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Exercise 1 - Localization
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
 <ul>
 <li><p>Run <code>pwd</code></p></li>
 <li><p>The command will answer with something of the form like <code>/directory1/directory2/final_directory</code>. This means that, in this moment, you are inside <code>final_directory</code> (the last entry of the line), which itself is inside <code>directory2</code> that is inside <code>directory1</code>. Notice how the names of the different directories are separated by the symbol <code>/</code>. The core idea is that there is a starting directory, called <strong>root</strong> (indicated by the first symbol <code>/</code> on the left) that contains all directories. Then, like a tree from its root, all the following content of the computer is inside directories of directories. This is the standard organization of all computers (although in Windows Terminals like Powershell you might see <code>\</code> rather than <code>/</code> to separate directories).</p></li>
@@ -247,23 +256,37 @@ Since this guide focuses on <code>bash</code> and <code>zsh</code>:</p>
 <li><p>Run <code>ls</code></p></li>
 <li><p>This command will show the content of the directory where you are (that is, the one given by <code>pwd</code>) as a list of files. If it shows nothing, then the directory is empty.</p></li>
 </ul>
-</section>
+</div>
+</div>
+</div>
 <hr>
+</section>
 <section id="exercise-2-going-around" class="level3">
 <h3 class="anchored" data-anchor-id="exercise-2-going-around"><strong>Exercise 2: Going around</strong></h3>
 <p><strong>Goal:</strong> Learn how to change directories, and absolute &amp; relative paths.</p>
 <p><strong>Commands:</strong> <code>cd</code></p>
 <p>To change a directory, you run <code>cd</code> (<em>change directory</em>) and insert the path of the directory you want to move to. Generally, when you open a terminal, you are in your <code>home</code> directory. From wherever you are, you can always run <code>cd ~</code> or <code>cd</code>.</p>
-</section>
-<section id="navigation" class="level3 exercise">
-<h3 class="anchored" data-anchor-id="navigation">Navigation</h3>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercise 2 - Navigation">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Exercise 2 - Navigation
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
 <ul>
 <li><p>Enter your home</p></li>
 <li><p>List what is in your home and access one of the directories you find with <code>cd name_directory</code>.</p></li>
 <li><p>Move one directory up with <code>cd ..</code></p></li>
 <li><p>The <code>..</code> is a general way to say <em>one up</em>. You can concatenate the points, i.e., <code>cd ../..</code> means go <strong>two</strong> directories up, <code>cd ../../..</code> means <strong>three</strong> and so on. The single dot <code>.</code>, instead, indicates <em>this</em> directory where you are now. For example, running <code>cd .</code> moves you… nowhere, since you are telling the computer to move to where you are to where you are. While the single dot might seem (and it is) useless in the context of this command, it will be useful for others that you will encounter down the road.</p></li>
 </ul>
-</section>
+</div>
+</div>
+</div>
 <p>This is a good moment to grasp the concept of paths. As said before, a <strong>path</strong> is a text string that tells the computer where a file or directory is located in the filesystem. Example of paths are</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">/home/user/Documents</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Documents</span></span>
@@ -339,6 +362,7 @@ render()
 <p>Try navigating using both absolute and relative path in your terminal. Remember that you can always go back to your home with <code>cd</code> or <code>cd ~</code>.</p>
 <hr>
 </section>
+</section>
 <section id="creating-things" class="level1">
 <h1>Creating Things</h1>
 <section id="exercise-3-create-directories" class="level3">
@@ -346,31 +370,55 @@ render()
 <p><strong>Goal:</strong> Learn how to create a directory</p>
 <p><strong>Commands:</strong> <code>mkdir</code></p>
 <p>To create a new directory, you can run the command <code>mkdir</code> (<em>make directory</em>). Specifically, running <code>mkdir name_directory</code> will generate a directory with name <code>name_directory</code> in the directory where you are, equivalently to <code>mkdir ./name_directory</code>. You can use absolute and relative paths as well, e.g., <code>mkdir ../name_directory</code> to create it inside the directory containing the current one or <code>mkdir /home/bob/Documents/name_directory</code> to create it specifically at that path.</p>
-</section>
-<section id="creating-directories" class="level3 exercise">
-<h3 class="anchored" data-anchor-id="creating-directories">Creating directories</h3>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercise 3 - Create directories">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Exercise 3 - Create directories
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
 <ul>
 <li><p>Create a directory called <code>playground</code></p></li>
 <li><p>Enter this directory</p></li>
 <li><p>Inside it, create two directories: <code>animals</code> and <code>plants</code>. You can create multiple directories at once with <code>mkdir name_dir1 name_dir2 name_dir3 etc...</code></p></li>
 </ul>
-</section>
+</div>
+</div>
+</div>
 <hr>
+</section>
 <section id="exercise-4-make-some-files" class="level3">
 <h3 class="anchored" data-anchor-id="exercise-4-make-some-files"><strong>Exercise 4: Make Some Files</strong></h3>
 <p><strong>Goal:</strong> Learn how to generate files <strong>Commands:</strong> <code>touch</code></p>
 <p>You can create files with the <code>touch</code> command.</p>
-</section>
-<section id="creating-files" class="level3 exercise">
-<h3 class="anchored" data-anchor-id="creating-files">Creating files</h3>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercise 4 - Create files">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Exercise 4 - Create files
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
 <ul>
 <li><p>Create three files: <code>dog.txt</code>, <code>cat.txt</code>, <code>elephant.txt</code> in the <code>animals</code> directory</p></li>
 <li><p>Check that they exist using <code>ls</code></p></li>
 <li><p>What is their relative path? And their absolute one?</p></li>
 <li><p>Go back two directories to the one containing <code>playground</code> with <code>cd ../..</code> and try to create <code>bamboo.txt</code> and <code>baobab.txt</code> inside <code>plants</code> <strong>without</strong> entering in <code>plants</code> but by using relative or absolute paths</p></li>
 </ul>
-</section>
+</div>
+</div>
+</div>
 <hr>
+</section>
 </section>
 <section id="viewing-editing" class="level1">
 <h1>Viewing &amp; Editing</h1>
@@ -379,31 +427,55 @@ render()
 <p><strong>Goal:</strong> Learn how to visualize a file</p>
 <p><strong>Commands:</strong> <code>cat</code>, <code>echo</code></p>
 <p>You can access the content of a file by using the command <code>cat</code>. The simple version <code>cat file</code> will print the content of <code>file</code> on the screen. <code>echo</code>, instead, is used for printing something specific. <code>echo "Hello World!"</code> will print <code>Hello World!</code> on the screen.</p>
-</section>
-<section id="reading-and-echoing" class="level3 exercise">
-<h3 class="anchored" data-anchor-id="reading-and-echoing">Reading and echoing</h3>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercise 5 - Reading and echoing">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Exercise 5 - Reading and echoing
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
 <ul>
 <li><p>Navigate to the directory containing the file <code>dog.txt</code></p></li>
 <li><p>Display the contents of <code>dog.txt</code> using <code>cat</code>. It should be empty</p></li>
 <li><p>Try the command <code>echo "Hello World!"</code></p></li>
 <li><p>Add a line to the file using <code>echo "Dogs are friendly animals." &gt; dog.txt</code></p></li>
 </ul>
-</section>
+</div>
+</div>
+</div>
 <p>You will notice that the <code>echo</code> command is unchanged, but we added a <code>&gt; dog.txt</code> at the end of it. This means *whatever is the output of the command before <code>&gt;</code>, put it in the file <code>dog.txt</code>.</p>
 <hr>
+</section>
 <section id="exercise-6-append-content" class="level3">
 <h3 class="anchored" data-anchor-id="exercise-6-append-content"><strong>Exercise 6: Append Content</strong></h3>
 <p><strong>Goal:</strong> Learn output redirection (&gt;&gt;)</p>
-</section>
-<section id="appending" class="level3 exercise">
-<h3 class="anchored" data-anchor-id="appending">Appending</h3>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercise 6 - Appending">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Exercise 6 - Appending
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
 <ul>
 <li><p>Append another sentence to <code>dog.txt</code> using <code>&gt;&gt;</code>, e.g.&nbsp;<code>echo "your cool sentence" &gt;&gt; dog.txt</code></p></li>
 <li><p>Display the updated file with cat</p></li>
 </ul>
-</section>
+</div>
+</div>
+</div>
 <p>Notice that <code>&gt;</code> <strong>rewrites</strong> the content of the file, that is, whatever is contained in the files gets overwritten with the new input, while <code>&gt;&gt;</code> <strong>appends</strong> to the content of the file, i.e., it adds the input at the end of it.</p>
 <hr>
+</section>
 </section>
 <section id="moving-and-renaming-things" class="level1">
 <h1>Moving and Renaming Things</h1>
@@ -412,16 +484,28 @@ render()
 <p><strong>Goal:</strong> Learn how to rename and move files and directories</p>
 <p><strong>Commands:</strong> <code>mv</code></p>
 <p>You can rename or move a file with the command <code>mv</code> (<em>move</em>). Example usages are <code>mv a.txt b.txt</code>, which renames file <code>a.txt</code> in <code>b.txt</code>, and <code>mv a.txt ./Documents/</code>, which moves file <code>a.txt</code> from the current directory inside the <code>Documents</code> directory. You can also combine them like <code>mv a.txt ./Documents/b.txt</code> which both moves and renames the file. The same can be applied to directories.</p>
-</section>
-<section id="moving-and-renaming" class="level3 exercise">
-<h3 class="anchored" data-anchor-id="moving-and-renaming">Moving and renaming</h3>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercise 7 - Moving and renaming">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Exercise 7 - Moving and renaming
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
 <ul>
 <li><p>Rename the <code>elephant.txt</code> into <code>toad.txt</code> in the animal folder</p></li>
 <li><p>Create <code>otter.dat</code> in the directory <code>plants</code> and move it in the directory <code>animals</code></p></li>
 <li><p>Rename the <code>plants</code> directory in <code>animal_garden</code> and move it inside the <code>animals</code> directory. Try to do it in one command</p></li>
 </ul>
-</section>
+</div>
+</div>
+</div>
 <hr>
+</section>
 </section>
 <section id="copying-and-removing-things" class="level1">
 <h1>Copying and Removing Things</h1>
@@ -430,14 +514,26 @@ render()
 <p><strong>Goal:</strong> Learn how to make a copy of a file or a directory</p>
 <p><strong>Commands:</strong> <code>cp</code></p>
 <p>You can copy files with the command <code>cp</code> (<em>copy</em>), e.g.&nbsp;<code>cp a b</code> will copy fle <code>a</code> in <code>b</code>. Remember that absolute and relative paths can be used everywhere you specify a file or a directory, for example <code>cp ../a.txt /home/Documents/a_backup.txt</code> will copy the <code>a.txt</code> file from the directory one above us to a file named <code>a_backup.txt</code> inside the directory <code>/home/Documents/</code></p>
-</section>
-<section id="copying" class="level3 exercise">
-<h3 class="anchored" data-anchor-id="copying">Copying</h3>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercise 8 - Copying">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Exercise 8 - Copying
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
 <ul>
 <li><p>Copy the <code>dog.txt</code> file both into <code>dog.txt</code> and <code>dog_backup.txt</code>. Which one works? Why?</p></li>
 <li><p>Copy the full directory <code>animals</code> with <code>cp animals animals_2</code>. Does it work?<br>Directories can’t be simply copied as they might contain other files, and you have to specify what to do with them. To copy a full directory you have to specify the flag <code>-r</code> (for <em>recursive</em>) so that the copy command knows that the order has to be repeated for everything contained inside the directory as well.</p></li>
 <li><p>Copy the full directory <code>animals</code> with <code>cp -r animals animals_2</code>. Does it work? What’s inside the directory <code>animals_2</code>?</p></li>
 </ul>
+</div>
+</div>
+</div>
 </section>
 <section id="exercise-9-delete-things" class="level3">
 <h3 class="anchored" data-anchor-id="exercise-9-delete-things"><strong>Exercise 9: Delete Things</strong></h3>
@@ -457,9 +553,18 @@ render()
 <p>There is no Recycling Bin. Everything that is deleted is lost, permanently. Double think before deleting stuff, and double check your commands. Removing files and directories from certain System directories can permanently damage the operative system of your computer, or you can easily delete one month worth of data analysis. As a safety rule, do not touch things that you are not sure what they are.</p>
 </div>
 </div>
-</section>
-<section id="deleting" class="level3 exercise">
-<h3 class="anchored" data-anchor-id="deleting">Deleting</h3>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercise 9 - Deleting">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Exercise 9 - Deleting
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
 <ul>
 <li><p>Create a directory called <code>poaching</code> inside <code>playground</code></p></li>
 <li><p>Remove it with <code>rmdir</code>, e.g.&nbsp;<code>rmdir poaching</code></p></li>
@@ -469,6 +574,9 @@ render()
 <li><p>Remove the <code>rifle.txt</code> file with the <code>rm</code> command</p></li>
 <li><p>And now remove the full <code>poaching</code> directory with the <code>rm -r</code> command. Here the <code>-r</code> flag option of <code>rm</code> has the same value as in <code>cp</code>, i.e., <em>recursive</em>, so apply this command to this directory and recursively to everything that is inside it, that is, remove this directory and everything inside</p></li>
 </ul>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="text-editors" class="level1">
@@ -476,8 +584,18 @@ render()
 <p><strong>Goal:</strong> A first approach to text editors in a terminal</p>
 <p><strong>Commands:</strong> <code>vim</code>, <code>nano</code></p>
 <p>Until now, you saw how to add data to a file by using the <code>echo</code> command. This is a neat trick to store on file output from commands, but in general it is not very useful to open and modify files. There are several text editors available in terminals, and which one to use largely depends on the personal preferences. Two of the most common are <a href="https://www.vim.org/"><code>vim</code></a> and <a href="https://en.wikipedia.org/wiki/GNU_nano"><code>nano</code></a>. These are complex software packages with a billion options, and sadly the learning curve is a bit steep, but the basics for opening, modifying and saving (a basic usage of a text editor) are very simple.</p>
-<section id="vim" class="level3 exercise">
-<h3 class="anchored" data-anchor-id="vim">VIM</h3>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercise 10 - vim">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Exercise 10 - vim
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
 <ul>
 <li><p>Open the <code>toad.txt</code> file in the <code>animal</code> folder with <code>vim</code> by running <code>vim toad.txt</code></p></li>
 <li><p>Go into insert mode by pressing <code>a</code> (you will see the last line of the page change into <strong>–INSERT–</strong>)</p></li>
@@ -487,7 +605,9 @@ render()
 <li><p>Re-open the file with <code>vim</code>. Go again in <code>INSERT</code> mode and type something. Now try to close the file <em>without</em> saving with <code>:q</code>. Does it work? Why?</p></li>
 <li><p>You can force the closure with the <code>!</code>symbol, e.g., <code>:q!</code> will close without saving any changes</p></li>
 </ul>
-</section>
+</div>
+</div>
+</div>
 
 
 </section>
