@@ -606,10 +606,10 @@ Continuing along the `sbatch_me.sh` script, as in the interactive case, the firs
 
 ```bash
 [...]
-module load GCC/11.3.0
-module load OpenMPI/4.1.4
-module load CUDA/11.7.0
-module load GROMACS/2023.1-CUDA-11.7.0
+module load GCC/14.3.0
+module load OpenMPI/5.0.8
+module load CUDA/12.9.1
+module load GROMACS/2025.3-CUDA-12.9.1
 [...]
 ```
 
