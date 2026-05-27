@@ -14,9 +14,9 @@ Let's start with a couple of definitions.
 
 You can see the relationship between a human user, a terminal, a shell, and a computer as two people talking in a room. One person is you, the other is the computer, and the room where you are talking is the terminal—a common space where you can directly interact. The shell is the common set of rules you both understand: your shared language. Depending on the operating system and your preferences, you can “speak” with a computer in different rooms and in different languages. Generally, *terminal* and *shell* are used interchangeably, although they are not the same.
 
-Before the advent of the most common graphical user interfaces, most of the interactions with computers happened thorough a terminal with a keyboard. Nowadays, instead, most people interact with computers using a combination of keyboard and mouse/touch-pad by clicking on windows, files, etc. This is equivalent to using a terminal, simply the commands are interpreted as clicks or specific keystrokes, e.g., double-clicking on a directory to open it or pressing `Del` to delete a file.
+Before the advent of graphical user interfaces, most of the interactions with computers happened thorough a terminal with a keyboard. Nowadays, instead, most people interact with computers by using a combination of keyboard and mouse/touch-pad by clicking on windows, files, etc. This is equivalent to using a terminal, simply the commands are interpreted as clicks or specific keystrokes, e.g., double-clicking on a directory to open it or pressing `Del` to delete a file.
 
-In scientific sectors, the usage of the terminal is still very common. There are several reasons for this. One is that many scientific tools have been developed for being used within terminals. Another is that basically all super computers (like Baobab from the University of Geneva) are usually accessed online and have no graphical interface, only a terminal one. Most importantly, using a terminal (especially in a [Unix](https://en.wikipedia.org/wiki/Unix)/[Unix-like](https://en.wikipedia.org/wiki/Unix-like) environment like macOS or Linux Ubuntu) provides a universal common ground that works the same on laptops, servers, and high‑performance computing systems.
+In scientific sectors, the usage of the terminal is still very common. There are several reasons for this. One is that many scientific tools have been developed for being used within terminals. Another is that basically all super computers are usually accessed online and have no graphical interface, only a terminal one. Most importantly, using a terminal (especially in a [Unix](https://en.wikipedia.org/wiki/Unix)/[Unix-like](https://en.wikipedia.org/wiki/Unix-like) environment like macOS or Linux Ubuntu) provides a universal common ground that works the same on laptops, servers, and high‑performance computing systems.
 
 This tutorial is a brief introduction to common terminal vocabulary, that is, we will learn **commands** for a given **shell**. Here, we focus on commands available in both `bash` and `zsh`, two extremely widespread and popular shells.
 
@@ -48,7 +48,7 @@ As few general notes before starting with the tutorial.
 
 Without a graphical interface, you cannot see where you are located (Desktop? Downloads? Home? etc.) and what is inside the directory. You can check these by using the `pwd` (*print working directory*) and `ls` (*list*) commands, respectively.
 
-::: {.callout-caution collapse="false" title="Exercise 1 - Localization"}
+::: {.callout-caution collapse="true" title="Exercise 1 - Localization"}
 - Run `pwd`
 
 - The command will answer with something of the form like `/directory1/directory2/final_directory`. This means that, in this moment, you are inside `final_directory` (the last entry of the line), which itself is inside `directory2` that is inside `directory1`. Notice how the names of the different directories are separated by the symbol `/`. The core idea is that there is a starting directory, called **root** (indicated by the first symbol `/` on the left) that contains all directories. Then, like a tree from its root, all the following content of the computer is inside directories of directories. This is the standard organization of all computers (although in Windows Terminals like Powershell you might see `\` rather than `/` to separate directories).
@@ -69,7 +69,7 @@ Without a graphical interface, you cannot see where you are located (Desktop? Do
 
 To change a directory, you run `cd` (*change directory*) and insert the path of the directory you want to move to. Generally, when you open a terminal, you are in your `home` directory. From wherever you are, you can always run `cd ~` or `cd`.
 
-::: {.callout-caution collapse="false" title="Exercise 2 - Navigation"}
+::: {.callout-caution collapse="true" title="Exercise 2 - Navigation"}
 
 - Enter your home
 
@@ -90,7 +90,7 @@ Documents
 ../data/results.csv
 ```
 
-Path can be  **absolute** or **relative**. An **absolute path** *always* starts from the root of the filesystem, represented by `/`. It is the full address of a file or directory and is valid no matter where you currently are. A **relative path**, instead, is defined in relation to your current directory, and it *never* starts with `/`. In the four examples above, the first is an absolute path to the `Documents` directory, while all the others are relative paths. This means that, wherever you are, if you type `cd /home/user/Documents` you will *always* be taken to that specific `Documents` directory. Typing `cd Documents` instead will take you inside the directory `Documents` contained in your current working directory, or will fail if the directory is not present. Similarly, `./notes/todo.txt` and `../data/results.csv` are relative paths to files, that is, the first means *I am referring to the `todo.txt` file inside the directory `notes` inside `.` (this) directory* and the second *I am referring to the `results.csv` file inside the `data` directory contained in `..` (one directory above me)*.
+Path can be  **absolute** or **relative**. An **absolute path** *always* starts from the root of the filesystem, represented by `/`. It is the full address of a file or directory and is valid no matter where you currently are. A **relative path**, instead, is defined in relation to your current directory, and it *never* starts with `/`. In the four examples above, the first is an absolute path to the `Documents` directory, while all the others are relative paths. This means that, wherever you are, if you type `cd /home/user/Documents` you will *always* be taken to that specific `Documents` directory. Typing `cd Documents` instead will take you inside the directory `Documents` contained in your current working directory, and will instead fail if the directory is not present. Similarly, `./notes/todo.txt` and `../data/results.csv` are relative paths to files, that is, the first means *I am referring to the `todo.txt` file inside the directory `notes` inside `.` (this) directory* and the second *I am referring to the `results.csv` file inside the `data` directory contained in `..` (one directory above me)*.
 
 To make the difference more clear and state better the importance of this difference, let's suppose you have two different `Documents` directories with absolute paths `/home/bob/Documents` and `/home/alice/Documents`. The command `cd Documents` will work both in `bob` and `alice` directories, but will take you to two directories that have the same name but *different* absolute paths, that is, they are *different directories* that will have different files, sub-directories etc. You can easily imagine that absolute paths are **unique**, as you can't have files or directories with same name within the same folders (as in all computers).
 
@@ -171,7 +171,7 @@ Try navigating using both absolute and relative path in your terminal. Remember 
 
 To create a new directory, you can run the command `mkdir` (*make directory*). Specifically, running `mkdir name_directory` will generate a directory with name `name_directory` in the directory where you are, equivalently to `mkdir ./name_directory`. You can use absolute and relative paths as well, e.g., `mkdir ../name_directory` to create it inside the directory containing the current one or `mkdir /home/bob/Documents/name_directory` to create it specifically at that path.
 
-::: {.callout-caution collapse="false" title="Exercise 3 - Create directories"}
+::: {.callout-caution collapse="true" title="Exercise 3 - Create directories"}
 
 - Create a directory called `playground`
 
@@ -189,7 +189,7 @@ To create a new directory, you can run the command `mkdir` (*make directory*). S
 
 You can create files with the `touch` command.
 
-::: {.callout-caution collapse="false" title="Exercise 4 - Create files"}
+::: {.callout-caution collapse="true" title="Exercise 4 - Create files"}
 
 - Create three files: `dog.txt`, `cat.txt`, `elephant.txt` in the `animals` directory
 
@@ -212,7 +212,7 @@ You can create files with the `touch` command.
 
 You can access the content of a file by using the command `cat`. The simple version `cat file` will print the content of `file` on the screen. `echo`, instead, is used for printing something specific. `echo "Hello World!"` will print `Hello World!` on the screen.
 
-::: {.callout-caution collapse="false" title="Exercise 5 - Reading and echoing"}
+::: {.callout-caution collapse="true" title="Exercise 5 - Reading and echoing"}
 
 - Navigate to the directory containing the file `dog.txt`
 
@@ -224,14 +224,14 @@ You can access the content of a file by using the command `cat`. The simple vers
 
 :::
 
-You will notice that the `echo` command is unchanged, but we added a `> dog.txt` at the end of it. This means *whatever is the output of the command before `>`, put it in the file `dog.txt`.
+You will notice that the `echo` command is unchanged, but we added a `> dog.txt` at the end of it. This means *whatever is the output of the command before `>`, put it in the file `dog.txt`*.
 
 ---
 
 ### **Exercise 6: Append Content**  
 **Goal:** Learn output redirection (>>)
 
-::: {.callout-caution collapse="false" title="Exercise 6 - Appending"}
+::: {.callout-caution collapse="true" title="Exercise 6 - Appending"}
 
 - Append another sentence to `dog.txt` using `>>`, e.g. `echo "your cool sentence" >> dog.txt`
 
@@ -252,7 +252,7 @@ Notice that `>` **rewrites** the content of the file, that is, whatever is conta
 
 You can rename or move a file with the command `mv` (*move*). Example usages are `mv a.txt b.txt`, which renames file `a.txt` in `b.txt`, and `mv a.txt ./Documents/`, which moves file `a.txt` from the current directory inside the `Documents` directory. You can also combine them like `mv a.txt ./Documents/b.txt` which both moves and renames the file. The same can be applied to directories.
 
-::: {.callout-caution collapse="false" title="Exercise 7 - Moving and renaming"}
+::: {.callout-caution collapse="true" title="Exercise 7 - Moving and renaming"}
 
 - Rename the `elephant.txt` into `toad.txt` in the animal folder
 
@@ -272,7 +272,7 @@ You can rename or move a file with the command `mv` (*move*). Example usages are
 
 You can copy files with the command `cp` (*copy*), e.g. `cp a b` will copy fle `a` in `b`. Remember that absolute and relative paths can be used everywhere you specify a file or a directory, for example `cp ../a.txt /home/Documents/a_backup.txt` will copy the `a.txt` file from the directory one above us to a file named `a_backup.txt` inside the directory `/home/Documents/`
 
-::: {.callout-caution collapse="false" title="Exercise 8 - Copying"}
+::: {.callout-caution collapse="true" title="Exercise 8 - Copying"}
 
 - Copy the `dog.txt` file both into `dog.txt` and `dog_backup.txt`. Which one works? Why?
 
@@ -295,7 +295,7 @@ You can remove files and directories with `rm` (*remove*) and `rmdir` (*remove d
 There is no Recycling Bin. Everything that is deleted is lost, permanently. Double think before deleting stuff, and double check your commands. Removing files and directories from certain System directories can permanently damage the operative system of your computer, or you can easily delete one month worth of data analysis. As a safety rule, do not touch things that you are not sure what they are.
 :::
 
-::: {.callout-caution collapse="false" title="Exercise 9 - Deleting"}
+::: {.callout-caution collapse="true" title="Exercise 9 - Deleting"}
 
 - Create a directory called `poaching` inside `playground`
 
@@ -320,7 +320,7 @@ There is no Recycling Bin. Everything that is deleted is lost, permanently. Doub
 
 Until now, you saw how to add data to a file by using the `echo` command. This is a neat trick to store on file output from commands, but in general it is not very useful to open and modify files. There are several text editors available in terminals, and which one to use largely depends on the personal preferences. Two of the most common are [`vim`](https://www.vim.org/) and [`nano`](https://en.wikipedia.org/wiki/GNU_nano). These are complex software packages with a billion options, and sadly the learning curve is a bit steep, but the basics for opening, modifying and saving (a basic usage of a text editor) are very simple.
 
-::: {.callout-caution collapse="false" title="Exercise 10 - vim"}
+::: {.callout-caution collapse="true" title="Exercise 10 - vim"}
 
 - Open the `toad.txt` file in the `animal` folder with `vim` by running `vim toad.txt`
 

@@ -208,8 +208,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Shell</strong> A shell is the command interpreter that runs inside the terminal. It reads the commands you type, executes them, and displays the results. Common examples include <a href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)">bash</a> and <a href="https://en.wikipedia.org/wiki/Z_shell">zsh</a>.</li>
 </ul>
 <p>You can see the relationship between a human user, a terminal, a shell, and a computer as two people talking in a room. One person is you, the other is the computer, and the room where you are talking is the terminal—a common space where you can directly interact. The shell is the common set of rules you both understand: your shared language. Depending on the operating system and your preferences, you can “speak” with a computer in different rooms and in different languages. Generally, <em>terminal</em> and <em>shell</em> are used interchangeably, although they are not the same.</p>
-<p>Before the advent of the most common graphical user interfaces, most of the interactions with computers happened thorough a terminal with a keyboard. Nowadays, instead, most people interact with computers using a combination of keyboard and mouse/touch-pad by clicking on windows, files, etc. This is equivalent to using a terminal, simply the commands are interpreted as clicks or specific keystrokes, e.g., double-clicking on a directory to open it or pressing <code>Del</code> to delete a file.</p>
-<p>In scientific sectors, the usage of the terminal is still very common. There are several reasons for this. One is that many scientific tools have been developed for being used within terminals. Another is that basically all super computers (like Baobab from the University of Geneva) are usually accessed online and have no graphical interface, only a terminal one. Most importantly, using a terminal (especially in a <a href="https://en.wikipedia.org/wiki/Unix">Unix</a>/<a href="https://en.wikipedia.org/wiki/Unix-like">Unix-like</a> environment like macOS or Linux Ubuntu) provides a universal common ground that works the same on laptops, servers, and high‑performance computing systems.</p>
+<p>Before the advent of graphical user interfaces, most of the interactions with computers happened thorough a terminal with a keyboard. Nowadays, instead, most people interact with computers by using a combination of keyboard and mouse/touch-pad by clicking on windows, files, etc. This is equivalent to using a terminal, simply the commands are interpreted as clicks or specific keystrokes, e.g., double-clicking on a directory to open it or pressing <code>Del</code> to delete a file.</p>
+<p>In scientific sectors, the usage of the terminal is still very common. There are several reasons for this. One is that many scientific tools have been developed for being used within terminals. Another is that basically all super computers are usually accessed online and have no graphical interface, only a terminal one. Most importantly, using a terminal (especially in a <a href="https://en.wikipedia.org/wiki/Unix">Unix</a>/<a href="https://en.wikipedia.org/wiki/Unix-like">Unix-like</a> environment like macOS or Linux Ubuntu) provides a universal common ground that works the same on laptops, servers, and high‑performance computing systems.</p>
 <p>This tutorial is a brief introduction to common terminal vocabulary, that is, we will learn <strong>commands</strong> for a given <strong>shell</strong>. Here, we focus on commands available in both <code>bash</code> and <code>zsh</code>, two extremely widespread and popular shells.</p>
 <hr>
 </section>
@@ -238,7 +238,7 @@ Since this guide focuses on <code>bash</code> and <code>zsh</code>:</p>
 <p><strong>Commands:</strong> <code>pwd</code>, <code>ls</code></p>
 <p>Without a graphical interface, you cannot see where you are located (Desktop? Downloads? Home? etc.) and what is inside the directory. You can check these by using the <code>pwd</code> (<em>print working directory</em>) and <code>ls</code> (<em>list</em>) commands, respectively.</p>
 <div class="callout callout-style-default callout-caution callout-titled" title="Exercise 1 - Localization">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -247,7 +247,7 @@ Since this guide focuses on <code>bash</code> and <code>zsh</code>:</p>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse show">
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li><p>Run <code>pwd</code></p></li>
@@ -267,7 +267,7 @@ Since this guide focuses on <code>bash</code> and <code>zsh</code>:</p>
 <p><strong>Commands:</strong> <code>cd</code></p>
 <p>To change a directory, you run <code>cd</code> (<em>change directory</em>) and insert the path of the directory you want to move to. Generally, when you open a terminal, you are in your <code>home</code> directory. From wherever you are, you can always run <code>cd ~</code> or <code>cd</code>.</p>
 <div class="callout callout-style-default callout-caution callout-titled" title="Exercise 2 - Navigation">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -276,7 +276,7 @@ Since this guide focuses on <code>bash</code> and <code>zsh</code>:</p>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse show">
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li><p>Enter your home</p></li>
@@ -292,7 +292,7 @@ Since this guide focuses on <code>bash</code> and <code>zsh</code>:</p>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Documents</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">./notes/todo.txt</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">../data/results.csv</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Path can be <strong>absolute</strong> or <strong>relative</strong>. An <strong>absolute path</strong> <em>always</em> starts from the root of the filesystem, represented by <code>/</code>. It is the full address of a file or directory and is valid no matter where you currently are. A <strong>relative path</strong>, instead, is defined in relation to your current directory, and it <em>never</em> starts with <code>/</code>. In the four examples above, the first is an absolute path to the <code>Documents</code> directory, while all the others are relative paths. This means that, wherever you are, if you type <code>cd /home/user/Documents</code> you will <em>always</em> be taken to that specific <code>Documents</code> directory. Typing <code>cd Documents</code> instead will take you inside the directory <code>Documents</code> contained in your current working directory, or will fail if the directory is not present. Similarly, <code>./notes/todo.txt</code> and <code>../data/results.csv</code> are relative paths to files, that is, the first means <em>I am referring to the <code>todo.txt</code> file inside the directory <code>notes</code> inside <code>.</code> (this) directory</em> and the second <em>I am referring to the <code>results.csv</code> file inside the <code>data</code> directory contained in <code>..</code> (one directory above me)</em>.</p>
+<p>Path can be <strong>absolute</strong> or <strong>relative</strong>. An <strong>absolute path</strong> <em>always</em> starts from the root of the filesystem, represented by <code>/</code>. It is the full address of a file or directory and is valid no matter where you currently are. A <strong>relative path</strong>, instead, is defined in relation to your current directory, and it <em>never</em> starts with <code>/</code>. In the four examples above, the first is an absolute path to the <code>Documents</code> directory, while all the others are relative paths. This means that, wherever you are, if you type <code>cd /home/user/Documents</code> you will <em>always</em> be taken to that specific <code>Documents</code> directory. Typing <code>cd Documents</code> instead will take you inside the directory <code>Documents</code> contained in your current working directory, and will instead fail if the directory is not present. Similarly, <code>./notes/todo.txt</code> and <code>../data/results.csv</code> are relative paths to files, that is, the first means <em>I am referring to the <code>todo.txt</code> file inside the directory <code>notes</code> inside <code>.</code> (this) directory</em> and the second <em>I am referring to the <code>results.csv</code> file inside the <code>data</code> directory contained in <code>..</code> (one directory above me)</em>.</p>
 <p>To make the difference more clear and state better the importance of this difference, let’s suppose you have two different <code>Documents</code> directories with absolute paths <code>/home/bob/Documents</code> and <code>/home/alice/Documents</code>. The command <code>cd Documents</code> will work both in <code>bob</code> and <code>alice</code> directories, but will take you to two directories that have the same name but <em>different</em> absolute paths, that is, they are <em>different directories</em> that will have different files, sub-directories etc. You can easily imagine that absolute paths are <strong>unique</strong>, as you can’t have files or directories with same name within the same folders (as in all computers).</p>
 <p>You can play a bit with the widget below to familiarize with paths. In the widget you select a directory by clicking on it. The current directory is in bold blue, while in bold black are those accessible directly below from the current one. Absolute (<em>abs</em>) and relative (<em>rel</em>) paths are reported for all directories. You can see how absolute paths never change, while relative ones depend on the directory you are in.</p>
 <div class="terminal-widget">
@@ -371,7 +371,7 @@ render()
 <p><strong>Commands:</strong> <code>mkdir</code></p>
 <p>To create a new directory, you can run the command <code>mkdir</code> (<em>make directory</em>). Specifically, running <code>mkdir name_directory</code> will generate a directory with name <code>name_directory</code> in the directory where you are, equivalently to <code>mkdir ./name_directory</code>. You can use absolute and relative paths as well, e.g., <code>mkdir ../name_directory</code> to create it inside the directory containing the current one or <code>mkdir /home/bob/Documents/name_directory</code> to create it specifically at that path.</p>
 <div class="callout callout-style-default callout-caution callout-titled" title="Exercise 3 - Create directories">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -380,7 +380,7 @@ render()
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse show">
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li><p>Create a directory called <code>playground</code></p></li>
@@ -397,7 +397,7 @@ render()
 <p><strong>Goal:</strong> Learn how to generate files <strong>Commands:</strong> <code>touch</code></p>
 <p>You can create files with the <code>touch</code> command.</p>
 <div class="callout callout-style-default callout-caution callout-titled" title="Exercise 4 - Create files">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -406,7 +406,7 @@ render()
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse show">
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li><p>Create three files: <code>dog.txt</code>, <code>cat.txt</code>, <code>elephant.txt</code> in the <code>animals</code> directory</p></li>
@@ -428,7 +428,7 @@ render()
 <p><strong>Commands:</strong> <code>cat</code>, <code>echo</code></p>
 <p>You can access the content of a file by using the command <code>cat</code>. The simple version <code>cat file</code> will print the content of <code>file</code> on the screen. <code>echo</code>, instead, is used for printing something specific. <code>echo "Hello World!"</code> will print <code>Hello World!</code> on the screen.</p>
 <div class="callout callout-style-default callout-caution callout-titled" title="Exercise 5 - Reading and echoing">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -437,7 +437,7 @@ render()
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse show">
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li><p>Navigate to the directory containing the file <code>dog.txt</code></p></li>
@@ -448,14 +448,14 @@ render()
 </div>
 </div>
 </div>
-<p>You will notice that the <code>echo</code> command is unchanged, but we added a <code>&gt; dog.txt</code> at the end of it. This means *whatever is the output of the command before <code>&gt;</code>, put it in the file <code>dog.txt</code>.</p>
+<p>You will notice that the <code>echo</code> command is unchanged, but we added a <code>&gt; dog.txt</code> at the end of it. This means <em>whatever is the output of the command before <code>&gt;</code>, put it in the file <code>dog.txt</code></em>.</p>
 <hr>
 </section>
 <section id="exercise-6-append-content" class="level3">
 <h3 class="anchored" data-anchor-id="exercise-6-append-content"><strong>Exercise 6: Append Content</strong></h3>
 <p><strong>Goal:</strong> Learn output redirection (&gt;&gt;)</p>
 <div class="callout callout-style-default callout-caution callout-titled" title="Exercise 6 - Appending">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -464,7 +464,7 @@ render()
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse show">
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li><p>Append another sentence to <code>dog.txt</code> using <code>&gt;&gt;</code>, e.g.&nbsp;<code>echo "your cool sentence" &gt;&gt; dog.txt</code></p></li>
@@ -485,7 +485,7 @@ render()
 <p><strong>Commands:</strong> <code>mv</code></p>
 <p>You can rename or move a file with the command <code>mv</code> (<em>move</em>). Example usages are <code>mv a.txt b.txt</code>, which renames file <code>a.txt</code> in <code>b.txt</code>, and <code>mv a.txt ./Documents/</code>, which moves file <code>a.txt</code> from the current directory inside the <code>Documents</code> directory. You can also combine them like <code>mv a.txt ./Documents/b.txt</code> which both moves and renames the file. The same can be applied to directories.</p>
 <div class="callout callout-style-default callout-caution callout-titled" title="Exercise 7 - Moving and renaming">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -494,7 +494,7 @@ render()
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse show">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li><p>Rename the <code>elephant.txt</code> into <code>toad.txt</code> in the animal folder</p></li>
@@ -515,7 +515,7 @@ render()
 <p><strong>Commands:</strong> <code>cp</code></p>
 <p>You can copy files with the command <code>cp</code> (<em>copy</em>), e.g.&nbsp;<code>cp a b</code> will copy fle <code>a</code> in <code>b</code>. Remember that absolute and relative paths can be used everywhere you specify a file or a directory, for example <code>cp ../a.txt /home/Documents/a_backup.txt</code> will copy the <code>a.txt</code> file from the directory one above us to a file named <code>a_backup.txt</code> inside the directory <code>/home/Documents/</code></p>
 <div class="callout callout-style-default callout-caution callout-titled" title="Exercise 8 - Copying">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -524,7 +524,7 @@ render()
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse show">
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li><p>Copy the <code>dog.txt</code> file both into <code>dog.txt</code> and <code>dog_backup.txt</code>. Which one works? Why?</p></li>
@@ -554,7 +554,7 @@ render()
 </div>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled" title="Exercise 9 - Deleting">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -563,7 +563,7 @@ render()
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse show">
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li><p>Create a directory called <code>poaching</code> inside <code>playground</code></p></li>
@@ -585,7 +585,7 @@ render()
 <p><strong>Commands:</strong> <code>vim</code>, <code>nano</code></p>
 <p>Until now, you saw how to add data to a file by using the <code>echo</code> command. This is a neat trick to store on file output from commands, but in general it is not very useful to open and modify files. There are several text editors available in terminals, and which one to use largely depends on the personal preferences. Two of the most common are <a href="https://www.vim.org/"><code>vim</code></a> and <a href="https://en.wikipedia.org/wiki/GNU_nano"><code>nano</code></a>. These are complex software packages with a billion options, and sadly the learning curve is a bit steep, but the basics for opening, modifying and saving (a basic usage of a text editor) are very simple.</p>
 <div class="callout callout-style-default callout-caution callout-titled" title="Exercise 10 - vim">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -594,7 +594,7 @@ render()
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-11" class="callout-11-contents callout-collapse collapse show">
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li><p>Open the <code>toad.txt</code> file in the <code>animal</code> folder with <code>vim</code> by running <code>vim toad.txt</code></p></li>

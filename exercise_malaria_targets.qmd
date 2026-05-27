@@ -123,9 +123,9 @@ salloc --ntasks=1 --cpus-per-task=4 --partition=private-gervasio-cpu --time=120:
 Finally, source the GROMACS installation
 
 ```bash
-module load GCC/11.3.0
-module load OpenMPI/4.1.4
-module load GROMACS/2023.1-CUDA-11.7.0
+module load GCC/14.3.0
+module load OpenMPI/5.0.8
+module load GROMACS/2025.3-CUDA-12.9.1
 ```
 
 and verify that the sourcing was okay by typing
