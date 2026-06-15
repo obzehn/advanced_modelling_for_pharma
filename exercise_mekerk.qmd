@@ -1,5 +1,5 @@
 ---
-title: "Investigate APO and HOLO malaria targets"
+title: "Conformational freedom of MEK1-ERK2 kinase dimers"
 format:
   html:
     code-fold: true
@@ -10,49 +10,40 @@ format:
 ## Introduction
 
 #### Introduction
-This guide will provide a brief overview of the APO (without ligand) and HOLO (with ligand) states of protein kinase G (PKG), a key regulatory enzyme found in the malaria parasite *Plasmodium*. In *Plasmodium vivax* and *Plasmodium falciparum*, two species responsible for severe forms of [malaria](https://en.wikipedia.org/wiki/Malaria) in humans, PKG plays a critical role in various stages of the parasite's lifecycle, including its development within the mosquito vector and its replication within the human host's red blood cells. PKG is involved in signalling pathways that regulate essential processes such as parasite invasion of host cells, egress from infected cells, and differentiation into sexual forms for transmission to mosquitoes. Additionally, PKG has been identified as a potential target for antimalarial drug development due to its essential role in parasite survival and its divergence from human homologs, making it an attractive candidate for selective inhibition.
+In this exercise you will set up and run the simulations boxes of a dimer system part of the RAS-RAF-MEK-ERK mitogen-activated protein kinase pathway. This pathway consists in a series of cascade events where the upstream kinase, e.g. RAS, activate by phosphorylation its downstream one, in this case RAF, which in turn can phosphorylate MEK, and so on, in a typical phosphorylation chain that propagates intracellularly an extracellular signal. The misregulation of these communication chains is linked to many pathologies, particularly cancer, and as such deepen their understanding is pivotal in the development of new drug candidates.
 
-Several experimental structures have been deposited for PKG with UNIPROT [A5K0N4](https://www.uniprot.org/uniprotkb/A5K0N4/entry). The PDB IDs user in this tutorial are [5DYL](https://www.rcsb.org/structure/5DYL) for the APO form, [5DZC](https://www.rcsb.org/structure/5DZC) for the HOLO form bound to a non-hydrolyzable analog of adenosine tri-phosphate (here named ANP), [5F0A](https://www.rcsb.org/structure/5F0A) for the HOLO form bound to an inhibitor (here named 1FB), and [5FET](https://www.rcsb.org/structure/5FET) for the HOLO form bound to another inhibitor (here named 1TR). The structures of the ligands are shown in @fig-malaria-panel.
+Given the importance of this pathway, several PDB structures have been deposited during the years, but they rarely solved the dimeric active structures with their endogenous ligand, ATP. The reason is that these signalling proteins form very ephemeral dimers, as their role is mainly to phosphorylate the downstream kinase and propagate the signal. A stable long-lived interface would both hinder the interaction of the downstream kinase with its next target and slow down the phosphorylation rate of the upstream kinase. Luckily for you, our partners at [EMBL](https://www.embl.org/groups/mccarthy/) were able to solve the structure of the very end of this pathway via cryo-EM [@von2026molecular]. Thus, here you will focus on their MEK-ERK dimer structure, specifically the human MEK1 (UNIPROT [Q02750-1](https://www.uniprot.org/uniprotkb/Q02750/entry#Q02750-1)) and the human ERK2 (UNIPROT [P28482](https://www.uniprot.org/uniprotkb/P28482/entry)).
 
-::: {#fig-malaria-panel}
-<img src="/images/image_ligands_malaria/ligands_malaria.png" width="700">
+::: {#fig-mekerk-cryo-panel}
+<img src="/images/image_mekerk/mekerk_cryo.png" width="900">
 
-2D representation of ANP, 1TR, and 1FB ligand molecules.
+3D cryo-EM density maps and corresponding fitted structures of the (a) inactive, (b) pre-active, and (c) active states of MEK1-ERK2 complex from [@von2026molecular].
 
 :::
 
+You can take a look at the super cool different dimer states with their corresponding cryo-EM densities in @fig-mekerk-cryo-panel. To resolve these structures, the proteins have been modified. Briefly, MEK1  (the upstream kinase, in yellow) has a double S218D and S222D mutation to mimic the upstream activating phosphorylation event. Moreover, its N-terminal, which embraces ERK2, is mutated to that of another organism (GRA24KIM, in violet), to stabilize the dimer. Instead, ERK2 (the downstream kinase, in green) has a single T185V point mutation to stabilize its population. The crystals have been solved with an analogue of ATP and in presence of magnesium, the natural coordinating ion in these systems.
 
-The exact role of these molecules when targeting PKG is not strictly relevant for this tutorial. To fill the knowledge gap, you should read the corresponding publication [@el2019structures] from which the APO and HOLO + ANP structures were taken. Please notice however that the other two HOLO structures come from results that are deposited but unpublished. Thus, while they are enough for this tutorial, before using them for proper scientific work you should double check their validity and the status of the publication.
+In the structures here provided, MEK1 is still mutated both at its phosphorylation site and at its N-terminal. ERK2, instead, has been back-mutated to the human wild type. In the binding sites you will find ATP, not the analogue, with the corresponding coordinating metal ions (Mg2+) and water. For more details, you can (and <u>should</u>) read the main paper from which these structures are taken [@von2026molecular].
 
 ## Set-up
 
 #### A look into the starting files
 
-First of all, start by downloading the exercise directories from the github repository.
+First of all, start by downloading the exercise directories from the github repository. We provide two different systems, that is the MEK1-ERK2 dimer complex in both active and inactive states, the difference being the number of Mg2+ ions in MEK1 and the state of its activation A-loop. You should download and run simulations of both of them so that you can compare the structures at the end of the molecular dynamics simulation.
 
 <div class="download-buttons">
-  <a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/material/PKG_APO_exercise.tar.gz" class="btn">
-    <img src="images/icons/icon_pkg_apo.png" alt="">
-    <span>Download PKG<br>APO</span>
+  <a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/material/MEKERK_inactive_exercise.tar.gz" class="btn">
+    <img src="images/icons/icon_mekerk_inactive.png" alt="">
+    <span>Download MEK1-ERK2<br>inactive</span>
   </a>
 
-  <a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/material/PKG_HOLO_1FB_exercise.tar.gz" class="btn">
-    <img src="images/icons/icon_pkg_holo_1fb.png" alt="">
-    <span>Download PKG<br>HOLO - 1FB</span>
-  </a>
-
-  <a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/material/PKG_HOLO_1TR_exercise.tar.gz" class="btn">
-    <img src="images/icons/icon_pkg_holo_1tr.png" alt="">
-    <span>Download PKG<br>HOLO - 1TR</span>
-  </a>
-
-  <a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/material/PKG_HOLO_ANP_exercise.tar.gz" class="btn">
-    <img src="images/icons/icon_pkg_holo_anp.png" alt="">
-    <span>Download PKG<br>HOLO - ANP</span>
+  <a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/material/MEKERK_active_exercise.tar.gz" class="btn">
+    <img src="images/icons/icon_mekerk_active.png" alt="">
+    <span>Download MEK1-ERK2<br>active</span>
   </a>
 </div>
 
-We provide four different systems. These are always the same protein (PKG) but in different states, i.e., ligand-less (APO) or ligand-bound (HOLO) with three different molecules. You should download and run simulations of at least two of them, one being the APO and one a HOLO so that you can compare the structures at the end of the molecular dynamics simulation. You can unzip the downloaded directories with the command
+You can unzip the downloaded directories with the command
 
 ```bash
 tar -xvf name_of_compressed_file.tar.gz
@@ -61,10 +52,10 @@ tar -xvf name_of_compressed_file.tar.gz
 The individual directories of the different protein/ligand systems are organized as in the following
 
 ```bash
-PKG_APO/HOLO_X_excercise
+MEKERK_active/inactive_excercise
 │   ionize.mdp
-│   reference_topology_PKG_XXX.gro
-│   reference_topology_PKG_XXX.top
+│   reference_topology_MEKERK_active/inactive.gro
+│   reference_topology_MEKERK_active/inactive.top
 │   sbatch_me.sh
 │
 └─── forcefield
@@ -85,11 +76,11 @@ PKG_APO/HOLO_X_excercise
 
 Going by order, you can see
 
-- The `ionize.mdp`, `reference_topology_PKG_XXX.gro`, and `reference_topology_PKG_XXX.top` files. These are the building blocks to set up your starting configuration. These will be covered in depth later in the tutorial.
+- The `ionize.mdp`, `reference_topology_MEKERK_active/inactive.gro`, and `reference_topology_MEKERK_active/inactive.top` files. These are the building blocks to set up your starting configuration. These will be covered in depth later in the tutorial.
 
 - A `sbatch_me.sh` file. This is a text file that contains the set of instructions that will run your starting configuration through energy minimization, NVT, NPT, and eventually the production phase.
 
-- A `forcefield` directory. Inside this, you can find several text files that define 'numerically' the key components of your system. You might recognize some of them, like `PKG.itp`, the water model `tip3.itp`, and the ligands `1FB.itp`, `1TR.itp`, and `ANP.itp`. You can peek inside them and take a look at how a molecule is described numerically in MD simulations. The format of these files - that is, how these numbers are organized and reported - depends on the software you are using. Since in this course you use GROMACS, these files are written in GROMACS format. However, while these numbers and these files might be different for other software, the core idea of numerically representing with specific functions the intra- and inter-molecular interactions is paramount in molecular dynamics.
+- A `forcefield` directory. Inside this, you can find several text files that define 'numerically' the key components of your system. You might recognize some of them, like `MEK1DDGRA.itp`, the water model `tip4pd.itp`, and the ligand `ATP.itp`. You can peek inside them and take a look at how a molecule is described numerically in MD simulations. The format of these files - that is, how these numbers are organized and reported - depends on the software you are using. Since in this course you use GROMACS, these files are written in GROMACS format. However, while these numbers and these files might be different for other software, the core idea of numerically representing with specific functions the intra- and inter-molecular interactions is paramount in molecular dynamics.
 
 - The `step1_em`, `step2_nvt`, and `step3_npt` directories. Inside each of these you can find one or more `mdp` (molecular dynamics parameters) files that will be used to compile and run the energy minimization, the NVT, and the NPT equilibrations. These will be run sequentially by the script `sbatch_me.sh`, taking your starting configuration through a set of equilibration phases to relax the starting configuration gradually and avoid the system exploding.
 
@@ -99,15 +90,15 @@ The idea of this tutorial is to give you the main ingredients to build your own 
 
 - `ionize.mdp`, the mdp file to add the ions in the system;
 
-- `reference_topology_PKG_XXX.gro`, the starting structure that contains the structure of PKG in its APO form or in its HOLO form alongside the corresponding docked ligand;
+- `reference_topology_MEKERK_active/inactive.gro`, the starting structure that contains the structure of the MEK1-ERK2 dimer in its active or inactive configuration;
 
-- `reference_topology_PKG_XXX.top`, the starting topology of the system.
+- `reference_topology_MEKERK_active/inactive.top`, the starting topology of the system.
 
 From these, and by using as reference the [Lysozyme in water](http://www.mdtutorials.com/gmx/lysozyme/) tutorial for solvation and ion addition, you should be able to obtain two files, the starting configuration of the solvated protein, which you will name `start.gro`, and the updated topology of the system, which you will name `topol.top`. These files will be then picked up by the `sbatch_me.sh` script and used as starting point to run the equilibration and the production runs of the system.
 
 ::: {.callout-note}
 ## Note
-This tutorial shows the set-up of the simulation box by using as example the HOLO+ANP structure. Nevertheless, the logic of the procedure is identical and can be applied directly to all the other configurations as well.
+This tutorial shows the set-up of the simulation box by using as example the inactive structure. Nevertheless, the logic of the procedure is identical and can be applied directly to the active state as well.
 :::
 
 #### Preparing the HPC environment
@@ -146,7 +137,7 @@ GROMACS has a lot (> 100) of tools that are accessible by typing `gmx` followed 
 
 #### Building the starting box
 
-At the beginning, you can take a look at the starting topology (`reference_topology_PKG_HOLO_ANP.top`) and the starting configuration to solvate (`reference_topology_PKG_HOLO_ANP.gro`). The topology reads like this
+At the beginning, you can take a look at the starting topology (`reference_topology_MEKERK_inactive.top`) and the starting configuration to solvate (`reference_topology_MEKERK_inactive.gro`). The topology reads like this
 
 ```C++
 #include "./forcefield/forcefield.itp"

@@ -34,6 +34,8 @@ website:
             href: exercise_malaria_targets.qmd
           - text: "mu-Opioid receptor"
             href: exercise_muOR_ligands.qmd
+          - text: "MEK-ERK kinase dimer"
+            href: exercise_mekerk.qmd
       - text: "Contacts"
         href: contacts.qmd
 

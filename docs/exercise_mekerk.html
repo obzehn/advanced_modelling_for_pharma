@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Investigate APO and HOLO malaria targets – Advanced Modelling for Pharma</title>
+<title>Conformational freedom of MEK1-ERK2 kinase dimers – Advanced Modelling for Pharma</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -197,7 +197,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Investigate APO and HOLO malaria targets</h1>
+<h1 class="title">Conformational freedom of MEK1-ERK2 kinase dimers</h1>
 </div>
 
 
@@ -220,38 +220,37 @@ div.csl-indent {
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <section id="introduction-1" class="level4">
 <h4 class="anchored" data-anchor-id="introduction-1">Introduction</h4>
-<p>This guide will provide a brief overview of the APO (without ligand) and HOLO (with ligand) states of protein kinase G (PKG), a key regulatory enzyme found in the malaria parasite <em>Plasmodium</em>. In <em>Plasmodium vivax</em> and <em>Plasmodium falciparum</em>, two species responsible for severe forms of <a href="https://en.wikipedia.org/wiki/Malaria">malaria</a> in humans, PKG plays a critical role in various stages of the parasite’s lifecycle, including its development within the mosquito vector and its replication within the human host’s red blood cells. PKG is involved in signalling pathways that regulate essential processes such as parasite invasion of host cells, egress from infected cells, and differentiation into sexual forms for transmission to mosquitoes. Additionally, PKG has been identified as a potential target for antimalarial drug development due to its essential role in parasite survival and its divergence from human homologs, making it an attractive candidate for selective inhibition.</p>
-<p>Several experimental structures have been deposited for PKG with UNIPROT <a href="https://www.uniprot.org/uniprotkb/A5K0N4/entry">A5K0N4</a>. The PDB IDs user in this tutorial are <a href="https://www.rcsb.org/structure/5DYL">5DYL</a> for the APO form, <a href="https://www.rcsb.org/structure/5DZC">5DZC</a> for the HOLO form bound to a non-hydrolyzable analog of adenosine tri-phosphate (here named ANP), <a href="https://www.rcsb.org/structure/5F0A">5F0A</a> for the HOLO form bound to an inhibitor (here named 1FB), and <a href="https://www.rcsb.org/structure/5FET">5FET</a> for the HOLO form bound to another inhibitor (here named 1TR). The structures of the ligands are shown in <a href="#fig-malaria-panel" class="quarto-xref">Figure&nbsp;1</a>.</p>
-<div id="fig-malaria-panel" class="quarto-float quarto-figure quarto-figure-center anchored">
+<p>In this exercise you will set up and run the simulations boxes of a dimer system part of the RAS-RAF-MEK-ERK mitogen-activated protein kinase pathway. This pathway consists in a series of cascade events where the upstream kinase, e.g.&nbsp;RAS, activate by phosphorylation its downstream one, in this case RAF, which in turn can phosphorylate MEK, and so on, in a typical phosphorylation chain that propagates intracellularly an extracellular signal. The misregulation of these communication chains is linked to many pathologies, particularly cancer, and as such deepen their understanding is pivotal in the development of new drug candidates.</p>
+<p>Given the importance of this pathway, several PDB structures have been deposited during the years, but they rarely solved the dimeric active structures with their endogenous ligand, ATP. The reason is that these signalling proteins form very ephemeral dimers, as their role is mainly to phosphorylate the downstream kinase and propagate the signal. A stable long-lived interface would both hinder the interaction of the downstream kinase with its next target and slow down the phosphorylation rate of the upstream kinase. Luckily for you, our partners at <a href="https://www.embl.org/groups/mccarthy/">EMBL</a> were able to solve the structure of the very end of this pathway via cryo-EM <span class="citation" data-cites="von2026molecular">(<a href="#ref-von2026molecular" role="doc-biblioref">Velsen et al. 2026</a>)</span>. Thus, here you will focus on their MEK-ERK dimer structure, specifically the human MEK1 (UNIPROT <a href="https://www.uniprot.org/uniprotkb/Q02750/entry#Q02750-1">Q02750-1</a>) and the human ERK2 (UNIPROT <a href="https://www.uniprot.org/uniprotkb/P28482/entry">P28482</a>).</p>
+<div id="fig-mekerk-cryo-panel" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-malaria-panel-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<p><img src="./images/image_ligands_malaria/ligands_malaria.png" width="700" class="figure-img"></p>
+<div aria-describedby="fig-mekerk-cryo-panel-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p><img src="./images/image_mekerk/mekerk_cryo.png" width="900" class="figure-img"></p>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-malaria-panel-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: 2D representation of ANP, 1TR, and 1FB ligand molecules.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mekerk-cryo-panel-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: 3D cryo-EM density maps and corresponding fitted structures of the (a) inactive, (b) pre-active, and (c) active states of MEK1-ERK2 complex from <span class="citation" data-cites="von2026molecular">(<a href="#ref-von2026molecular" role="doc-biblioref">Velsen et al. 2026</a>)</span>.
 </figcaption>
 </figure>
 </div>
-<p>The exact role of these molecules when targeting PKG is not strictly relevant for this tutorial. To fill the knowledge gap, you should read the corresponding publication <span class="citation" data-cites="el2019structures">(<a href="#ref-el2019structures" role="doc-biblioref"><span class="nocase">El Bakkouri et al.</span> 2019</a>)</span> from which the APO and HOLO + ANP structures were taken. Please notice however that the other two HOLO structures come from results that are deposited but unpublished. Thus, while they are enough for this tutorial, before using them for proper scientific work you should double check their validity and the status of the publication.</p>
+<p>You can take a look at the super cool different dimer states with their corresponding cryo-EM densities in <a href="#fig-mekerk-cryo-panel" class="quarto-xref">Figure&nbsp;1</a>. To resolve these structures, the proteins have been modified. Briefly, MEK1 (the upstream kinase, in yellow) has a double S218D and S222D mutation to mimic the upstream activating phosphorylation event. Moreover, its N-terminal, which embraces ERK2, is mutated to that of another organism (GRA24KIM, in violet), to stabilize the dimer. Instead, ERK2 (the downstream kinase, in green) has a single T185V point mutation to stabilize its population. The crystals have been solved with an analogue of ATP and in presence of magnesium, the natural coordinating ion in these systems.</p>
+<p>In the structures here provided, MEK1 is still mutated both at its phosphorylation site and at its N-terminal. ERK2, instead, has been back-mutated to the human wild type. In the binding sites you will find ATP, not the analogue, with the corresponding coordinating metal ions (Mg2+) and water. For more details, you can (and <u>should</u>) read the main paper from which these structures are taken <span class="citation" data-cites="von2026molecular">(<a href="#ref-von2026molecular" role="doc-biblioref">Velsen et al. 2026</a>)</span>.</p>
 </section>
 </div>
 <div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
 <section id="a-look-into-the-starting-files" class="level4">
 <h4 class="anchored" data-anchor-id="a-look-into-the-starting-files">A look into the starting files</h4>
-<p>First of all, start by downloading the exercise directories from the github repository.</p>
+<p>First of all, start by downloading the exercise directories from the github repository. We provide two different systems, that is the MEK1-ERK2 dimer complex in both active and inactive states, the difference being the number of Mg2+ ions in MEK1 and the state of its activation A-loop. You should download and run simulations of both of them so that you can compare the structures at the end of the molecular dynamics simulation.</p>
 <div class="download-buttons">
-<p><a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/material/PKG_APO_exercise.tar.gz" class="btn"> <img src="images/icons/icon_pkg_apo.png" alt=""> <span>Download PKG<br>APO</span> </a></p>
-<p><a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/material/PKG_HOLO_1FB_exercise.tar.gz" class="btn"> <img src="images/icons/icon_pkg_holo_1fb.png" alt=""> <span>Download PKG<br>HOLO - 1FB</span> </a></p>
-<p><a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/material/PKG_HOLO_1TR_exercise.tar.gz" class="btn"> <img src="images/icons/icon_pkg_holo_1tr.png" alt=""> <span>Download PKG<br>HOLO - 1TR</span> </a></p>
-<p><a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/material/PKG_HOLO_ANP_exercise.tar.gz" class="btn"> <img src="images/icons/icon_pkg_holo_anp.png" alt=""> <span>Download PKG<br>HOLO - ANP</span> </a></p>
+<p><a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/material/MEKERK_inactive_exercise.tar.gz" class="btn"> <img src="images/icons/icon_mekerk_inactive.png" alt=""> <span>Download MEK1-ERK2<br>inactive</span> </a></p>
+<p><a href="https://github.com/obzehn/advanced_modelling_for_pharma/raw/main/material/MEKERK_active_exercise.tar.gz" class="btn"> <img src="images/icons/icon_mekerk_active.png" alt=""> <span>Download MEK1-ERK2<br>active</span> </a></p>
 </div>
-<p>We provide four different systems. These are always the same protein (PKG) but in different states, i.e., ligand-less (APO) or ligand-bound (HOLO) with three different molecules. You should download and run simulations of at least two of them, one being the APO and one a HOLO so that you can compare the structures at the end of the molecular dynamics simulation. You can unzip the downloaded directories with the command</p>
+<p>You can unzip the downloaded directories with the command</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tar</span> <span class="at">-xvf</span> name_of_compressed_file.tar.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The individual directories of the different protein/ligand systems are organized as in the following</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">PKG_APO/HOLO_X_excercise</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">MEKERK_active/inactive_excercise</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   ionize.mdp</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   reference_topology_PKG_XXX.gro</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   reference_topology_PKG_XXX.top</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   reference_topology_MEKERK_active/inactive.gro</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   reference_topology_MEKERK_active/inactive.top</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   sbatch_me.sh</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="ex">└───</span> forcefield</span>
@@ -270,17 +269,17 @@ Figure&nbsp;1: 2D representation of ANP, 1TR, and 1FB ligand molecules.
 <span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="ex">│</span>   prod.mdp</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Going by order, you can see</p>
 <ul>
-<li><p>The <code>ionize.mdp</code>, <code>reference_topology_PKG_XXX.gro</code>, and <code>reference_topology_PKG_XXX.top</code> files. These are the building blocks to set up your starting configuration. These will be covered in depth later in the tutorial.</p></li>
+<li><p>The <code>ionize.mdp</code>, <code>reference_topology_MEKERK_active/inactive.gro</code>, and <code>reference_topology_MEKERK_active/inactive.top</code> files. These are the building blocks to set up your starting configuration. These will be covered in depth later in the tutorial.</p></li>
 <li><p>A <code>sbatch_me.sh</code> file. This is a text file that contains the set of instructions that will run your starting configuration through energy minimization, NVT, NPT, and eventually the production phase.</p></li>
-<li><p>A <code>forcefield</code> directory. Inside this, you can find several text files that define ‘numerically’ the key components of your system. You might recognize some of them, like <code>PKG.itp</code>, the water model <code>tip3.itp</code>, and the ligands <code>1FB.itp</code>, <code>1TR.itp</code>, and <code>ANP.itp</code>. You can peek inside them and take a look at how a molecule is described numerically in MD simulations. The format of these files - that is, how these numbers are organized and reported - depends on the software you are using. Since in this course you use GROMACS, these files are written in GROMACS format. However, while these numbers and these files might be different for other software, the core idea of numerically representing with specific functions the intra- and inter-molecular interactions is paramount in molecular dynamics.</p></li>
+<li><p>A <code>forcefield</code> directory. Inside this, you can find several text files that define ‘numerically’ the key components of your system. You might recognize some of them, like <code>MEK1DDGRA.itp</code>, the water model <code>tip4pd.itp</code>, and the ligand <code>ATP.itp</code>. You can peek inside them and take a look at how a molecule is described numerically in MD simulations. The format of these files - that is, how these numbers are organized and reported - depends on the software you are using. Since in this course you use GROMACS, these files are written in GROMACS format. However, while these numbers and these files might be different for other software, the core idea of numerically representing with specific functions the intra- and inter-molecular interactions is paramount in molecular dynamics.</p></li>
 <li><p>The <code>step1_em</code>, <code>step2_nvt</code>, and <code>step3_npt</code> directories. Inside each of these you can find one or more <code>mdp</code> (molecular dynamics parameters) files that will be used to compile and run the energy minimization, the NVT, and the NPT equilibrations. These will be run sequentially by the script <code>sbatch_me.sh</code>, taking your starting configuration through a set of equilibration phases to relax the starting configuration gradually and avoid the system exploding.</p></li>
 <li><p>The <code>step4_prod</code> directory. Here there is the <code>prod.mdp</code> file, which is the final mdp file for the production run of the system. This is usually the longest part of the simulation, which can take 3 to 5 days on Baobab depending on the system. The final output files of the simulation will be inside this directory, and the analysis for the exam will mainly revolve around the <code>prod.xtc</code> trajectory file.</p></li>
 </ul>
 <p>The idea of this tutorial is to give you the main ingredients to build your own solvated simulation box without going through the hassle of finding a good target to simulate, fix the experimental structure files, find a consistent force field to describe the system, and embedding the protein in the membrane. Considering this, inside the main directory you can find a copy of three files which will be the basic blocks to build the system, namely</p>
 <ul>
 <li><p><code>ionize.mdp</code>, the mdp file to add the ions in the system;</p></li>
-<li><p><code>reference_topology_PKG_XXX.gro</code>, the starting structure that contains the structure of PKG in its APO form or in its HOLO form alongside the corresponding docked ligand;</p></li>
-<li><p><code>reference_topology_PKG_XXX.top</code>, the starting topology of the system.</p></li>
+<li><p><code>reference_topology_MEKERK_active/inactive.gro</code>, the starting structure that contains the structure of the MEK1-ERK2 dimer in its active or inactive configuration;</p></li>
+<li><p><code>reference_topology_MEKERK_active/inactive.top</code>, the starting topology of the system.</p></li>
 </ul>
 <p>From these, and by using as reference the <a href="http://www.mdtutorials.com/gmx/lysozyme/">Lysozyme in water</a> tutorial for solvation and ion addition, you should be able to obtain two files, the starting configuration of the solvated protein, which you will name <code>start.gro</code>, and the updated topology of the system, which you will name <code>topol.top</code>. These files will be then picked up by the <code>sbatch_me.sh</code> script and used as starting point to run the equilibration and the production runs of the system.</p>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -293,7 +292,7 @@ Figure&nbsp;1: 2D representation of ANP, 1TR, and 1FB ligand molecules.
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This tutorial shows the set-up of the simulation box by using as example the HOLO+ANP structure. Nevertheless, the logic of the procedure is identical and can be applied directly to all the other configurations as well.</p>
+<p>This tutorial shows the set-up of the simulation box by using as example the inactive structure. Nevertheless, the logic of the procedure is identical and can be applied directly to the active state as well.</p>
 </div>
 </div>
 </section>
@@ -339,7 +338,7 @@ Figure&nbsp;1: 2D representation of ANP, 1TR, and 1FB ligand molecules.
 <div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
 <section id="building-the-starting-box" class="level4">
 <h4 class="anchored" data-anchor-id="building-the-starting-box">Building the starting box</h4>
-<p>At the beginning, you can take a look at the starting topology (<code>reference_topology_PKG_HOLO_ANP.top</code>) and the starting configuration to solvate (<code>reference_topology_PKG_HOLO_ANP.gro</code>). The topology reads like this</p>
+<p>At the beginning, you can take a look at the starting topology (<code>reference_topology_MEKERK_inactive.top</code>) and the starting configuration to solvate (<code>reference_topology_MEKERK_inactive.gro</code>). The topology reads like this</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode c++ code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">"./forcefield/forcefield.itp"</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">"./forcefield/PKG.itp"</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">"./forcefield/ANP.itp"</span></span>
@@ -789,8 +788,8 @@ Figure&nbsp;4: The same HOLO with 1TR trajectory re-wrapped in four different wa
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-el2019structures" class="csl-entry" role="listitem">
-<span class="nocase">El Bakkouri, Majida, Imène Kouidmi, Amy K Wernimont, et al.</span> 2019. <span>“Structures of the cGMP-Dependent Protein Kinase in Malaria Parasites Reveal a Unique Structural Relay Mechanism for Activation.”</span> <em>Proceedings of the National Academy of Sciences</em> 116 (28): 14164–73.
+<div id="ref-von2026molecular" class="csl-entry" role="listitem">
+Velsen, Jill von, Pauline Juyoux, Nicola Piasentin, et al. 2026. <span>“Molecular Basis of Mitogen-Activated Protein Kinase ERK2 Activation by Its Upstream Kinase MEK1.”</span> <em>bioRxiv</em>, 2026–01.
 </div>
 </div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
