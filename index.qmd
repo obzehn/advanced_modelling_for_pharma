@@ -69,7 +69,7 @@ If you are not part of the course, please feel free to use this material freely,
 
   <li>
     <a href="exercise_mekerk.qmd" aria-label="MEKERK dimer">
-      <img class="thumb" src="images/icons/mekerk_active.png" alt="Active MEK-ERK dimer.">
+      <img class="thumb" src="images/icons/icon_mekerk_dimer.png" alt="Active MEK-ERK dimer.">
     </a>
     <p class="desc">
       <a class="title" href="exercise_mekerk.qmd">MEK1-ERK2 kinase dimer</a><br>
