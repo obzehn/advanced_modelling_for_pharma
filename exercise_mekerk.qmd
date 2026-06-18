@@ -52,7 +52,7 @@ tar -xvf name_of_compressed_file.tar.gz
 The individual directories of the different protein/ligand systems are organized as in the following
 
 ```bash
-MEKERK_active/inactive_excercise
+MEKERK_active/inactive_exercise
 │   ionize.mdp
 │   reference_topology_MEKERK_active/inactive.gro
 │   reference_topology_MEKERK_active/inactive.top
@@ -140,155 +140,169 @@ GROMACS has a lot (> 100) of tools that are accessible by typing `gmx` followed 
 At the beginning, you can take a look at the starting topology (`reference_topology_MEKERK_inactive.top`) and the starting configuration to solvate (`reference_topology_MEKERK_inactive.gro`). The topology reads like this
 
 ```C++
+; Include forcefield parameters
 #include "./forcefield/forcefield.itp"
-#include "./forcefield/PKG.itp"
-#include "./forcefield/ANP.itp"
-#include "./forcefield/tip3.itp"
+
+; Include chain topologies
+#include "./forcefield/topol_MEK1DDGRA.itp"
+#include "./forcefield/topol_ERK2WT.itp"
+
+; Include ligand topologies
+#include "./forcefield/topol_ATP.itp"
+
+; Include water topology
+#include "./forcefield/tip4pd.itp"
+
+; Include topology for ions
 #include "./forcefield/ions.itp"
 
 [ system ]
-PKG HOLO with ANP and MG
+; Name
+MEK1DDGRA - ERK2WT inactive
 
 [ molecules ]
-; Compound         #mols
-PKG                    1
-MG                     1
-ANP                    1
-SOL                    2
+; Compound        #mols
+MEK1DDGRA           1
+ERK2WT              1
+ATP                 2
+mMg                 3
+SOL                11
 ```
 
 First of all, notice that there are lines starting with a semi-column `;`. These are **comments**, that is, lines that are not read by GROMACS. Comments are used to annotate the files and write down details that are helping you - the user - remember what you are doing, what is the meaning of some variables, etc. They are ignored by the software and should be informative for the person writing or for the person supposed to read the code. Feel free to write your own comments, if it helps you, just remember to put a `;` at the beginning of each line that you do not want to be read by GROMACS, otherwise you will receive a fatal error.
 
-Following up, the `#include` statements tell GROMACS where to find the elements of the force field. As can be seen, they are collected inside the `forcefield` directory and must appear with a specific order. First, the set of parameters defining the force field (`forcefield.itp`). Then, the definition of the individual molecules (`PKG.itp`, `ANP.itp`, etc.) that will populate you system. These do not have to appear in a specific order, however <ins>all</ins> the molecules that you intend to use <ins>must</ins> be defined here. Building the topology, that is, filling in this file, is roughly the equivalent of running `gmx pdb2gmx` on the pdb file of the protein, as you did in the Lysozyme tutorial. In this case the system is much more complex and the pdb needs further handling. After the `#include` statements, there is the `[ system ]` section, which is simply the name of the system. It is worth giving the system a meaningful name to help in recognising the systems in the future.
+Following up, the `#include` statements tell GROMACS where to find the elements of the force field. As can be seen, they are collected inside the `forcefield` directory and must appear with a specific order. First, the set of parameters defining the force field (`forcefield.itp`). Then, the definition of the individual molecules (`topol_MEK1DDGRA.itp`, `topol_ATP.itp`, etc.) that will populate your system. These do not have to appear in a specific order, however <ins>all</ins> the molecules that you intend to use <ins>must</ins> be defined here. Building the topology, that is, filling in this file, is roughly the equivalent of running `gmx pdb2gmx` on the pdb file of the protein, as you did in the Lysozyme tutorial. In this case the system is much more complex and the pdb needs further handling. After the `#include` statements, there is the `[ system ]` section, which is simply the name of the system. It is worth giving the system a meaningful name to help in recognizing the systems in the future.
 
-Finally, there is the `[ molecules ]` section, which must contain <ins>all</ins> the molecules of the system <ins>in the order in which they appear in the box</ins>. Notice that, for the time being, the topology contains one protein (`PKG`), one magnesium ion (`MG`), one ligand (`ANP`), and two water molecules (`SOL`). This is unique for the HOLO system with ANP, because the ANP ligand is an ADP analogue which is coordinated to a magnesium ion together with two water molecules. As such, the whole complex ANP + MG + 2 H<sub>2</sub>O is the correct physiological state of the HOLO state of this protein when bound to ANP. The ligand doesn't bind without the coordinating water molecules and magnesium ion.
+Finally, there is the `[ molecules ]` section, which must contain <ins>all</ins> the molecules of the system <ins>in the order in which they appear in the box</ins>. Notice that, for the time being, the topology contains the dimer protein (`MEK1DDGRA` and `ERK2WT`), two ligands (`ATP`), three magnesium ions (`mMg`), and eleven water molecules (`SOL`). The whole complex ATP + magnesium + coordinating H2O molecules is the correct physiological state of the ATP-bound state of this protein, since ATP doesn't bind without the positive metal ion and the corresponding water molecules.
 
-GROMACS (and other modelling software) doesn't know if a ligand necessitates some ions and coordinating water molecules. Thus, they are part of the initial box **before** the solvation as they have been modelled already in the correct state. This is where the biological and chemical knowledge of the user is critical for building a physiologically correct system. Among the systems presented in this tutorial, ANP is the only ligand that necessitates other molecules to be modelled properly in its binding site. The topologies of the other structures contain only the host protein PKG and a ligand (for the HOLO states) or the protein alone (for the APO case). The APO structure and the three ligands are shown in the panels of @fig-malaria-start.
+GROMACS (and other modelling software) doesn't know if a ligand necessitates some ions and/or coordinating water molecules. Thus, they are placed as part of the initial box **before** the solvation as they have been modelled already in the correct state. This is where the biological and chemical knowledge of the user is critical for building a physiologically correct system.
 
-::: {#fig-malaria-start}
+The binding sites of the inactive dimers are shown in the panels of @fig-mekerk-start.
+
+::: {#fig-mekerk-start}
 
 ::: {.panel-tabset}
 
-## APO
-{{< mol-snapshot images/states/molstate_PKG_APO.molj >}}
+<!--{{< mol-url images/states/mekerk_start_inactive.pdb >}} --->
 
-## HOLO - ANP
-{{< mol-snapshot images/states/molstate_PKG_HOLO_ANP.molj >}}
+## MEK1DDGRA
+{{< mol-snapshot images/states/molstate_MEKERK_inactive_MEK1DDGRA.molj >}}
 
-## HOLO - 1TR
-{{< mol-snapshot images/states/molstate_PKG_HOLO_1TR.molj >}}
-
-## HOLO - 1FB
-{{< mol-snapshot images/states/molstate_PKG_HOLO_1FB.molj >}}
+## ERK2WT
+{{< mol-snapshot images/states/molstate_MEKERK_inactive_ERK2WT.molj >}}
 
 :::
 
-APO and HOLO states of PKG with ANP, 1FB, and 1TR.
+ATP molecules in the binding sites of the inactive starting structure of the MEK1-ERK2 dimer.
 :::
 
-Now, take a look at the starting configuration `reference_topology_PKG_HOLO_ANP.gro`. The `.gro` file has a fixed format, and it is better to not modify it by hand if you are not completely sure about what you are doing. The top of the file looks like this
+Now, take a look at the starting configuration `reference_topology_MEKERK_inactive.gro`. The `.gro` file has a fixed format, and it is better to not modify it by hand if you are not completely sure about what you are doing. The top of the file looks like this
 
 ```bash
-PKG HOLO with ANP ligand
-12908
-    1ACE     H1    1  12.255   9.683   1.920
-    1ACE    CH3    2  12.282   9.770   1.861
-    1ACE     H2    3  12.301   9.855   1.927
-    1ACE     H3    4  12.202   9.795   1.792
-    1ACE      C    5  12.405   9.741   1.784
-    1ACE      O    6  12.461   9.632   1.791
-    2GLY      N    7  12.452   9.840   1.705
-    2GLY      H    8  12.403   9.929   1.702
+MEK1DDGRA - ERK2WT inactive
+11923
+    1MET      N    1   6.545   8.163   8.636
+    1MET     H1    2   6.643   8.141   8.635
+    1MET     H2    3   6.537   8.241   8.572
+    1MET     H3    4   6.519   8.201   8.727
+    1MET     CA    5   6.467   8.048   8.583
+    1MET     HA    6   6.501   7.963   8.642
+    1MET     CB    7   6.316   8.051   8.607
+    1MET    HB1    8   6.274   8.136   8.552
 [...]
 ```
 
-The first line contains the title of the box (`PKG HOLO with ANP ligand`), the second line contains the number of the atoms in the box (`12908`), and the following ones report in order all the atoms of the system. These are organized usually as nine columns. The first (here `1ACE`) is the specific number and name of the residue, which in this case is the capped N-terminal of PKG. The second column contains the specific name of the atom, and usually the first letter indicates the element (here you have a hydrogen followed by a carbon, two hydrogen atoms, another carbon, and so on). The third is simply the number of the entry. It always starts with `1` and goes up to the number of elements in the box. Then, columns four to six contain the x, y, and z coordinates of that atom, while the columns seven to nine contain its velocity, reported by axial component. Here you can see how the velocities are not reported, and so you have only six columns. All atoms must always have a position, but might have zero or undefined velocity. This is the case now, as you are building the box from a static experimental image. One of the main roles of the equilibrations phase is this - to relax the starting positions and assign reasonable starting velocities to all the atoms.
+The first line contains the title of the box (`MEK1DDGRA - ERK2WT inactive`), the second line contains the number of the atoms in the box (`11923`), and the following ones report in order all the atoms of the system. These are organized usually as nine columns. The first (here `1MET`) is the specific number and name of the residue, which in this case is the N-terminal of MEK1 (and so the first amino acid of the GRA mutation). The second column contains the specific name of the atom, and usually the first letter indicates the element (here you have a nitrogen followed by three hydrogen atoms, a carbon atom, another hydrogen, and so on). The third is simply the number of the entry. It always starts with `1` and goes up to the number of elements in the box. Then, columns four to six contain the x, y, and z coordinates of that atom, while the columns seven to nine, if present, contain its velocity, reported by axial component. Here you can see that the velocities are not reported, and so you have only six columns. All atoms must always have a position, but might have zero or undefined velocity. This is the case now, as you are building the box from a static experimental image. One of the main roles of the equilibrations phase is this - to relax the starting positions and assign reasonable starting velocities to all the atoms.
 
 At the other end of the file, the last lines look like this
 
 ```bash
 [...]
-  800ANP    HC812901   9.954  11.756   3.126
-  800ANP   HN3B12902  10.448  11.664   2.794
-  801SOL     OW12903  10.681  11.334   3.167
-  801SOL    HW112904  10.690  11.235   3.182
-  801SOL    HW212905  10.712  11.356   3.073
-  802SOL     OW12906  10.542  11.544   3.341
-  802SOL    HW112907  10.543  11.515   3.439
-  802SOL    HW212908  10.540  11.644   3.339
-   0.00000   0.00000   0.00000   0.00000   0.00000   0.00000   0.00000   0.00000   0.00000
+  401SOL     MW11915   9.561   9.338   3.255
+  402SOL     OW11916   7.872   9.057   5.895
+  402SOL    HW111917   7.803   8.995   5.870
+  402SOL    HW211918   7.903   9.093   5.812
+  402SOL     MW11919   7.867   9.054   5.880
+  403SOL     OW11920   8.049   9.063   6.123
+  403SOL    HW111921   7.970   9.063   6.177
+  403SOL    HW211922   8.097   9.142   6.149
+  403SOL     MW11923   8.045   9.073   6.134
+  0.00000   0.00000   0.00000
 ```
 
-The meaning of the columns is the same as before. The last molecules to appear are the two water molecules (and in fact, in the topology file, they are reported last). The last line of a `.gro` file has, like the first two, a special meaning, as it reports the side length of the box along x, y, and z. Sometimes it can have more than three numbers for particular box shapes. You can see how this box is actually undefined - GROMACS keeps this line used, as it has a special role, but it is filled with zeros. You will need to define a box before solvating the system.
+The meaning of the columns is the same as before. The last molecules to appear are the two water molecules (and in fact, in the topology file, they are reported last). Notice also how this water model (namely included with `tip4pd.itp` in your topology file) has four atoms to describe the molecular nature of water.
+
+The last line of a `.gro` file has, like the first two, a special meaning, as it reports the side length of the box along x, y, and z. Sometimes it can have more than three numbers for particular box shapes. You can see how this box is actually undefined - GROMACS keeps this line used, as it has a special role, but it is filled with zeros. Thus, you will need to define a box before solvating the system.
 
 You can now set up the box by using `gmx editconf`
 
 ```bash
-gmx editconf -f reference_topology_PKG_HOLO_ANP.gro -o reference_topology_PKG_HOLO_ANP_boxed.gro -bt dodecahedron -c -d 1
+gmx editconf -f reference_topology_MEKERK_inactive.gro -o reference_topology_MEKERK_inactive_boxed.gro -bt dodecahedron -c -d 1
 ```
 
-Here you are starting from the reference structure (`-f reference_topology_PKG_HOLO_ANP.gro`) and asking GROMACS to position your protein in the centre (`-c`), build a dodecahedron box (`-bt dodecahedron`), and make sure that the protein is at least 1 nm distant (`-d 1`) from the box sides to avoid periodic boundary conditions (PBCs) artifacts. Please note that, exactly because of PBCs, there is not a real centre of the box, and positioning the protein in it with `-c` is mostly for representation purposes rather than real physics. 
+Here you are starting from the reference structure (`-f reference_topology_MEKERK_inactive.gro`) and asking GROMACS to position your protein in the centre (`-c`), build a dodecahedron box (`-bt dodecahedron`), and make sure that the protein is at least 1 nm distant (`-d 1`) from the box sides to avoid periodic boundary conditions (PBCs) artifacts. Please note that, exactly because of PBCs, there is not a real centre of the box, and positioning the protein in it with `-c` is mostly for representation purposes rather than real physics. 
 
 Differently from the Lysozyme tutorial, here you are also specifying the geometry of the box. In terms of simulations results, the outcome should not depend on the dimension or shape of the simulation box, as long as it is large enough to accommodate the contents (the protein in this case) and avoid self-interaction between PBC images. So, why bother changing the shape or dimension? Why don't just make a huge cube? A hint should come from one of the last lines of the output of `gmx editconf`, which will look something like this
 
 ```bash
-new box volume  :1496.67               (nm^3)
+new box volume  :1407.75               (nm^3)
 ```
 
-Try now to build the same system (but <u>do not use it</u>) by specifying a cubic (`-bt cubic`) box, you will end up with something like this
+If you try now to build the same system (but <u>do not use it</u>) by specifying a cubic (`-bt cubic`) box, you will end up with something like this
 
 ```bash
-new box volume  :2116.61               (nm^3)
+new box volume  :1631.90               (nm^3)
 ```
 
-This means that you will have a roughly ~40% larger box, and so more water to solvate, a higher number of molecules to simulate, and consequently much slower simulations.
+This means that you will have a roughly ~15% larger box, and so more water to solvate, a higher number of molecules to simulate, and consequently much slower simulations.
 
 ## Solvating
 
 #### Solvating
 
-Before running `gmx solvate`, you have to know which water model you want to use. For this force field, as also reported in the `reference_topology_PKG_HOLO_ANP.top` file, the model is [TIP3P](https://en.wikipedia.org/wiki/Water_model) (you are importing the parameters with this line `#include "./forcefield/tip3.itp"`), a three-point water model. This means that each water molecule in your simulation will simply be represented with three sites: one oxygen atom and two hydrogen atoms. To access a three-points water model, the flag name for `gmx solvate` is `-cs spc216.gro`, the same as for the Lysozyme tutorial.
+Before running `gmx solvate`, you have to know which water model you want to use. For this force field, as also reported in the `reference_topology_GPCR_structure_1.top` file, the model is [TIP4PD](https://en.wikipedia.org/wiki/Water_model) (you are importing the parameters with this line `#include "./forcefield/tip4pd.itp"`), a four-point water model. This means that each water molecule in your simulation will be actually represented with four sites: one oxygen atom (`OW`), two hydrogen atoms (`HW1` and `HW2`), and a dummy site (`MW`) near the oxygen atom that has negative charge. This dummy atom is a numerical trick to better represent the distribution of charge of the lone pair in water's oxygen. To access four-points water models, the flag name for `gmx solvate` is `-cs tip4p.gro`.
 
 Thus, you can solvate the system with the following
 
 ```bash
-gmx solvate -cp reference_topology_PKG_HOLO_ANP_boxed.gro -cs spc216.gro -o reference_topology_PKG_HOLO_ANP_solvated.gro
+gmx solvate -cp reference_topology_MEKERK_inactive_boxed.gro -cs tip4p.gro -o reference_topology_MEKERK_inactive_solvated.gro
 ```
 
-where you are asking to add water to the structure with `-cp reference_topology_PKG_HOLO_ANP_boxed.gro`, use as reference a three-points water model with `-cs spc216.gro`, add call the resulting output structure `-o reference_topology_PKG_HOLO_ANP_solvated.gro`. Some of you may notice that in the Lysozyme tutorial you also have to pass the topology of the system with the `-p` flag. This is not mandatory, and has the advantage that the updated topology would have the same name as the input one, which makes harder to trace back after possible errors. However, if you don't pass the topology then you will have to update it by hand to include the presence of the water molecules.
+where you are asking to add water to the structure with `-cp reference_topology_MEKERK_inactive_boxed.gro`, use as reference a three-points water model with `-cs tip4p.gro`, add call the resulting output structure `-o reference_topology_MEKERK_inactive_solvated.gro`. Some of you may notice that in the Lysozyme tutorial you also have to pass the topology of the system with the `-p` flag. This is not mandatory, and has the advantage that the updated topology would have the same name as the input one, which makes harder to trace back after possible errors. However, if you don't pass the topology then you will have to update it by hand to include the presence of the water molecules.
 
 The (last lines of the) output of this command will look something like this
 
 ```C++
 [...]
-Volume                 :     1496.67 (nm^3)
-Density                :     999.599 (g/l)
-Number of solvent molecules:  44578 
+Volume                 :     1407.75 (nm^3)
+Density                :     1011.03 (g/l)
+Number of solvent molecules:  42535
 ```
 
-GROMACS tries to fill the box with water to reach the density of ca. 1 g/L. The most important part here is the number of water molecules inserted, in this case `44578` (this number can oscillate slightly, as molecules are randomly inserted). You now has just to add this number at the end of the topology to tell GROMACS that the content of the box has changed.
+GROMACS tries to fill the box with water to reach the density of ca. 1 g/L. The most important part here is the number of water molecules inserted, in this case `42535` (this number can oscillate slightly, as molecules are randomly inserted). You now has just to add this number at the end of the topology to tell GROMACS that the content of the box has changed.
 
 First, copy the reference topology
 
 ```bash
-cp reference_topology_PKG_HOLO_ANP.top reference_topology_PKG_HOLO_ANP_solvated.top
+cp reference_topology_MEKERK_inactive.top reference_topology_MEKERK_inactive_solvated.top
 ```
 
-Then, add the amount of water molecules to `reference_topology_PKG_HOLO_ANP_solvated.top` by correcting the `[ molecules ]` section in the following way
+Then, add the amount of water molecules to `reference_topology_MEKERK_inactive_solvated.top` by correcting the `[ molecules ]` section in the following way
 
 ```C++
 [...]
 [ molecules ]
-; Compound         #mols
-PKG                    1
-MG                     1
-ANP                    1
-SOL                44580
+; Compound        #mols
+MEK1DDGRA           1
+ERK2WT              1
+ATP                 2
+mMg                 3
+SOL             42546
 ```
 
-You have to add the name of the water in the box (`SOL`) and the number reported after tunning `gmx solvate`. For the HOLO + ANP structure, `SOL` was already reported as there are two water molecules coordinating the MG ion, and as such you just have to add two to the total solvation number. For the other structures, just report the plain number obtained from the output of `gmx solvate`.
+You have to add the name of the water in the box (`SOL`) and the number reported after tunning `gmx solvate`. Here, `SOL` was already reported as there are a few water molecules coordinating the Mg ion, and as such you just have to add two to the total solvation number.
 
-At this point, the structure of the solvated system is contained in `reference_topology_PKG_HOLO_ANP_solvated.gro`, while its topology in `reference_topology_PKG_HOLO_ANP_solvated.top`.
+At this point, the structure of the solvated system is contained in `reference_topology_MEKERK_inactive_solvated.gro`, while its topology in `reference_topology_MEKERK_inactive_solvated.top`.
 
 ## Adding Ions
 
@@ -494,7 +508,7 @@ Then there are a few technical details about how GROMACS should use the availabl
 
 Lastly, there are a series of commands that enter with `cd` the `step1_em`, `step2_nvt`, `step3_npt`, and `step4_prod` directories and systematically run `gmx grompp` to prepare the corresponding tpr files and then run them with `gmx mdrun`.
 
-You can send the submission script `sbatch_me.sh` and let slurm handle the simulations by using the [sbatch](https://slurm.schedmd.com/sbatch.html) command. This should be run from Baobab's head-node, and not from the node that you received by running `salloc`. Thus, from the `PKG_APO` or `HOLO_X_excercise` directory where the submission script `sbatch_me.sh` is located, you can submit the job slurm with the following command
+You can send the submission script `sbatch_me.sh` and let slurm handle the simulations by using the [sbatch](https://slurm.schedmd.com/sbatch.html) command. This should be run from Baobab's head-node, and not from the node that you received by running `salloc`. Thus, from the `PKG_APO` or `HOLO_X_exercise` directory where the submission script `sbatch_me.sh` is located, you can submit the job slurm with the following command
 
 ```bash
 sbatch sbatch_me.sh

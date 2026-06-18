@@ -505,7 +505,7 @@ You can exit the index generation by typing `q` and pressing enter. In your main
 The content of the exercise directory should now be similar to this
 
 ```bash
-GPCR_structure_X_excercise
+GPCR_structure_X_exercise
 │   sbatch_me.sh
 │   index.ndx
 │   start.gro
@@ -569,7 +569,7 @@ module load GROMACS/2025.3-CUDA-12.9.1
 
 Then there are a few technical details about how GROMACS should use the available resources to run the simulations with `gmx mdrun` (e.g. `-ntmpi`, `-ntomp`, etc.). Lastly, there are a series of `cd` commands that enter the `step1_em`, `step2_nvt`, `step3_npt`, and `step4_prod` directories and systematically run `gmx grompp` to prepare the corresponding tpr files and then run them with `gmx mdrun`.
 
-You can send the submission script `sbatch_me.sh` and let slurm handle the simulations by using the [sbatch](https://slurm.schedmd.com/sbatch.html) command. This should be run from Baobab's head-node, and not from the node that you received by running `salloc`. Thus, from the `GPCR_structure_X_excercise` directory where the submission script `sbatch_me.sh` is located, you can submit the job slurm with the following command
+You can send the submission script `sbatch_me.sh` and let slurm handle the simulations by using the [sbatch](https://slurm.schedmd.com/sbatch.html) command. This should be run from Baobab's head-node, and not from the node that you received by running `salloc`. Thus, from the `GPCR_structure_X_exercise` directory where the submission script `sbatch_me.sh` is located, you can submit the job slurm with the following command
 
 ```bash
 sbatch sbatch_me.sh
