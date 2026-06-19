@@ -419,7 +419,7 @@ Summarizing, you now have the starting solvated and neutralized configuration st
 ::: {#fig-mekerk-box}
 <img src="/images/image_mekerk/mekerk_rot.gif" width="500">
 
-Final solvated dodecahedron box for the inactive MEK1-ERK2 inactive system. MEK1 and ERK2 are in a yellow and green cartoon representation, respectively. ATP is represented as sticks. Water is represented as a transparent soft blue surface. Ions are represented with their van der Waals radii and are in and violet (sodium and chlorine) and green (magnesium).
+Final solvated dodecahedron box for the inactive MEK1-ERK2 active system. MEK1 and ERK2 are in a yellow and green cartoon representation, respectively. ATP is represented as sticks. Water is represented as a transparent soft blue surface. Ions are represented with their van der Waals radii and are in and violet (sodium and chlorine) and green (magnesium).
 
 :::
 
@@ -429,10 +429,11 @@ Final solvated dodecahedron box for the inactive MEK1-ERK2 inactive system. MEK1
 The content of the exercise directory should now be similar to this
 
 ```bash
-PKG_APO/HOLO_X_exercise
-│   sbatch_me.sh
+MEKERK_active/inactive_exercise
+│   sbatch_me_MEKERK_inactive.sh
 │   start.gro
 │   topol.top
+|   [... other files ...]
 │
 └─── forcefield
 │
@@ -449,21 +450,21 @@ PKG_APO/HOLO_X_exercise
     │   prod.mdp
 ```
 
-plus some leftover files from the system generation. It is mandatory that `sbatch_me.sh`, `start.gro`, and `topol.top` are together in the same directory in which there are the energy minimization, NVT, NPT, and production directories, otherwise the script `sbatch_me.sh` won't be able to run the simulations for you.
+It is mandatory that `sbatch_me_MEKERK_inactive.sh`, `start.gro`, and `topol.top` are together in the same directory in which there are the energy minimization, NVT, NPT, and production directories, otherwise the script `sbatch_me_MEKERK_inactive.sh` won't be able to run the simulations for you.
 
 During both the Lysozyme tutorial and the preparation of the box for this exercise, you logged in a Baobab node by using the `salloc` command. In this way you can have access to a node and run an interactive job. This is nice because you can have real time answers from the node and you see clearly what is going on and what you are doing, which is pivotal for error-prone procedures like the generation of the starting box. However, when you close the connection, log out from Baobab, or simply turn off the computer, you lose the access to the computer and any running simulation will stop. Does this mean that you should be always connected? And that you should stay constantly in front of your computer, even for a few days at a time, while the simulations run, scared or losing the internet connection and see your runs fail?
 
-Clearly this is not the case. As explained also in the [Introduction to HPC](/introduction_baobab.qmd), Baobab has a so-called queueing system, named [slurm](https://slurm.schedmd.com/overview.html). With slurm, you can prepare a *submission script* that contains the main commands that you want to run alongside the resources that you need. This is exactly what the `sbatch_me.sh` script is.
+Clearly this is not the case. As explained also in the [Introduction to HPC](/introduction_baobab.qmd), Baobab has a so-called queueing system, named [slurm](https://slurm.schedmd.com/overview.html). With slurm, you can prepare a *submission script* that contains the main commands that you want to run alongside the resources that you need.
 
-Take a look at the content of the `sbatch_me.sh`. The first lines look like this
+This is exactly what the `sbatch_me_MEKERK_inactive.sh` script is. Lets take a look at its content. The first lines are something akin to
 
 ```bash
 #!/bin/bash 
 
 #SBATCH --account=gervasio_teach_19h330
 #SBATCH --partition=private-gervasio-gpu
-#SBATCH --time 144:00:00
-#SBATCH --job-name PKG_ANP
+#SBATCH --time 72:00:00
+#SBATCH --job-name in_MEKERK
 #SBATCH --error jobname-error.e%j
 #SBATCH --output jobname-out.o%j
 #SBATCH --ntasks 1
@@ -471,15 +472,16 @@ Take a look at the content of the `sbatch_me.sh`. The first lines look like this
 #SBATCH --nodes 1
 #SBATCH --gpus-per-node=nvidia_geforce_rtx_3080:1
 #SBATCH --hint=nomultithread
+#SBATCH --dependency=singleton
 
 [...]
 ```
 
 You can recognize some of the flags that you were giving to the `salloc` command, such as `--partition=private-gervasio-gpu` and `--cpus-per-task 16`. Basically these lines are specifying which kind of hardware you need to run the simulations. If you are curious, you can look up their meaning in the slurm website.
 
-Slurm reads this files and sends you in a queue while it waits to find some computer that is available and that has the requested hardware. When it finds it, it takes control of it for the amount of time specified in `--time 144:00:00`, that is, six days. This amount of time will be sufficient to both conclude the equilibration and the production runs.
+Slurm reads this files and sends you in a queue while it waits to find some computer that is available and that has the requested hardware. When it finds it, it takes control of it for the amount of time specified in `--time 72:00:00`, that is, three days. You will need roughly double that amount of time to run the full production, but the sbatch script should take care of that by itself.
 
-Continuing along the `sbatch_me.sh` script, as in the interactive case, the first thing to do once the node is allocated is to source GROMACS, which is the first thing done by the script with the lines following the `#SBATCH` node requests, i.e., with the following
+Continuing along the `sbatch_me_MEKERK_inactive.sh` script, as in the interactive case, the first thing to do once the node is allocated is to source GROMACS, which is the first thing done by the script with the lines following the `#SBATCH` node requests, i.e., with the following
 
 ```bash
 [...]
@@ -494,16 +496,16 @@ Then there are a few technical details about how GROMACS should use the availabl
 
 Lastly, there are a series of commands that enter with `cd` the `step1_em`, `step2_nvt`, `step3_npt`, and `step4_prod` directories and systematically run `gmx grompp` to prepare the corresponding tpr files and then run them with `gmx mdrun`.
 
-You can send the submission script `sbatch_me.sh` and let slurm handle the simulations by using the [sbatch](https://slurm.schedmd.com/sbatch.html) command. This should be run from Baobab's head-node, and not from the node that you received by running `salloc`. Thus, from the `PKG_APO` or `HOLO_X_exercise` directory where the submission script `sbatch_me.sh` is located, you can submit the job slurm with the following command
+You can send the submission script and let slurm handle the simulations by using the [sbatch](https://slurm.schedmd.com/sbatch.html) command. This should be run from Baobab's head-node, and not from the node that you received by running `salloc`. Thus, from the `MEKERK_inactive_exercise` directory where the submission script is located, you can submit the job slurm with the following command
 
 ```bash
-sbatch sbatch_me.sh
+sbatch sbatch_me_MEKERK_inactive.sh
 ```
 
 If the command runs successfully, slurm returns the number that is assigned to your job, something like this
 
 ```bash
-Submitted batch job 16568567
+Submitted batch job 9152963
 ```
 
 You can check the status of the job by running (and substituting `username` with yours)
@@ -516,7 +518,7 @@ The output will look something like this
 
 ```bash
              JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-          16568567 private-g    PKG_ANP username  R       2:11      1 gpu039
+           9152963 private-g in_MEKER username  R       0:55      1 gpu039
 ```
 
 The `R` under the column `ST` (for *status*) stands for *running*. Usually, the job stays in the queue with some other status, like `PD` (for *pending*), before changing to `R`. Once it's running, you will see that slurm directly writes the output to the exercise directories, e.g., you will see `em.gro`, `em.trr`, and other output files appearing in `step1_em`, `nvt_1.log`, `nvt_1.gro` etc. in `step2_nvt`, and so on. Now that the job is submitted and running, you can log out from Baobab without risking to stop it. For the malaria target exercises, the time needed to complete the whole equilibration phase (steps 1 to 3) is of about two hours, while to complete the production it will take roughly two days, so a total of two days overall.

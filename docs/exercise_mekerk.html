@@ -556,7 +556,7 @@ Figure&nbsp;2: ATP molecules in the binding sites of the inactive starting struc
 <p><img src="./images/image_mekerk/mekerk_rot.gif" width="500" class="figure-img"></p>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mekerk-box-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: Final solvated dodecahedron box for the inactive MEK1-ERK2 inactive system. MEK1 and ERK2 are in a yellow and green cartoon representation, respectively. ATP is represented as sticks. Water is represented as a transparent soft blue surface. Ions are represented with their van der Waals radii and are in and violet (sodium and chlorine) and green (magnesium).
+Figure&nbsp;3: Final solvated dodecahedron box for the inactive MEK1-ERK2 active system. MEK1 and ERK2 are in a yellow and green cartoon representation, respectively. ATP is represented as sticks. Water is represented as a transparent soft blue surface. Ions are represented with their van der Waals radii and are in and violet (sodium and chlorine) and green (magnesium).
 </figcaption>
 </figure>
 </div>
@@ -566,34 +566,35 @@ Figure&nbsp;3: Final solvated dodecahedron box for the inactive MEK1-ERK2 inacti
 <section id="a-look-at-the-sbatch_me.sh-file" class="level4">
 <h4 class="anchored" data-anchor-id="a-look-at-the-sbatch_me.sh-file">A look at the <code>sbatch_me.sh</code> file</h4>
 <p>The content of the exercise directory should now be similar to this</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">PKG_APO/HOLO_X_exercise</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   sbatch_me.sh</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">MEKERK_active/inactive_exercise</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   sbatch_me_MEKERK_inactive.sh</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   start.gro</span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   topol.top</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="ex">└───</span> forcefield</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span></span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="ex">└───</span> step1_em</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   │   em.mdp</span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="ex">└───</span> step2_nvt</span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   │   [various nvt.mdp files]</span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span></span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="ex">└───</span> step3_npt</span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   │   [various npt.mdp files]</span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span></span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="ex">└───</span> step4_prod</span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>    <span class="ex">│</span>   prod.mdp</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>plus some leftover files from the system generation. It is mandatory that <code>sbatch_me.sh</code>, <code>start.gro</code>, and <code>topol.top</code> are together in the same directory in which there are the energy minimization, NVT, NPT, and production directories, otherwise the script <code>sbatch_me.sh</code> won’t be able to run the simulations for you.</p>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="kw">|</span>   <span class="ex">[...</span> other files ...]</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="ex">└───</span> forcefield</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="ex">└───</span> step1_em</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   │   em.mdp</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="ex">└───</span> step2_nvt</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   │   [various nvt.mdp files]</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="ex">└───</span> step3_npt</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   │   [various npt.mdp files]</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a><span class="ex">└───</span> step4_prod</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>    <span class="ex">│</span>   prod.mdp</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>It is mandatory that <code>sbatch_me_MEKERK_inactive.sh</code>, <code>start.gro</code>, and <code>topol.top</code> are together in the same directory in which there are the energy minimization, NVT, NPT, and production directories, otherwise the script <code>sbatch_me_MEKERK_inactive.sh</code> won’t be able to run the simulations for you.</p>
 <p>During both the Lysozyme tutorial and the preparation of the box for this exercise, you logged in a Baobab node by using the <code>salloc</code> command. In this way you can have access to a node and run an interactive job. This is nice because you can have real time answers from the node and you see clearly what is going on and what you are doing, which is pivotal for error-prone procedures like the generation of the starting box. However, when you close the connection, log out from Baobab, or simply turn off the computer, you lose the access to the computer and any running simulation will stop. Does this mean that you should be always connected? And that you should stay constantly in front of your computer, even for a few days at a time, while the simulations run, scared or losing the internet connection and see your runs fail?</p>
-<p>Clearly this is not the case. As explained also in the <a href="./introduction_baobab.html">Introduction to HPC</a>, Baobab has a so-called queueing system, named <a href="https://slurm.schedmd.com/overview.html">slurm</a>. With slurm, you can prepare a <em>submission script</em> that contains the main commands that you want to run alongside the resources that you need. This is exactly what the <code>sbatch_me.sh</code> script is.</p>
-<p>Take a look at the content of the <code>sbatch_me.sh</code>. The first lines look like this</p>
+<p>Clearly this is not the case. As explained also in the <a href="./introduction_baobab.html">Introduction to HPC</a>, Baobab has a so-called queueing system, named <a href="https://slurm.schedmd.com/overview.html">slurm</a>. With slurm, you can prepare a <em>submission script</em> that contains the main commands that you want to run alongside the resources that you need.</p>
+<p>This is exactly what the <code>sbatch_me_MEKERK_inactive.sh</code> script is. Lets take a look at its content. The first lines are something akin to</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash </span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --account=gervasio_teach_19h330</span></span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=private-gervasio-gpu</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time 144:00:00</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name PKG_ANP</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time 72:00:00</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name in_MEKERK</span></span>
 <span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --error jobname-error.e%j</span></span>
 <span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output jobname-out.o%j</span></span>
 <span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks 1</span></span>
@@ -601,11 +602,12 @@ Figure&nbsp;3: Final solvated dodecahedron box for the inactive MEK1-ERK2 inacti
 <span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --nodes 1</span></span>
 <span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --gpus-per-node=nvidia_geforce_rtx_3080:1</span></span>
 <span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --hint=nomultithread</span></span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="ex">[...]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --dependency=singleton</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="ex">[...]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>You can recognize some of the flags that you were giving to the <code>salloc</code> command, such as <code>--partition=private-gervasio-gpu</code> and <code>--cpus-per-task 16</code>. Basically these lines are specifying which kind of hardware you need to run the simulations. If you are curious, you can look up their meaning in the slurm website.</p>
-<p>Slurm reads this files and sends you in a queue while it waits to find some computer that is available and that has the requested hardware. When it finds it, it takes control of it for the amount of time specified in <code>--time 144:00:00</code>, that is, six days. This amount of time will be sufficient to both conclude the equilibration and the production runs.</p>
-<p>Continuing along the <code>sbatch_me.sh</code> script, as in the interactive case, the first thing to do once the node is allocated is to source GROMACS, which is the first thing done by the script with the lines following the <code>#SBATCH</code> node requests, i.e., with the following</p>
+<p>Slurm reads this files and sends you in a queue while it waits to find some computer that is available and that has the requested hardware. When it finds it, it takes control of it for the amount of time specified in <code>--time 72:00:00</code>, that is, three days. You will need roughly double that amount of time to run the full production, but the sbatch script should take care of that by itself.</p>
+<p>Continuing along the <code>sbatch_me_MEKERK_inactive.sh</code> script, as in the interactive case, the first thing to do once the node is allocated is to source GROMACS, which is the first thing done by the script with the lines following the <code>#SBATCH</code> node requests, i.e., with the following</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[...]</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load GCC/14.3.0</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load OpenMPI/5.0.8</span>
@@ -614,15 +616,15 @@ Figure&nbsp;3: Final solvated dodecahedron box for the inactive MEK1-ERK2 inacti
 <span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="ex">[...]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Then there are a few technical details about how GROMACS should use the available resources to run the simulations with <code>gmx mdrun</code> (e.g.&nbsp;<code>-ntmpi</code>, <code>-ntomp</code>, etc.).</p>
 <p>Lastly, there are a series of commands that enter with <code>cd</code> the <code>step1_em</code>, <code>step2_nvt</code>, <code>step3_npt</code>, and <code>step4_prod</code> directories and systematically run <code>gmx grompp</code> to prepare the corresponding tpr files and then run them with <code>gmx mdrun</code>.</p>
-<p>You can send the submission script <code>sbatch_me.sh</code> and let slurm handle the simulations by using the <a href="https://slurm.schedmd.com/sbatch.html">sbatch</a> command. This should be run from Baobab’s head-node, and not from the node that you received by running <code>salloc</code>. Thus, from the <code>PKG_APO</code> or <code>HOLO_X_exercise</code> directory where the submission script <code>sbatch_me.sh</code> is located, you can submit the job slurm with the following command</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> sbatch_me.sh</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>You can send the submission script and let slurm handle the simulations by using the <a href="https://slurm.schedmd.com/sbatch.html">sbatch</a> command. This should be run from Baobab’s head-node, and not from the node that you received by running <code>salloc</code>. Thus, from the <code>MEKERK_inactive_exercise</code> directory where the submission script is located, you can submit the job slurm with the following command</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> sbatch_me_MEKERK_inactive.sh</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>If the command runs successfully, slurm returns the number that is assigned to your job, something like this</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Submitted</span> batch job 16568567</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Submitted</span> batch job 9152963</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>You can check the status of the job by running (and substituting <code>username</code> with yours)</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ex">squeue</span> <span class="at">-u</span> username</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The output will look something like this</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>             <span class="ex">JOBID</span> PARTITION     NAME     USER ST       TIME  NODES NODELIST<span class="er">(</span><span class="ex">REASON</span><span class="kw">)</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>          <span class="ex">16568567</span> private-g    PKG_ANP username  R       2:11      1 gpu039</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>           <span class="ex">9152963</span> private-g in_MEKER username  R       0:55      1 gpu039</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The <code>R</code> under the column <code>ST</code> (for <em>status</em>) stands for <em>running</em>. Usually, the job stays in the queue with some other status, like <code>PD</code> (for <em>pending</em>), before changing to <code>R</code>. Once it’s running, you will see that slurm directly writes the output to the exercise directories, e.g., you will see <code>em.gro</code>, <code>em.trr</code>, and other output files appearing in <code>step1_em</code>, <code>nvt_1.log</code>, <code>nvt_1.gro</code> etc. in <code>step2_nvt</code>, and so on. Now that the job is submitted and running, you can log out from Baobab without risking to stop it. For the malaria target exercises, the time needed to complete the whole equilibration phase (steps 1 to 3) is of about two hours, while to complete the production it will take roughly two days, so a total of two days overall.</p>
 </section>
 <section id="a-look-at-the-process-of-equilibration" class="level4">
