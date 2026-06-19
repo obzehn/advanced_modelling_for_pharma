@@ -308,33 +308,34 @@ At this point, the structure of the solvated system is contained in `reference_t
 
 #### Adding ions
 
-You are now ready to add the ions in the system. First, you need to generate a `.tpr` file, which is a binary file that GROMACS can read to understand the charges of the different molecules in the system and select automatically how many ions should be added. You can do this by using `gmx grompp` and pointing to the parameters file `ionize.mdp` with the flag `-f`, to the starting solvated structure `reference_topology_PKG_HOLO_ANP_solvated.gro` with the flag `-c`, to the solvated topology `reference_topology_PKG_HOLO_ANP_solvated.top` with the flag `-p`, and finally name the output tpr file `ionize.tpr` with the flag `-o`
+You are now ready to add the ions in the system. First, you need to generate a `.tpr` file, which is a binary file that GROMACS can read to understand the charges of the different molecules in the system and select automatically how many ions should be added. You can do this by using `gmx grompp` and pointing to the parameters file `ionize.mdp` with the flag `-f`, to the starting solvated structure `reference_topology_MEKERK_inactive_solvated.gro` with the flag `-c`, to the solvated topology `reference_topology_MEKERK_inactive_solvated.top` with the flag `-p`, and finally name the output tpr file `ionize.tpr` with the flag `-o`
 
 ```bash
-gmx grompp -f ionize.mdp -c reference_topology_PKG_HOLO_ANP_solvated.gro -p reference_topology_PKG_HOLO_ANP_solvated.top -o ionize.tpr
+gmx grompp -f ionize.mdp -c reference_topology_MEKERK_inactive_solvated.gro -p reference_topology_MEKERK_inactive_solvated.top -o ionize.tpr
 ```
 
 You might see (depending on GROMACS version) that for some systems this command fails with a fatal error containing the following information
 
 ```bash
-NOTE 2 [file reference_topology_PKG_HOLO_ANP_solvated.top, line 15]:
-  System has non-zero total charge: -3.000000
+NOTE 2 [file reference_topology_MEKERK_inactive_solvated.top, line 27]:
+  System has non-zero total charge: -14.000000
   Total charge should normally be an integer. See
-  http://www.gromacs.org/Documentation/Floating_Point_Arithmetic
+  https://manual.gromacs.org/current/user-guide/floating-point.html
   for discussion on how close it should be to an integer.
 
-WARNING 1 [file reference_topology_PKG_HOLO_ANP_solvated.top, line 15]:
+WARNING 1 [file reference_topology_MEKERK_inactive_solvated.top, line 27]:
   You are using Ewald electrostatics in a system with net charge. This can
   lead to severe artifacts, such as ions moving into regions with low
   dielectric, due to the uniform background charge. We suggest to
   neutralize your system with counter ions, possibly in combination with a
   physiological salt concentration.
+
 ```
 
-Basically, a tpr file is used to run simulations. As such, when GROMACS tries to prepare one through `gmx grompp`, it check if the physics of the system is reasonable or not. In this case, it found that your system has a net charge of -3, and is telling you that this is very bad as the systems should always have zero total net charge. You can bypass this check by adding the flag `--maxwarn 1` to the command, that is, ignore one (and only one) warning
+Basically, a tpr file is used to run simulations. As such, when GROMACS tries to prepare one through `gmx grompp`, it checks if the physics of the system is reasonable or not. In this case, it found that your system has a net charge of -14, and is telling you that this is very bad as the systems should always have zero total net charge. You can bypass this check by adding the flag `--maxwarn 1` to the command, that is, ignore one (and only one) warning
 
 ```bash
-gmx grompp -f ionize.mdp -c reference_topology_PKG_HOLO_ANP_solvated.gro -p reference_topology_PKG_HOLO_ANP_solvated.top -o ionize.tpr --maxwarn 1
+gmx grompp -f ionize.mdp -c reference_topology_MEKERK_inactive_solvated.gro -p reference_topology_MEKERK_inactive_solvated.top -o ionize.tpr --maxwarn 1
 ```
 
 You will see that now GROMACS still complains, but gets the job done. It is very important, however, to understand that the ionization step is nearly the **only** case in which it is okay to use the `--maxwarn` flag, as you **know** that the physics of the system is wrong and you actually need the tpr to fix it with `gmx genion`.
@@ -346,94 +347,79 @@ You may be temped to use `--maxwarn` to get through errors, but generally <u>you
 Now, you should have a `ionize.tpr` file in your directory, following the `gmx grompp` command. You are ready to insert the ions with the following command
 
 ```bash
-gmx genion -s ionize.tpr -neutral -pname NA -nname CL -o start.gro
+gmx genion -s ionize.tpr -neutral -pname NA -nname CXY -conc 0.15 -o start.gro
 ```
 
-Here, you are asking GROMACS to make the system neutral (`-neutral`), call the positive ions `NA`, the negative ions `CL`, and call the resulting output `start.gro`. Trivially, within this force field the atoms NA and CL refer to sodium (Na, +1) and chlorine (Cl, -1) ions. Again, differently from the Lysozyme tutorial, you are not giving as input the topology and you will update it after the addition of ions.
+Here, you are asking GROMACS to make the system neutral (`-neutral`), call the positive ions `NA`, the negative ions `CXY`, reach a physiological salt concentration of 0.150 mol/liter (`-conc 0.15`), and call the resulting output `start.gro`. Trivially, within this force field the atoms `NA` and `CXY` refer to sodium (Na, +1) and chlorine (Cl, -1) ions (in particular this chlorine has a special re-parametrisation due to the Mg ions used in the force field). Again, differently from the Lysozyme tutorial, you are not giving as input the topology and you will update it after the addition of ions.
 
 With `genion`, GROMACS tries to substitute some molecules in the system with the necessary number of ions. You will be promted by GROMACS to choose which part of the system you are okay to substitute in favour of water molecules
 
 ```bash
-Will try to add 3 NA ions and 0 CL ions.
+Will try to add 141 NA ions and 127 CXY ions.
 Select a continuous group of solvent molecules
-Group     0 (         System) has 146642 elements
-Group     1 (        Protein) has 12857 elements
-Group     2 (      Protein-H) has  6392 elements
-Group     3 (        C-alpha) has   797 elements
-Group     4 (       Backbone) has  2392 elements
-Group     5 (      MainChain) has  3191 elements
-Group     6 (   MainChain+Cb) has  3933 elements
-Group     7 (    MainChain+H) has  3973 elements
-Group     8 (      SideChain) has  8884 elements
-Group     9 (    SideChain-H) has  3201 elements
-Group    10 (    Prot-Masses) has 12857 elements
-Group    11 (    non-Protein) has 133785 elements
-Group    12 (            Ion) has     1 elements
-Group    13 (          Other) has    44 elements
-Group    14 (             MG) has     1 elements
-Group    15 (            ANP) has    44 elements
-Group    16 (          Water) has 133740 elements
-Group    17 (            SOL) has 133740 elements
-Group    18 (      non-Water) has 12902 elements
-Group    19 ( Water_and_ions) has 133741 elements
-Select a group: 
+Group     0 (         System) has 182063 elements
+Group     1 (        Protein) has 11790 elements
+Group     2 (      Protein-H) has  5884 elements
+Group     3 (        C-alpha) has   737 elements
+Group     4 (       Backbone) has  2213 elements
+Group     5 (      MainChain) has  2952 elements
+Group     6 (   MainChain+Cb) has  3642 elements
+Group     7 (    MainChain+H) has  3645 elements
+Group     8 (      SideChain) has  8145 elements
+Group     9 (    SideChain-H) has  2932 elements
+Group    10 (    Prot-Masses) has 11790 elements
+Group    11 (    non-Protein) has 170273 elements
+Group    12 (          Other) has    89 elements
+Group    13 (            ATP) has    86 elements
+Group    14 (            mMg) has     3 elements
+Group    15 (          Water) has 170184 elements
+Group    16 (            SOL) has 170184 elements
+Group    17 (      non-Water) has 11879 elements
+Select a group:
 ```
 
-From the first line you can see that GROMACS understood that the system has a total of -3 charge and will then need three positive ions to have a total of zero net charge. Since you do not want to substitute any part of the protein or the ligand, choose the `SOL` group, and GROMACS will randomly pick seven water molecules, remove them and place there a sodium ion.
+From the first line you can see that GROMACS understood that the system has a total of -14 charge and will then need fourteen positive ions to have a total of zero net charge plus other ions to reach the given salt concentration. Since you do not want to substitute any part of the protein or the ligand, choose the `SOL` group, and GROMACS will randomly pick seven water molecules, remove them and place there a sodium ion.
 
 ```bash
-Select a group: 17
-Selected 17: 'SOL'
-Number of (3-atomic) solvent molecules: 44580
-Using random seed -17319946.
-Replacing solvent molecule 3201 (atom 22505) with NA
-Replacing solvent molecule 2493 (atom 20381) with NA
-Replacing solvent molecule 18348 (atom 67946) with NA
+Select a group: 16
+Selected 16: 'SOL'
+Number of (4-atomic) solvent molecules: 42546
+Using random seed -276512898.
+Replacing solvent molecule 6763 (atom 38931) with NA
+Replacing solvent molecule 8705 (atom 46699) with NA
+Replacing solvent molecule 42156 (atom 180503) with NA
+[...]
+Replacing solvent molecule 11490 (atom 57839) with CXY
+Replacing solvent molecule 16679 (atom 78595) with CXY
 ```
 
 As for the solvation, you need now to update the topology as some water molecules have been removed and some sodium ions have been added. Start by copying the solvated topology into a new topology called `topol.top`
 
 ```bash
-cp reference_topology_PKG_HOLO_ANP_solvated.top topol.top
+cp reference_topology_MEKERK_inactive_solvated.top topol.top
 ```
 
-and change the `[ molecules ]` section by removing the three water molecules from the total and adding the three sodium ions (`NA`)
+and change the `[ molecules ]` section by removing the same number of water molecules from the total and adding the the sodium (`NA`) and chloringe (`CXY`) ions, in this case then we need `141 NA`, `127 CXY`, and remove `141+127=268` water molecules.
 
 ```C++
 [...]
 [ molecules ]
-; Compound         #mols
-PKG                    1
-MG                     1
-ANP                    1
-SOL                44577
-NA                     3
+; Compound        #mols
+MEK1DDGRA           1
+ERK2WT              1
+ATP                 2
+mMg                 3
+SOL             42278   ; before ionization it was 42546
+NA                141
+CXY               127
 ```
 
-If the `gmx grompp` command didn't fail, it is because the system has already total charge equal zero. Thus, when you run the `gmx genion -s ionize.tpr -neutral -pname NA -nname CL -o start.gro`, GROMACS will not prompt you to ask which part of the system you want to substitute in favour of ions, as there are no ions to add, and the output will look like this
+Summarizing, you now have the starting solvated and neutralized configuration stored in `start.gro` and the corresponding topology in `topol.top`. You can take a look at the final system with VMD. It should look similar to that shown in @fig-mekerk-box.
 
-```bash
-No ions to add, will just copy input configuration.
-```
+::: {#fig-mekerk-box}
+<img src="/images/image_mekerk/mekerk_rot.gif" width="500">
 
-Basically, you have copied the configuration stored in `ionize.tpr`, which is the one in `reference_topology_PKG_HOLO_ANP_solvated.gro`, and called it `start.gro`. You should now copy the topology and call it `topol.top`, but you do not have to update it as no water molecules have been removed and no ions have been added, and you are good to go.
-
-::: {.callout-note title="Salt concentration"}
-Life doesn't happen in pure water. Generally, during the system preparation a certain amount of salt is added to reach a given physiological salt concentration. These ions are added on top of those needed to neutralize the system. If you want a more realistic set-up, you can ionize the system to 0.150 M with
-
-```bash
-gmx genion -s ionize.tpr -neutral -pname NA -nname CL -conc 0.150 -o start.gro
-```
-
-but remember to update accordingly the topology with both `NA` and `CL` atoms.
-:::
-
-Summarizing, you now have the starting solvated and neutralized configuration stored in `start.gro` and the corresponding topology in `topol.top`. You can take a look at the final system with VMD. It should look similar to that shown in @fig-malaria-box.
-
-::: {#fig-malaria-box}
-<img src="/images/image_ligands_malaria/holo_rot.gif" width="500">
-
-Final solvated dodecahedron box for the PKG+ANP HOLO system. Water is represented as a transparent white surface. PKG is in a red cartoon representation. ANP is represented as sticks. Ions are represented with their van der Waals radii and are in blue (sodium) and pink (magnesium). Water is reported as a transparent white surface. The chlorine ions are shown as yellow spheres based on their van der Waals radii. Remember that all the atoms in the system are actually points without a radius described by a set of coordinates, they are not spheres. However, you can use their van der Waals radii to estimate how 'large' the atoms are, that is, how much space around them is physically precluded to other atoms due to the atomic repulsion of the inter-molecular van der Waals forces.
+Final solvated dodecahedron box for the inactive MEK1-ERK2 inactive system. MEK1 and ERK2 are in a yellow and green cartoon representation, respectively. ATP is represented as sticks. Water is represented as a transparent soft blue surface. Ions are represented with their van der Waals radii and are in and violet (sodium and chlorine) and green (magnesium).
 
 :::
 

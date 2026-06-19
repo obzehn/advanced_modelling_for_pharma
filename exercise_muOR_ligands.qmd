@@ -364,7 +364,7 @@ WARNING 1 [file reference_topology_MUOR_ENDO_solvated.top, line 19]:
 
 ```
 
-Basically, a tpr file is used to run simulations. As such, when GROMACS tries to prepare one through `gmx grompp`, it check if the physics of the system is reasonable or not. In this case, it found that your system has a positive net charge, and is telling you that this is very bad as the systems should always have zero total net charge. You can bypass this check by adding the flag `--maxwarn 1` to the command line, that is, ignore one (and only one) warning
+Basically, a tpr file is used to run simulations. As such, when GROMACS tries to prepare one through `gmx grompp`, it checks if the physics of the system is reasonable or not. In this case, it found that your system has a positive net charge, and is telling you that this is very bad as the systems should always have zero total net charge. You can bypass this check by adding the flag `--maxwarn 1` to the command line, that is, ignore one (and only one) warning
 
 ```bash
 gmx grompp -f ionize.mdp -c MUOR_ENDO_solvated_clean.gro -p reference_topology_MUOR_ENDO_solvated.top -o ionize.tpr -maxwarn 1

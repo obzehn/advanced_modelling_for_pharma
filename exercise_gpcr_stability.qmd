@@ -332,7 +332,7 @@ WARNING 1 [file reference_topology_GPCR_structure_1_solvated.top, line 17]:
   physiological salt concentration.
 ```
 
-Basically, a tpr file is used to run simulations. As such, when GROMACS tries to prepare one through `gmx grompp`, it check if the physics of the system is reasonable or not. In this case, it found that your system has a net charge of +7, and is telling you that this is very bad as the systems should always have zero total net charge. You can bypass this check by adding the flag `--maxwarn 1` to the command line, that is, ignore one (and only one) warning
+Basically, a tpr file is used to run simulations. As such, when GROMACS tries to prepare one through `gmx grompp`, it checks if the physics of the system is reasonable or not. In this case, it found that your system has a net charge of +7, and is telling you that this is very bad as the systems should always have zero total net charge. You can bypass this check by adding the flag `--maxwarn 1` to the command line, that is, ignore one (and only one) warning
 
 ```bash
 gmx grompp -f ionize.mdp -c GPCR_structure_1_solvated_clean.gro -p reference_topology_GPCR_structure_1_solvated.top -o ionize.tpr --maxwarn 1

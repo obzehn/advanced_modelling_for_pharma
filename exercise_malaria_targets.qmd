@@ -326,7 +326,7 @@ WARNING 1 [file reference_topology_PKG_HOLO_ANP_solvated.top, line 15]:
   physiological salt concentration.
 ```
 
-Basically, a tpr file is used to run simulations. As such, when GROMACS tries to prepare one through `gmx grompp`, it check if the physics of the system is reasonable or not. In this case, it found that your system has a net charge of -3, and is telling you that this is very bad as the systems should always have zero total net charge. You can bypass this check by adding the flag `--maxwarn 1` to the command, that is, ignore one (and only one) warning
+Basically, a tpr file is used to run simulations. As such, when GROMACS tries to prepare one through `gmx grompp`, it checks if the physics of the system is reasonable or not. In this case, it found that your system has a net charge of -3, and is telling you that this is very bad as the systems should always have zero total net charge. You can bypass this check by adding the flag `--maxwarn 1` to the command, that is, ignore one (and only one) warning
 
 ```bash
 gmx grompp -f ionize.mdp -c reference_topology_PKG_HOLO_ANP_solvated.gro -p reference_topology_PKG_HOLO_ANP_solvated.top -o ionize.tpr --maxwarn 1
@@ -428,7 +428,7 @@ Summarizing, you now have the starting solvated and neutralized configuration st
 ::: {#fig-malaria-box}
 <img src="/images/image_ligands_malaria/holo_rot.gif" width="500">
 
-Final solvated dodecahedron box for the PKG+ANP HOLO system. Water is represented as a transparent white surface. PKG is in a red cartoon representation. ANP is represented as sticks. Ions are represented with their van der Waals radii and are in blue (sodium) and pink (magnesium). Water is reported as a transparent white surface. The chlorine ions are shown as yellow spheres based on their van der Waals radii. Remember that all the atoms in the system are actually points without a radius described by a set of coordinates, they are not spheres. However, you can use their van der Waals radii to estimate how 'large' the atoms are, that is, how much space around them is physically precluded to other atoms due to the atomic repulsion of the inter-molecular van der Waals forces.
+Final solvated dodecahedron box for the PKG+ANP HOLO system. ANP is represented as sticks. Ions are represented with their van der Waals radii and are in blue (sodium) and pink (magnesium). Water is reported as a transparent white surface.
 
 :::
 
