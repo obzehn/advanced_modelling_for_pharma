@@ -527,7 +527,7 @@ The `R` under the column `ST` (for *status*) stands for *running*. Usually, the 
 
 Differently from the Lysozyme tutorial, here you can see that the NVT and NPT simulations are not unique, but they consist of several steps each, which are run one after the other. For the sake of completeness, you can take a look at the various `nvt_X.mdp` and `npt_X.mdp` files. As for the other files, the lines starting with `;` are comments, that is, they are ignored by GROMACS and are useful only for human readers to organize the code.
 
-Let's take a look at a few key entries in the mdp file.
+Let's take a look at a few key entries in the mdp files.
 
 ```bash
 [...]
@@ -536,13 +536,13 @@ Let's take a look at a few key entries in the mdp file.
 ;---------------------------------------------
 integrator               = md
 dt                       = 0.002
-nsteps                   = 50000
+nsteps                   = 500000
 [...]
 ```
 
-Here you are asking GROMACS to use a [leapfrog integrator](https://en.wikipedia.org/wiki/Leapfrog_integration) by setting `integrator = md`. The integration is performed with a time step `dt` of 0.002 ps, that is, 2 fs, which is the standard for this type of simulations. Lastly, the integration is performed for 50000 steps, as set by `nsteps`, that is, `50000 x 0.002 ps = 100ps`. You can see that the number of steps is relatively short with respect to the production run, as reported in the `prod.mdp` parameters file.
+Here you are asking GROMACS to use a [leapfrog integrator](https://en.wikipedia.org/wiki/Leapfrog_integration) by setting `integrator = md`. The integration is performed with a time step `dt` of 0.002 ps, that is, 2 fs, which is the standard for this type of simulations. Lastly, the integration is performed for 500000 steps, as set by `nsteps`, that is, `500000 x 0.002 ps = 1000 ps = 1 ns`. You can see that the number of steps is relatively short with respect to the production run, as reported in the `prod.mdp` parameters file.
 
-The other most important section is the one where you set the thermostat and barostat settings. For the NVT runs, you have the thermostat that controls the temperature and the parameters look something like this (here taken from `nvt_6.mdp`)
+The other most important section is the one where you set the thermostat and barostat settings. For the NVT runs, you have the thermostat that controls the temperature and the parameters look something like this (here taken from `nvt_1.mdp`)
 
 ```bash
 [...]
@@ -552,8 +552,8 @@ The other most important section is the one where you set the thermostat and bar
 ; >> Temperature
 tcoupl                   = v-rescale
 tc-grps                  = Protein non-Protein
-tau_t                    = 0.5     0.5
-ref_t                    = 300     300
+tau_t                    = 1.0     1.0
+ref_t                    = 310.15  310.15
 ; >>  Pressure
 pcoupl                   = no
 [...]
@@ -572,25 +572,24 @@ ref-p                    = 1.0
 [...]
 ```
 
-The reason why there are several NVT and NPT sub-phases is that the system should be relaxed gradually, otherwise it might distort the starting configuration, which would be detrimental - if not deadly - for maintaining the correct binding pose of the ligand. This can be achieved by putting so-called *restraints* on specific atoms of the system to restrain them in space, that is, to not let them move too much. This behavior is controlled by the parameters defined under the `POSITION RESTRAINTS` section, as in the following example taken from `nvt_1.mdp`
+The reason why there are several NVT and NPT sub-phases is that the system should be relaxed gradually, otherwise it might distort the starting configuration, which would be detrimental - if not deadly - for maintaining the correct binding pose of the ligand. This can be achieved by putting so-called *restraints* on specific atoms of the system to restrain them in space, that is, to not let them move too much. This behavior is controlled by the parameters defined under the `POSITION RESTRAINTS` section, as in the following example taken from `npt_1.mdp`
 
 ```bash
 [...]
 ;---------------------------------------------
 ; POSITION RESTRAINTS
 ;---------------------------------------------
-define                    = -DPOSRES_PRO -DPOSRES_FC_SC=500 -DPOSRES_FC_BB=1000 -DPOSRES_IONS -DPOSRES_MG=1000 -DPOSRES_LIG=1000
-[...]
+define                       = -DPOSRES_ATP -DATP_k=1000 -DATP_P_k=1000 [...] -DPOSRES_mMg -DmMg_k=5000
 ```
 
-The technical implementation and the specific meaning of these parameters is beyond the scope of this tutorial. The take at home message is that, due to the restraints, at the beginning both the ligand and the protein (and the MG ion for the ANP system) can't really move freely in space, but water can. In this way you can thermalize first the water molecules. Then, gradually, the restraints on the atoms of the system are decreased to let the whole system equilibrate. You can check the values of the parameters in the `POSITION RESTRAINTS` of the `nvt_X.mdp` and `npt_X.mdp` files. You will see that they gradually decrease up to disappearing in the last NPT equilibration. You can also see that the `nvt_X.mdp` files actually have an increasing temperature, so that the system is thermalized gradually to avoid distortions of the experimentally-resolved binding site.
+The technical implementation and the specific meaning of these parameters is beyond the scope of this tutorial. The take at home message is that, due to the restraints, at the beginning both the ligands and the proteins (and the Mg ions) can't really move freely in space, but water can. In this way you can thermalize first the water molecules. Then, gradually, the restraints on the atoms of the system are decreased to let the whole system equilibrate. You can check the values of the parameters in the `POSITION RESTRAINTS` of the `nvt_X.mdp` and `npt_X.mdp` files. You will see that they gradually decrease up to disappearing in the last NPT equilibration.
 
 The production run is usually simulated without restraints at all, and in fact there is no restraint defined in `prod.mdp`, as you would like to simulate the 'natural' behavior of the system. In this tutorial, the [statistical ensemble](https://en.wikipedia.org/wiki/Ensemble_(mathematical_physics)) of the production run is still the isothermal-isobaric ensemble (NPT), as you can see from the `prod.mdp` file since both the thermostat and the barostat are active. It is informally called *production* because it is the part of the simulation that is used most of the times for the analysis, as it comes after the equilibration and it is supposed to be well relaxed.
 
 ## Tips and tricks
 #### Tips and tricks for handling trajectories
 
-Trajectories are fidgety things. The standard format of the GROMACS trajectory, an `.xtc` file, contains the positions of the atoms as a function of time, collected as a sequence of frames. The frequency of the output is set by the keyword `nstxout-compressed` in the mdp files, in units of time steps. For the protein/ligand productions, this is 10000, that is, `10000 x 0.002 ps = 20 ps`. Considering that the run is long 250 ns, this means that you will collect 12500 frames. The content of the frames is defined by the keyword `compressed-x-grps`. Since this was not set in the mdp files, the default is the whole system, that is, the protein with water and, if present, ligands and ions.
+Trajectories are fidgety things. The standard format of the GROMACS trajectory, an `.xtc` file, contains the positions of the atoms as a function of time, collected as a sequence of frames. The frequency of the output is set by the keyword `nstxout-compressed` in the mdp files, in units of time steps. For the protein/ligand productions, this is 10000, that is, `50000 x 0.002 ps = 100 ps`. Considering that the run is long 500 ns, this means that you will collect 5000 frames. The content of the frames is defined by the keyword `compressed-x-grps`. Since this was not set in the mdp files, the default is the whole system, that is, the protein with water and, if present, ligands and ions.
 
 ::: {.callout-tip title="Data volume"}
 You can imagine how writing coordinates for hundreds of thousands of atoms for thousands of frames can be very memory intensive. Deciding in advance what to print and the frequency is very important, and can save you a lot of space. However, it is better to stay on the safer side as the only way to recover not printed data is to rerun the simulation.
@@ -600,7 +599,7 @@ This short section covers a couple of key points in handling trajectories and th
 
 The main tool for trajectory handling in GROMACS is [`gmx trjconv`](https://manual.gromacs.org/current/onlinehelp/gmx-trjconv.html). Take a look at the manual for the optional flags and see if anything fits what you want to do (or check with `gmx trjconv --h`). This is a tool that notoriously necessitates some experience to achieve an efficient usage, but it is worth pointing out a few key commands. Generally, after running `gmx trjconv` GROMACS asks some further information (depending on the flags you are using) in terms of contents of the system. The most important thing here is to read properly what GROMACS asks and answer accordingly to your own purpose.
 
-The panels of @fig-malaria-pbc shows a few ways in which the trajectory can be post-processed. The videos were rendered with VMD with PKG shown as a red cartoon ribbon and the ligand as van der Waals spheres. Please consider also that the dodecahedron box is represented internally as a triclinic like box, so the PBC box represented as blue lines read by VMD is different from the animation in the representation. The panels are
+The panels of @fig-mekerk-pbc shows a few ways in which the trajectory can be post-processed. Please consider also that the dodecahedron box is represented internally as a triclinic like box. The panels are
 
 - The original trajectory. Molecules that are broken across the boundaries give rise to the typical spaghetti-like bonds. Notice how nothing leaves the box, as the PBCs put the atoms back in the box, but on the other side;
 
