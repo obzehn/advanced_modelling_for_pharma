@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.33">
+<meta name="generator" content="quarto-1.9.29">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -89,10 +89,10 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-6d4e4c6c342646cac9792aff734a6985.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dfa48a90d809c806c7ea2d5aecd9fc66.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-40407ab5d2a7cddbf48c2e70354151ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-13c16aafac6531a635013403a2500755.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="site_libs/quarto-contrib/molstar-v3.13.0/molstar.js"></script>
 <link href="site_libs/quarto-contrib/molstar-v3.13.0/molstar.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/molstar-v3.13.0/app-container.css" rel="stylesheet">
@@ -675,7 +675,7 @@ Figure&nbsp;3: Final solvated dodecahedron box for the inactive MEK1-ERK2 active
 <div id="tabset-2-7" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-7-tab">
 <section id="tips-and-tricks-for-handling-trajectories" class="level4">
 <h4 class="anchored" data-anchor-id="tips-and-tricks-for-handling-trajectories">Tips and tricks for handling trajectories</h4>
-<p>Trajectories are fidgety things. The standard format of the GROMACS trajectory, an <code>.xtc</code> file, contains the positions of the atoms as a function of time, collected as a sequence of frames. The frequency of the output is set by the keyword <code>nstxout-compressed</code> in the mdp files, in units of time steps. For the protein/ligand productions, this is 10000, that is, <code>50000 x 0.002 ps = 100 ps</code>. Considering that the run is long 500 ns, this means that you will collect 5000 frames. The content of the frames is defined by the keyword <code>compressed-x-grps</code>. Since this was not set in the mdp files, the default is the whole system, that is, the protein with water and, if present, ligands and ions.</p>
+<p>Trajectories are fidgety things. The standard format of the GROMACS compressed trajectory, an <code>.xtc</code> file, contains the positions of the atoms as a function of time, collected as a sequence of frames. The frequency of the output is set by the keyword <code>nstxout-compressed</code> in the mdp files, in units of time steps. For the production run, this is 10000, that is, <code>10000 x 0.002 ps = 20 ps</code>. Considering that the run is long 500 ns, this means that you will collect 25000 frames. The content of the frames is defined by the keyword <code>compressed-x-grps</code>. Since this was not set in the mdp files, the default is the whole system, that is, the protein with water, ligands, and ions.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Data volume">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -691,28 +691,28 @@ Figure&nbsp;3: Final solvated dodecahedron box for the inactive MEK1-ERK2 active
 </div>
 <p>This short section covers a couple of key points in handling trajectories and the representation of periodic boundary conditions. It is important to understand that the information of the trajectory is the same, and changing its representation <u>doesn’t change the content</u>. There are a few reasons why post-processing of the trajectory is fundamental. The most important is for analysis purposes, as some tools might be sensible to the representation of the molecules. For example, RMSD calculation might break down and give non-sensical jumps if the tool that calculates it doesn’t reconstruct the trajectory by fixing broken molecules across periodic boundaries. Building on this point, very large trajectories are also hard to handle from the hardware perspective, and it is better to reduce them to the strictly necessary so that tools analyzing them are faster. Handling trajectories is important also for representation purposes, e.g., rendering a fancy image for a publication. Moreover, this is connected to understanding via visualization, as watching the trajectory is very important to gain insights on the system and check possible criticalities, and human eyes work better with whole molecules.</p>
 <p>The main tool for trajectory handling in GROMACS is <a href="https://manual.gromacs.org/current/onlinehelp/gmx-trjconv.html"><code>gmx trjconv</code></a>. Take a look at the manual for the optional flags and see if anything fits what you want to do (or check with <code>gmx trjconv --h</code>). This is a tool that notoriously necessitates some experience to achieve an efficient usage, but it is worth pointing out a few key commands. Generally, after running <code>gmx trjconv</code> GROMACS asks some further information (depending on the flags you are using) in terms of contents of the system. The most important thing here is to read properly what GROMACS asks and answer accordingly to your own purpose.</p>
-<p>The panels of <strong>?@fig-mekerk-pbc</strong> shows a few ways in which the trajectory can be post-processed. Please consider also that the dodecahedron box is represented internally as a triclinic like box. The panels are</p>
+<p>The panels of <a href="#fig-mekerk-pbc" class="quarto-xref">Figure&nbsp;4</a> shows a few ways in which the trajectory can be post-processed. Please consider also that the dodecahedron box is represented internally as a triclinic like box, so the box shape might be different from what you expect. The panels are</p>
 <ul>
 <li><p>The original trajectory. Molecules that are broken across the boundaries give rise to the typical spaghetti-like bonds. Notice how nothing leaves the box, as the PBCs put the atoms back in the box, but on the other side;</p></li>
-<li><p>The trajectory corrected for PBCs broken molecules. This can be achieved with the flag <code>-pbc mol</code>. Notice how the protein is now whole, but GROMACS puts it back at the nearest interface with respect to its center, so the protein can ‘jump’ across boundaries. The ligand can do the same, and sometimes they can be in different position and may seem like the ligand left the pocked;</p></li>
+<li><p>The trajectory corrected for PBCs broken molecules. This can be achieved with the flag <code>-pbc mol</code>. Notice how the protein is now whole, but GROMACS puts it back at the nearest interface with respect to its center, so the molecules can ‘jump’ across boundaries;</p></li>
 <li><p>The trajectory re-centered around the protein and corrected for PBCs broken molecules. This can be achieved with the flag <code>-pbc mol</code> and <code>-center</code> and prompting GROMACS to center the protein in the box. Now everything stays in place, but it’s very hard to focus on the ligand, as the binding site wobbles constantly;</p></li>
 <li><p>The trajectory refitted on the protein first frame of the energy minimization. This comes from two concatenated passages. The first usually is the same as the point before this one, that is, PBC removal and re-centering. Then, the output is further post-produced with <code>trjconv</code> by setting the flag <code>-fit rot+trans</code>, and prompting GROMACS to use the protein alpha carbons as reference. Briefly, GROMACS tries to match the position of the protein in each frame with the starting one (passed with the flag <code>-s</code>). You can see how the protein position is much more consistent and the ligand binding site - with the bound ligand - can be appreciated again.</p></li>
 </ul>
-<div id="fig-malaria-pbc" class="quarto-layout-panel">
+<div id="fig-mekerk-pbc" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-malaria-pbc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="fig-mekerk-pbc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="./images/image_ligands_malaria/holo_ori.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" width="400"></p>
+<p><img src="./images/image_mekerk/active_ori.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" width="400"></p>
 </figure>
 </div>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="./images/image_ligands_malaria/holo_pbc.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" width="400"></p>
+<p><img src="./images/image_mekerk/active_pbc.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" width="400"></p>
 </figure>
 </div>
 </div>
@@ -721,32 +721,35 @@ Figure&nbsp;3: Final solvated dodecahedron box for the inactive MEK1-ERK2 active
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="./images/image_ligands_malaria/holo_cent.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" width="400"></p>
+<p><img src="./images/image_mekerk/active_cent.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" width="400"></p>
 </figure>
 </div>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="./images/image_ligands_malaria/holo_fit.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" width="400"></p>
+<p><img src="./images/image_mekerk/active_fit.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" width="400"></p>
 </figure>
 </div>
 </div>
 </div>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-malaria-pbc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: The same HOLO with 1TR trajectory re-wrapped in four different ways. PKG is represented as a red cartoon ribbon, while 1TR is represented in van der Waals spheres. Water is removed for clarity. The first panel shows the original trajectory; the second shows molecules made whole across PBCs; the third centers the protein in the box; the fourth aligns the protein to the last frame of the energy minimization. You can see that the ligand was bound for the whole duration of the production.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mekerk-pbc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: The same MEK1-ERK2 system trajectory re-wrapped in four different ways. The proteins are represented as cartoon ribbons, the ligands as sticks, and coordinating metal ions as van der Waals spheres. Water is removed for clarity. The first panel shows the original trajectory; the second shows molecules made whole across PBCs; the third centers the proteins in the box; the fourth aligns the protein complex to the last frame of the energy minimization. You can see that the ligand was bound for the whole duration of the production.
 </figcaption>
 </figure>
 </div>
-<p>For the exam, the main post-processing of the trajectory that you might need is the removal of the water molecules, as this will make the trajectory much smaller and easy to download and analyze. It is also worth to correct the PBCs and center the protein, which basically means obtaining what is shown in the third panel of <a href="#fig-malaria-pbc" class="quarto-xref">Figure&nbsp;4</a>. You can do this in one command as in the following</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gmx</span> trjconv <span class="at">-f</span> prod.xtc <span class="at">-s</span> nvt_1.tpr <span class="at">-pbc</span> mol <span class="at">-center</span> <span class="at">-o</span> center_traj.xtc</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>and, when prompted by GROMACS, by selecting the group <code>Protein</code> for centering and <code>System</code> for output. The output will be called <code>center_traj.xtc</code> and will contain the whole trajectory where all the molecules are made whole across the PBCs and the protein is centered in the box. You can then fit the protein to its starting position to better visualize the binding site (like panel 4 of <a href="#fig-malaria-pbc" class="quarto-xref">Figure&nbsp;4</a>) as in the following</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gmx</span> trjconv <span class="at">-f</span> center_traj.xtc <span class="at">-s</span> nvt_1.tpr <span class="at">-fit</span> rot+trans <span class="at">-o</span> center_traj_fit.xtc</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>and selecting the protein C alphas for fit and the <code>System</code> for output. Now, <code>center_traj_fit.xtc</code> will contain the whole trajectory and after centering and fitting it on the starting configuration of the protein contained in <code>nvt_1.tpr</code>. This will probably still be a large file, so you can produce a more manageable file for visualization with VMD with the following two commands</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gmx</span> trjconv <span class="at">-f</span> center_traj_fit.xtc <span class="at">-s</span> em.tpr <span class="at">-o</span> nowater.xtc</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="ex">gmx</span> trjconv <span class="at">-f</span> center_traj_fit.xtc <span class="at">-s</span> em.tpr <span class="at">-o</span> nowater.gro <span class="at">-dump</span> 0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>In both cases, select <code>non-Water</code> as the output group. These will produce two files, <code>nowater.gro</code> and <code>nowater.xtc</code>, which are the first frame of the production run and the associated trajectory, respectively, but without the water. The files should be much smaller than the original <code>prod.xtc</code>. You can use these two files to visualize the trajectory in VMD. You can get rid of the intermediary files and remove them, that is, <code>rm center_traj.xtc center_traj_fit.xtc</code>.</p>
+<p>For the exam, the main post-processing of the trajectory that you might need is the removal of the water molecules, as this will make the trajectory much smaller and easy to download and analyze. It is also worth to correct the PBCs and center the protein, which basically means obtaining what is shown in the third panel of <a href="#fig-mekerk-pbc" class="quarto-xref">Figure&nbsp;4</a>. You can do this in a couple of passages.</p>
+<p>First, we need to cluster our system, since this is a dimer and sometimes the centering process splits the dimer between two PBC images. Just run</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gmx</span> trjconv <span class="at">-f</span> prod.xtc <span class="at">-s</span> prod.tpr <span class="at">-pbc</span> cluster <span class="at">-o</span> prod_whole.xtc</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>and, when prompted by GROMACS, select <code>Protein</code> (usually <code>1</code>) as clustering group and <code>System</code> (usually <code>0</code>) as output. Then run</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gmx</span> trjconv <span class="at">-f</span> prod_whole.xtc <span class="at">-s</span> prod.tpr <span class="at">-pbc</span> mol <span class="at">-center</span> <span class="at">-o</span> center_traj.xtc</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Again select the group <code>Protein</code> for centering and <code>System</code> for output. The output will be called <code>center_traj.xtc</code> and will contain the whole trajectory where all the molecules are made whole across the PBCs (<code>-pbc mol</code>) and the protein is centered in the box (<code>-center</code>). You can then fit the protein to its starting position to better visualize the binding site (like panel 4 of <a href="#fig-mekerk-pbc" class="quarto-xref">Figure&nbsp;4</a>) as in the following</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gmx</span> trjconv <span class="at">-f</span> center_traj.xtc <span class="at">-s</span> em.tpr <span class="at">-fit</span> rot+trans <span class="at">-o</span> center_traj_fit.xtc</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>and selecting the protein C-alphas for fit (usually group <code>3</code>) and the <code>System</code> for output. Now, <code>center_traj_fit.xtc</code> will contain the whole trajectory and after centering and fitting it on the starting configuration of the protein contained in <code>em.tpr</code>. This will probably still be a large file, so you can produce a more manageable file for visualization with VMD with the following two commands</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gmx</span> trjconv <span class="at">-f</span> center_traj_fit.xtc <span class="at">-s</span> prod.tpr <span class="at">-o</span> nowater.xtc</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="ex">gmx</span> trjconv <span class="at">-f</span> center_traj_fit.xtc <span class="at">-s</span> prod.tpr <span class="at">-o</span> nowater.pdb <span class="at">-dump</span> 0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>In both cases, select <code>non-Water</code> as the output group. These will produce two files, <code>nowater.pdb</code> and <code>nowater.xtc</code>, which are the first frame of the production run and the associated trajectory, respectively, but without the water. The files should be much smaller than the original <code>prod.xtc</code>. You can use these two files to visualize the trajectory in VMD. You can get rid of the intermediary files and remove them, that is, <code>rm center_traj.xtc center_traj_fit.xtc prod_whole.xtc</code>.</p>
 <div class="callout callout-style-default callout-warning callout-titled" title="Remove carefully">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -760,7 +763,7 @@ Figure&nbsp;4: The same HOLO with 1TR trajectory re-wrapped in four different wa
 <p>Remember that <a href="https://ss64.com/bash/rm.html"><code>rm</code></a> permanently deletes files. There is no Trash/Recycle bin in the terminal, and if by mistake you delete something that you need, like the production trajectory, you will have to re-run the simulation.</p>
 </div>
 </div>
-<p>Two major points here. First, notice how the tpr passed to trjconv is <code>nvt_1.tpr</code>, the one compiled by the <code>sbatch_me.sh</code> script following the energy minimization. This is useful in cases where the refitting and re-centering is very complex due to the presence of more than one molecule which should stay consistent in terms of reference frame. For example, you can see in panel 2 of <a href="#fig-malaria-pbc" class="quarto-xref">Figure&nbsp;4</a> how simply applying a PBC correction with <code>-pbc mol</code> might not be enough, as in some frames the ligand is on a side of the box while the protein is on the other, giving the impression that the ligand left the binding site, while this is not the case. Such visualization artifacts can be solved by the usage of a good reference structure (like <code>nvt_1.tpr</code>, as in the beginning without dynamics the molecules were still at the centre of the box), some patience, and a good combination of flags (usually <code>-pbc mol -center</code> is a good starting point). Secondly, removing water might be a good idea for visualization purposes, but not for analysis ones. What about the interaction of water with the ligand/binding site? Are there any? Are they important? This is very relevant in systems like HOLO + ANP, where the two water molecules coordinating the magnesium ion are part of the physiological ligand-bound state. As such, use with care and keeping in mind what you want to do with the cleaned trajectory.</p>
+<p>Two major points here. First, notice how the tpr passed to trjconv is <code>em.tpr</code> when we fit the system, the one compiled by the <code>sbatch_me.sh</code> script following the energy minimization. This is useful in cases where the refitting and re-centering is very complex due to the presence of more than one molecule which should stay consistent in terms of reference frame. Secondly, removing water might be a good idea for visualization purposes, but not for analysis ones. What about the interaction of water with the ligand/binding site? Are there any? Are they important? This is very relevant in systems like MEK1-ERK2, where the water molecules coordinating the magnesium ions are part of the physiological ligand-bound state. As such, use with care and keeping in mind what you want to do with the cleaned trajectory.</p>
 <p>As a final statement, the process of reducing the trajectory shown in the latter is transferable to whatever you want to output that is contained in the box. You will just have to select the group you want to maintain in the output when prompted by trjconv. If the specific group you want is not among those automatically suggested, you can create a new one with <code>gmx make_ndx</code> and pass the index file to <code>trjconv</code> via the flag <code>-n</code> (the adhesion GPCR exercise has an introduction on index generation).</p>
 </section>
 </div>
