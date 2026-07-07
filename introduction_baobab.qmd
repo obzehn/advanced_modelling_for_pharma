@@ -23,6 +23,15 @@ As pre-requisite, some familiarity with the Unix and Unix-like terminal environm
 
 # Loading GROMACS on Baobab
 
+::: {.callout-important}
+## Baobab change in login policy
+
+As of June 2026, it is mandatory to set up a ssh key to login into baobab. As such, part of the following commands won't work. The tutorial will be updated as soon as possible.
+
+:::
+
+# High Performance Computing
+
 ## Allocating an interactive job on Baobab
 On Baobab, the job scheduler is [slurm](https://slurm.schedmd.com/overview.html), which permits both interactive and non-interactive sessions. Most of the times MD simulations do not necessitate of any interactivity. In these cases jobs are submitted by providing a *submission script* to Slurm via the [`sbatch`](https://slurm.schedmd.com/sbatch.html) command. The queueing system will then queue the job and run it as soon as the requested resources are available. However, sometimes for debugging purposes, or to have some direct hands-on experience like in your case now, the jobs can be interactive. This means that Slurm will find the resources requested by the job, allocate them, and log you in on the corresponding node. As such, if you quit the interactive session, e.g. by logging off the allocated node and going back to the head node, the jobs you were running will die and you will have to allocate and queue again to re-open the interactive session.
 
